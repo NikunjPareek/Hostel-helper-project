@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+<head> 
+    <link rel="stylesheet" href="css/complaint.css">
+
+</head>
 <main>
+  <title>complaint</title>
   <section>
     <span>Register Complaint</span>
     <h1>Submit Your Complaint</h1>
@@ -39,9 +44,10 @@
       <section>
         <label>Attach Media (Optional)</label>
         <div id="upload-box">
-          <i>(Icon)</i>
-          <p>Click to upload images or videos</p>
+          <p>Click to upload images or videos</p><br>
           <small>Max 3 files, 10MB each. Supported: Images & Videos</small>
+          <input type="file" accept="image/*,video/*" multiple hidden>
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
         </div>
       </section>
 
@@ -52,15 +58,15 @@
         <div class="user-grid">
           <div>
             <label>Name</label>
-            <input type="text" value="LOL EDA" readonly>
+            <input type="text" placeholder="enter name">
           </div>
           <div>
             <label>Room Number</label>
-            <input type="text" value="302" readonly>
+            <input type="text" placeholder="enter room number">
           </div>
           <div>
             <label>Phone</label>
-            <input type="text" value="9546423110" readonly>
+            <input type="text" placeholder="enter number">
           </div>
         </div>
       </section>
