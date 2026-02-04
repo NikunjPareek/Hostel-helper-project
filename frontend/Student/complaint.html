@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<main>
+  <section>
+    <span>Register Complaint</span>
+    <h1>Submit Your Complaint</h1>
+    <p>Fill out the form below to register your hostel-related complaint. Your identity will be shared with the hostel administration.</p>
+  </section>
+
+  <section>
+    <h3>Important Notice</h3>
+    <p>Filing false or misleading complaints is a violation of university rules and may result in disciplinary action. Please ensure all information provided is accurate.</p>
+  </section>
+
+  <div>
+    <form>
+      <section>
+        <h2>Complaint Details</h2>
+        <p>All fields marked with * are required</p>
+
+        <div>
+          <label for="complaint-type">Complaint Type *</label>
+          <select id="complaint-type" required>
+            <option value="" disabled selected>Select complaint category</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="electricity">Electricity</option>
+            <option value="cleaning">Cleaning</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="description">Description *</label>
+          <textarea id="description" placeholder="Describe your complaint in detail. Include specific location, time, and nature of the issue..." required minlength="20"></textarea>
+          <small>Minimum 20 characters required. Be specific and include relevant details.</small>
+        </div>
+      </section>
+
+      <section>
+        <label>Attach Media (Optional)</label>
+        <div id="upload-box">
+          <i>(Icon)</i>
+          <p>Click to upload images or videos</p>
+          <small>Max 3 files, 10MB each. Supported: Images & Videos</small>
+        </div>
+      </section>
+
+      <section>
+        <h2>Your Information</h2>
+        <p>This information is auto-filled from your student profile (Demo Data)</p>
+
+        <div class="user-grid">
+          <div>
+            <label>Name</label>
+            <input type="text" value="LOL EDA" readonly>
+          </div>
+          <div>
+            <label>Room Number</label>
+            <input type="text" value="302" readonly>
+          </div>
+          <div>
+            <label>Phone</label>
+            <input type="text" value="9546423110" readonly>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="reset">Clear Form</button>
+        <button type="submit">Submit Complaint</button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    <p>By submitting this complaint, you agree to the university's complaint handling procedures and confirm that the information provided is accurate and truthful.</p>
+  </footer>
+</main>
+
+</html>

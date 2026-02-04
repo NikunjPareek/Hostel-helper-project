@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <title>Home | JECRC Hostel Complaint Management </title>
     <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="Student/css/home.css">
+    <link rel="stylesheet" href="../Student/css/home.css">
     </head>
     <body>
       <header>
           <!-- Left side Uni name -->
-           <h1 class="UNI-name">Hostel Complaint Management System</h1>
-           <p class="location">Student</p>
-              <h2 class="Centre-text">JECRC University</h2>
-              <p class="City">Jaipur</p>
+           <div class="System-info">
+             <h1>Hostel Complaint Management System</h1>
+             <p>Student Portal</p>
+             <p>Login</p>
+           </div>
+           <div class="Uni-Name">
+           <h2>JECRC University</h2>
+           <p>Jaipur</p>
+           </div>
             <nav>
             <!-- Navigation bar--> 
               <a href="home.html">Home</a>
@@ -24,70 +29,83 @@
         </nav>
       </header>
       <main>
-        <section>
+        <section class="section1">
           <div>
-          <span>Student Portal</span>
-          <h2>Hostel Complaint Management System</h2>
-          <p>Submit and track your hostel complaints easily.We are committed to resolve your concersns and make your hostel experience better.at JECRC University</p>
-          <button>Register Complaint</button>
-          <button>View My Complaints</button>
-          </div>
-          <div>
+          <span class="span1">Student Portal</span>
+          <div class="image1">
           <img src="..\assets\icons\University pic.png" alt="JU-Logo.png">
           </div>
+          <h2 class="HCMS">Hostel Complaint Management System</h2>
+          <p class="HCMS para">Submit and track your hostel complaints easily.We are committed to resolve your concersns and make your hostel experience better at JECRC University</p>
+          <button class="button1">Register Complaint</button>
+          <button class="button2">View My Complaints</button>
+          </div>
         </section>
 
 
-        <section>
-          <h3>Dashboard Summary</h3>
+        <section class="section2">
+          <h3 class="Dashboard">Dashboard Summary</h3>
           <div>
             <div>
-              <p>Toatal Compalints</p>
-              <h4>0</h4>
+              <p class="Total_complaints">Toatal Compalints</p>
+              <h4 class="total-count">0</h4>
             </div>
             <div>
-              <p>Resolved Complaints</p>
-              <h4>0</h4>
+              <p class="Resolved_complaints">Resolved Complaints</p>
+              <h4 class="Resolved-count">0</h4>
             </div>
             <div>
-              <p>Pending Complaints</p>
-              <h4>0</h4>
+              <p class="Pending_complaints">Pending Complaints</p>
+              <h4 class="Pending-count">0</h4>
             </div>
           </div>
         </section>
 
 
-        <section>
-          <h3>Hostel Announcements</h3>
-          <article>
-            <h4>Mess menu updated</h4>
-            <p>The mess menu has been updated in accordance to the feedback received from students.
+        <section class="section3">
+          <h3 class="HostelAnnouncements">Hostel Announcements</h3>
+          <article class="article1">
+            <h4 class="field1">Mess menu updated</h4>
+            <p class="field1para">The mess menu has been updated in accordance to the feedback received from students.
             </p>
-            <span>15 Jan 2025</span>
+            <span class="span2">15 Jan 2025</span>
           </article>
-          <article>
-            <h4>Water Supply Maintenance</h4>
-            <p>There will be a water supply maintenance on 15th February 2025 from 10:00 AM to 2:00 PM.</p>
-            <span>15 Jan 2025</span>
+          <article class="article2">
+            <h4 class="field2">Water Supply Maintenance</h4>
+            <p class="field2para">There will be a water supply maintenance on 15th February 2025 from 10:00 AM to 2:00 PM.</p>
+            <span class="span3">11 Apr 2025</span>
+          </article>
+
+          <article class="article3">
+            <h4 class="field3">WiFi Upgrade</h4>
+            <p class="field3para">The hostel WiFi network is being upgraded to provide better connectivity. Expect intermittent outages on 20th March 2025.</p>
+            <span class="span4">05 Mar 2025</span>
+          </article>
+
+          <article class="article4">
+            <h4 class="field4">Hostel Inspection</h4>
+            <p class="field4para">A routine hostel inspection will be conducted on 25th March 2025. Please ensure your rooms are tidy and adhere to hostel rules.</p>
+            <span class="span5">10 Mar 2025</span> 
           </article>
         </section>
 
 
-        <section>
-          <h3>Common Issue Poll</h3>
-          <p>Help us understand which issues are affecting you.Select your current status for each issue.</p>
-          <div>
-            <h3>Mess Food Quality</h3>
-            <p>Quality and taste of the mess food.</p>
-            <button>Facing issue </button>
-            <button>No issues</button>
+        <section class="section4">
+          <h3 class="CommonIssuePoll">Common Issue Poll</h3>
+          <p class="Pollpara">Help us understand which issues are affecting you.Select your current status for each issue.</p>
+
+          <div class="poll1">
+            <h3 class="poll1-head">Mess Food Quality</h3>
+            <p class="poll1-para">Quality and taste of the mess food.</p>
+            <button class="poll1-button1">Facing issue </button>
+            <button class="poll1-button2">No issues</button>
           </div>
 
-          <div>
-            <h3>Internet/Wifi issue</h3>
-            <p>Issues with internet or wifi connectivity.</p>
-            <button>Facing issue</button>
-            <button>No issues</button>
+          <div class="poll2">
+            <h3 class="poll2-head">Internet/Wifi issue</h3>
+            <p class="poll2-para">Issues with internet or wifi connectivity.</p>
+            <button class="poll2-button1">Facing issue</button>
+            <button class="poll2-button2">No issues</button>
           </div>
 
         </section>
@@ -95,25 +113,25 @@
 
       <footer>
         <div>
-          <h4>JECRC University</h4>
-          <p>Jaipur,Rajasthan</p>
-          <p>JECRC University is committed to providing quality education and excellent hostel facilities for students from across India.   
+          <h4 class="Uniname">JECRC University</h4>
+          <p class="Uniadd">Jaipur,Rajasthan</p>
+          <p class="Unimoto">JECRC University is committed to providing quality education and excellent hostel facilities for students from across India.   
           </p>
         </div>
 
         <div>
-          <h4>Contact Us</h4>
-          <p>JECRC Campus, Jaipur-303905</p>
-          <p>+91-141-2770227</p>
-          <p>hostel@jecrc.edu.in</p>
+          <h4 class="contact">Contact Us</h4>
+          <p class="pincode">JECRC Campus, Shri Ram Ki Nangal, Via Sitapura, Jaipur - 303905</p>
+          <p class="phone-no">+91-141-2770227</p>
+          <p class="email">hostel@jecrc.edu.in</p>
         </div>
 
         <div>
-            <h4>Important Notice</h4>
-            <p>
+            <h4 class="Notice">Important Notice</h4>
+            <p class="Noticepara">
               This portal is for genuine complaints only. Filing false or misleading complaints may result in disciplinary action as per university regulations.
             </p>
         </div>
       </footer>
-    </body> >
+    </body>
     </html>
