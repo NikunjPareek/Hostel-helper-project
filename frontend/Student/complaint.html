@@ -1,86 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register Complaint</title>
     <link rel="stylesheet" href="css/complaint.css">
-
 </head>
-<main>
-  <title>complaint</title>
-  <section>
-    <span>Register Complaint</span>
-    <h1>Submit Your Complaint</h1>
-    <p>Fill out the form below to register your hostel-related complaint. Your identity will be shared with the hostel administration.</p>
-  </section>
 
-  <section>
-    <h3>Important Notice</h3>
-    <p>Filing false or misleading complaints is a violation of university rules and may result in disciplinary action. Please ensure all information provided is accurate.</p>
-  </section>
+<body>
+<div class="container">
 
-  <div>
-    <form>
-      <section>
-        <h2>Complaint Details</h2>
-        <p>All fields marked with * are required</p>
+    <!-- Page Title -->
+    <div class="page-title">
+        <span class="badge">Register Complaint</span>
+        <h1>Submit Your Complaint</h1>
+        <p>
+            Fill out the form below to register your hostel-related complaint.
+            Your identity will be shared with the hostel administration.
+        </p>
+    </div>
 
-        <div>
-          <label for="complaint-type">Complaint Type *</label>
-          <select id="complaint-type" required>
-            <option value="" disabled selected>Select complaint category</option>
-            <option value="maintenance">Maintenance</option>
-            <option value="electricity">Electricity</option>
-            <option value="cleaning">Cleaning</option>
-            <option value="other">Other</option>
-          </select>
+    <!-- Important Notice -->
+    <div class="notice">
+        <strong>Important Notice</strong>
+        <p>
+            Filing false or misleading complaints is a violation of university rules
+            and may result in disciplinary action. Please ensure all information
+            provided is accurate.
+        </p>
+    </div>
+
+    <!-- Complaint Form -->
+    <form class="complaint-form">
+
+        <h3>Complaint Details</h3>
+        <small>All fields marked with <span>*</span> are required</small>
+
+        <!-- Complaint Type -->
+        <div class="form-group">
+            <label for="complaintType">Complaint Type <span>*</span></label>
+            <select id="complaintType" required>
+                <option value="">Select complaint category</option>
+                <option>Electricity Issue</option>
+                <option>Water Problem</option>
+                <option>Cleanliness</option>
+                <option>Internet Issue</option>
+                <option>Food Related</option>
+                <option>Other</option>
+            </select>
         </div>
 
-        <div>
-          <label for="description">Description *</label>
-          <textarea id="description" placeholder="Describe your complaint in detail. Include specific location, time, and nature of the issue..." required minlength="20"></textarea>
-          <small>Minimum 20 characters required. Be specific and include relevant details.</small>
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Description <span>*</span></label>
+            <textarea id="description" maxlength="500" required
+                placeholder="Describe your complaint in detail. Include specific location, time, and nature of the issue..."></textarea>
+            <div class="hint">
+                Minimum 20 characters required. Be specific and include relevant details.
+            </div>
         </div>
-      </section>
 
-      <section>
-        <label>Attach Media (Optional)</label>
-        <div id="upload-box">
-          <p>Click to upload images or videos</p><br>
-          <small>Max 3 files, 10MB each. Supported: Images & Videos</small>
-          <input type="file" accept="image/*,video/*" multiple hidden>
-          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        <!-- Media Upload -->
+        <div class="form-group">
+            <label>Attach Media (Optional)</label>
+            <div class="upload-box">
+                <input type="file" multiple accept="image/*,video/*">
+                <p>Click to upload images or videos</p>
+                <small>Max 3 files, 10MB each</small>
+            </div>
         </div>
-      </section>
 
-      <section>
-        <h2>Your Information</h2>
-        <p>This information is auto-filled from your student profile (Demo Data)</p>
+        <!-- User Info -->
+        <h3>Your Information</h3>
+        <small>This information is auto-filled from your student profile</small>
 
-        <div class="user-grid">
-          <div>
-            <label>Name</label>
-            <input type="text" placeholder="enter name">
-          </div>
-          <div>
-            <label>Room Number</label>
-            <input type="text" placeholder="enter room number">
-          </div>
-          <div>
-            <label>Phone</label>
-            <input type="text" placeholder="enter number">
-          </div>
+        <div class="info-grid">
+            <input type="text" placeholder="Name" disabled>
+            <input type="text" placeholder="Room Number" disabled>
+            <input type="text" placeholder="Phone" disabled>
         </div>
-      </section>
 
-      <div class="actions">
-        <button type="reset">Clear Form</button>
-        <button type="submit">Submit Complaint</button>
-      </div>
+        <!-- Buttons -->
+        <div class="form-actions">
+            <button type="reset" class="btn-clear">Clear Form</button>
+            <button type="submit" class="btn-submit">Submit Complaint</button>
+        </div>
+
     </form>
-  </div>
 
-  <footer>
-    <p>By submitting this complaint, you agree to the university's complaint handling procedures and confirm that the information provided is accurate and truthful.</p>
-  </footer>
-</main>
+</div>
 
+</body>
 </html>

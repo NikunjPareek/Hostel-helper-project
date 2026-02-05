@@ -1,211 +1,178 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-/* Basic Page Setup */
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #fcfcfc;
-    color: #333;
-    margin: 0;
-    padding: 40px 20px;
+    background-color: #f6f7f9;
 }
 
-main {
-    max-width: 800px;
-    margin: 0 auto;
+/* Main Container */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
 }
 
-/* Header Section */
-main > section:first-of-type span {
-    display: inline-block;
-    border: 1px solid #d93025;
-    color: #d93025;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-main > section:first-of-type h1 {
-    font-size: 32px;
-    margin: 0 0 8px 0;
-}
-
-main > section:first-of-type p {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-
-/* Important Notice Box */
-main > section:nth-of-type(2) {
-    background-color: #FFFBEB;
-    border: 1px solid #FEF3C7;
-    border-left: 4px solid #F59E0B; /* Yellow accent line */
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 24px;
-}
-
-main > section:nth-of-type(2) h3 {
-    margin: 0;
-    color: #92400E;
-    font-size: 15px;
-}
-
-main > section:nth-of-type(2) p {
-    margin: 5px 0 0 0;
-    color: #B45309;
-    font-size: 13px;
-}
-
-/* Form Container */
-main > div {
-    background: #ffffff;
-    border: 1px solid #E5E7EB;
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-/* Section Headings inside Form */
-form h2 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-form p {
-    color: #6B7280;
-    font-size: 12px;
+/* Page Title */
+.page-title {
     margin-bottom: 20px;
 }
 
-/* Inputs & Labels */
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
+.page-title .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: #ffe6e6;
+    color: #c62828;
+    font-size: 13px;
+    border-radius: 4px;
     margin-bottom: 8px;
 }
 
-select, textarea, input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #D1D5DB;
-    border-radius: 6px;
+.page-title h1 {
+    font-size: 26px;
+    margin: 8px 0;
+}
+
+.page-title p {
+    color: #555;
     font-size: 14px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
 }
 
-textarea {
-    height: 120px;
-    resize: vertical;
-}
-
-small {
-    display: block;
-    color: #9CA3AF;
-    font-size: 12px;
-    margin-top: -15px;
-    margin-bottom: 20px;
-    gap:10px;
-}
-
-/* Upload Box */
-#upload-box {
-    border: 2px dashed #E5E7EB;
-    border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    background-color: #FAFAFA;
+/* Notice Box */
+.notice {
+    background-color: #fff4e5;
+    border: 1px solid #ffd7a8;
+    padding: 15px;
+    border-radius: 6px;
     margin-bottom: 25px;
 }
 
-#upload-box p {
-    color: #333;
-    font-weight: 600;
-    margin: 10px 0 0 0;
+.notice strong {
+    display: block;
+    margin-bottom: 6px;
 }
 
-/* Upload icon image */
-#upload-box img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-    opacity: 0.8;
+/* Form */
+.complaint-form {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-/* Hover effect for upload box */
-#upload-box:hover {
-    border-color: #D22D2D;
-    background-color: #fff5f5;
+.complaint-form h3 {
+    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
-/* Cursor to indicate click */
-#upload-box {
+.complaint-form small {
+    color: #666;
+    font-size: 12px;
+}
+
+.complaint-form span {
+    color: red;
+}
+
+/* Form Group */
+.form-group {
+    margin-top: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group select,
+.form-group textarea,
+.info-grid input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.hint {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+}
+
+/* Upload Box */
+.upload-box {
+    border: 2px dashed #ccc;
+    padding: 25px;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+}
+
+.upload-box input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
     cursor: pointer;
 }
 
-#upload-box i {
-    font-size: 32px;
-    color: #39568a;
-    margin-bottom: 12px;
+.upload-box p {
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
+.upload-box small {
+    font-size: 12px;
+    color: #777;
+}
 
-/* User Info Grid */
-.user-grid {
+/* Info Grid */
+.info-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
+    margin-top: 15px;
 }
 
-input[readonly] {
-    background-color: #F3F4F6;
-    color: #6B7280;
-    border-color: #000000;
-    cursor: not-allowed;
+.info-grid input {
+    background-color: #f2f2f2;
 }
 
 /* Buttons */
-.actions {
+.form-actions {
     display: flex;
-    gap: 12px;
-    margin-top: 20px;
+    justify-content: space-between;
+    margin-top: 25px;
 }
 
-button[type="reset"] {
-    background: white;
-    border: 1px solid #D1D5DB;
-    padding: 12px 24px;
+.btn-clear {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
     border-radius: 6px;
-    font-weight: 600;
     cursor: pointer;
 }
 
-button[type="submit"] {
-    flex: 1;
-    background-color: #D22D2D; /* JECRC RED */
-    color: white;
+.btn-submit {
+    background-color: #d32f2f;
+    color: #fff;
     border: none;
-    padding: 12px;
+    padding: 10px 25px;
     border-radius: 6px;
-    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
 }
 
-button[type="submit"]:hover {
-    background-color: #b02424;
-}
-
-/* Footer disclaimer */
-footer p {
-    text-align: center;
-    font-size: 12px;
-    color: #9CA3AF;
-    margin-top: 30px;
-    line-height: 1.5;
+.btn-submit:hover {
+    background-color: #b71c1c;
 }
