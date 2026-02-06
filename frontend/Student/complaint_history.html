@@ -1,4 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Student/css/complaint_history.css">
+    <title>Complaint History</title>
+</head>
 <body>
-    <div class="page-container">
-    </div class="page-header">
-    
+    <div class="complaint_history">
+            <div class="title-section">
+                <span class="history-badge">Complaint History</span>
+
+                <h1>My Complaints</h1>
+
+                <p>
+                    View and track the status of all your submitted complaints. Anonymous complaints are not shown here for privacy.
+                </p>
+            </div>
+        </div>
+
+</body>
+<div class="controls-section">
+  <div class="filter-section">+
+    <span>Filter by:</span>
+
+    <select name="complaintFilter">
+      <option value="all">All Complaints</option>
+      <option value="pending">Pending</option>
+      <option value="inprogress">Submitted</option>
+      <option value="Under Review">Under Review</option>
+      <option value="resolved">Resolved</option>
+    </select>
+  </div>
+
+  <div class="button-section">
+    <button type="button">
+      Refresh Status
+    </button>
+
+    <button type="button">
+      New Complaint
+    </button>
+  </div>
+
+</div>
+<div class="no-complaints">
+
+<div class=""no-complaints-icon">
+  <img src"#" alt="No Complaints Icon">
+  </div>
+
+<div class="no-complaints-text">
+    <h2>No Complaints Yet</h2>
+
+    <p>
+        You haven't submitted any complaints yet. Start by registering a new complaint.
+    </p>
+  </div>
+
+    <div class="no-complaints-action">
+        <button type="button">
+            Register Your First Complaint
+        </button>
+    </div>
+
+    </div>
