@@ -23,9 +23,9 @@ header{
 /* TOP NAV */
 .top-nav{
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr;;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 10px;
 }
 
 .uni-Name{
@@ -71,6 +71,7 @@ header{
     gap: 10px;
     padding: 10px 0;
     background: rgb(220, 41, 41);
+    border-top: 0.1px solid rgba(255, 255, 255, 0.2);
 }
 
 .nav-link{

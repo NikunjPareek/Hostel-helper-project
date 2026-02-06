@@ -1,14 +1,18 @@
-body {
+*{
     margin: 0;
     padding: 0;
-    font-family: Arial, Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:Arial, Helvetica, sans-serif;
     background-color: #f5f7fa;
-    colour: #333;
+    color: #333;
 }
 
 .complaint_history {
     padding: 24px;
-    background-color: ffffff;
+    background-color:  #ffffff;
 }
 
 .title-section {
@@ -88,6 +92,8 @@ body {
 }
 
 .button-section button:last-child {
-  background-color: #3f6ad8;
+  background-color:rgb(220, 41, 41);
   color: #ffffff;
 }
+
+
