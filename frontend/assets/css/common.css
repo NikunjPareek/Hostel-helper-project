@@ -107,7 +107,14 @@ header{
 
 .nav-link.active svg{
     stroke: rgb(220, 41, 41);
+    background-color: whi;
+} 
+
+.special{
+    background: white;
+    color: rgb(220, 41, 41);
 }
+
 
 footer{
     display: flex;
