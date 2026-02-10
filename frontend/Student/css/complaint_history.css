@@ -211,3 +211,32 @@ body [
   margin: 0 auto 15px auto;
   padding: 18px 25px;
 }
+
+.no-complaints {
+  max-width: 1100px;
+  margin: 0 auto 30px auto;
+  padding: 60px 20px;
+}
+
+.complaint_history {
+  margin: 30px auto 20px auto;
+}
+
+.controls-section {
+  margin: 0 auto 20px auto;
+}
+
+.complaint-history-section {
+  margin: 0 auto 20px auto;
+}
+
+.no-complaints {
+  margin: 0 auto 30px auto;
+}
+
+.complaint_history,
+.controls-section,
+.complaint-history-section,{
+  padding-lifet: 28px;
+  padding-right: 28px;
+}
