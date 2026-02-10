@@ -1,0 +1,222 @@
+/* --------------------
+   BASIC RESET
+-------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --------------------
+   PAGE BACKGROUND
+-------------------- */
+body {
+    background-color: #fdfaf0;
+    
+}
+
+/* --------------------
+   CENTER PAGE
+-------------------- */
+.page-wrapper {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --------------------
+   LOGIN CARD
+-------------------- */
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    margin-top: 60px;
+    background-color: #ffffff;
+
+    padding: 32px;            /* p-8 */
+    border-radius: 16px;      /* rounded-2xl */
+
+    border: 1.5px solid #0000001d; /* border-slate-100 */
+
+    /* shadow-xl shadow-slate-200/60 */
+    /* box-shadow: 
+        0 20px 25px -5px rgba(255, 255, 255, 0.6),
+        0 10px 10px -5px rgba(255, 255, 255, 0.952); */
+}
+/* --------------------
+   LOGO SECTION
+-------------------- */
+.logo-section {
+    text-align: center;
+    margin-top: 1px;
+    /* margin-bottom: 10px; */
+}
+
+.logo-section img {
+    height: 130px;
+    /* margin-bottom: 0px; */
+}
+
+.logo-section h1 {
+    font-size: 28px;
+    font-weight: 1000;
+    color: #041531;
+    padding-bottom: 17px;
+}
+
+/* .logo-section p {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: 6px;
+} */
+
+/* --------------------
+   FORM GROUP
+-------------------- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #232a32;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    border-color: #d32f2f;
+    outline: none;
+}
+
+/* --------------------
+   PASSWORD FIELD
+-------------------- */
+.password-group {
+    position: relative;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 17px;
+    top: 37px;
+    background: none;
+    border: none; 
+    /* box na bane ees liye */
+    color: #566881;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* --------------------
+   CAPTCHA
+-------------------- */
+.captcha-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#refreshCaptcha {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+#captchaCode {
+    font-size: 22px;
+    font-weight: bold;
+    color: #d32f2f;
+    letter-spacing: 4px;
+}
+
+#captchaInput {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#captchaInput:focus {
+    border-color: #d32f2f;
+    outline: none;
+}
+
+.captcha-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 90px;
+    padding: 8px;
+
+    background-color: #f4f4f5;     
+    border: 1px solid #e2e8f06a;     
+    border-radius: 12px;           
+
+    /* box-shadow: inset 0 2px 4px rgb(0, 0, 0); shadow-inner */
+
+    user-select: none;             /* select-none */
+}
+
+/* Captcha number styling */
+.captcha-box #captchaCode {
+    font-size: 22px;
+    font-weight: 800;
+    color: #d32f2f;
+    letter-spacing: 4px;
+}
+
+
+/* --------------------
+   OPTIONS
+-------------------- */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.options a {
+    color: #d32f2f;
+    text-decoration: none;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+/* --------------------
+   SUBMIT BUTTON
+-------------------- */
+.submit-btn {
+    width: 100%;
+    background-color: #d32f2f;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #b71c1c;
+}

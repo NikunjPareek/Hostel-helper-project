@@ -1,16 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login | Hostel Complaint's</title> 
-  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <title>Login | JECRC hostels</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
-    <div class="login-container">
-        <div class="login-header">
-            
-            
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
 
+        <!-- Login Card -->
+        <div class="login-card">
+
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <img 
+                    src="../assets/jecrc+jmch logo.png"
+                    alt="JECRC Logo"
+                    id="logo"
+                >
+                <h1>Sign In</h1>
+                <!-- <p>Please enter your details</p> -->
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group password-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                    <button type="button" id="togglePassword">
+                        Show
+                    </button>
+                </div>
+
+                <!-- Captcha -->
+                <div class="captcha-group">
+
+                    <button type="button" id="refreshCaptcha">
+                        ↻
+                    </button>
+                    <div class="captcha-box">
+                    <span id="captchaCode">0000</span>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="captchaInput" 
+                        placeholder="Code" 
+                        maxlength="4" 
+                        required
+                    >
+                </div>
+
+                <!-- Remember Me -->
+                <div class="options">
+                    <label>
+                        <input type="checkbox" id="rememberMe">
+                        Remember me
+                    </label>
+
+                    <a href="#">Reset Password</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="submit-btn">
+                    Sign In
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- JavaScript file -->
+    <script src="login.js"></script>
 </body>
 </html>
