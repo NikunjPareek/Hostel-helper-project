@@ -7,27 +7,9 @@
     <link rel="stylesheet" href="../Student/css/home.css">
     </head>
     <body>
-      <header>
-          <!-- Left side Uni name -->
-           <div class="System-info">
-             <h1>Hostel Complaint Management System</h1>
-             <p>Student Portal</p>
-             <p>Login</p>
-           </div>
-           <div class="Uni-Name">
-           <h2>JECRC University</h2>
-           <p>Jaipur</p>
-           </div>
-            <nav>
-            <!-- Navigation bar--> 
-              <a href="home.html">Home</a>
-              <a href="complaint.html">Register Complaint</a>
-              <a href="anonymous.html">Anonymous Complaint</a>
-              <a href="#">My Complaints</a>
-             
-            
-        </nav>
-      </header>
+
+      <div id="header"></div>
+
       <main>
         <section class="section1">
           <div>
@@ -37,8 +19,8 @@
           </div>
           <h2 class="HCMS">Hostel Complaint Management System</h2>
           <p class="HCMS para">Submit and track your hostel complaints easily.We are committed to resolve your concersns and make your hostel experience better at JECRC University</p>
-          <button class="button1">Register Complaint</button>
-          <button class="button2">View My Complaints</button>
+          <button class="button1" onclick="window.location.href='complaint.html'">Register Complaint</button>
+          <button class="button2" onclick="window.location.href='complaint_history.html'">View My Complaints</button>
           </div>
         </section>
 
@@ -108,30 +90,31 @@
             <button class="poll2-button2">No issues</button>
           </div>
 
+          <div class="poll3">
+            <h3 class="poll3-head">Room Maintenance</h3>
+            <p class="poll3-para">Problems related to room maintenance(electricity, plumbing, etc.)
+            </p>
+            <button class="poll3-button1">Facing issue</button>
+            <button class="poll3-button2">No issues</button>
+          </div>
+
+          <div class="poll4">
+            <h3 class="poll4-head">Cleanliness</h3>
+            <p class="poll4-para">Cleanliness of common areas and rooms.</p>
+            <button class="poll4-button1">Facing issue</button>
+            <button class="poll4-button2">No issues</button>
+          </div>
+
+          <div class="poll5">
+            <h3 class="poll5-head">Security</h3>
+            <p class="poll5-para">Safety and security within the hostel premises.</p>
+            <button class="poll5-button1">Facing issue</button>
+            <button class="poll5-button2">No issues</button>
+          </div>
         </section>
       </main>
 
-      <footer>
-        <div>
-          <h4 class="Uniname">JECRC University</h4>
-          <p class="Uniadd">Jaipur,Rajasthan</p>
-          <p class="Unimoto">JECRC University is committed to providing quality education and excellent hostel facilities for students from across India.   
-          </p>
-        </div>
-
-        <div>
-          <h4 class="contact">Contact Us</h4>
-          <p class="pincode">JECRC Campus, Shri Ram Ki Nangal, Via Sitapura, Jaipur - 303905</p>
-          <p class="phone-no">+91-141-2770227</p>
-          <p class="email">hostel@jecrc.edu.in</p>
-        </div>
-
-        <div>
-            <h4 class="Notice">Important Notice</h4>
-            <p class="Noticepara">
-              This portal is for genuine complaints only. Filing false or misleading complaints may result in disciplinary action as per university regulations.
-            </p>
-        </div>
-      </footer>
+      <div id="footer"></div>
+      <script src="js/home.js"></script>
     </body>
     </html>

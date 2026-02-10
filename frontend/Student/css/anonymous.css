@@ -1,17 +1,17 @@
 
-   
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     background-color: #ffffff;
     color: #333333;
-    line-height: 1.6;
-    margin: 0;
+    margin: 0px;
 }
 
 .container {
     max-width: 900px;
     margin: 30px auto;
     padding: 0 20px;
+    max-width: 100%;
+    margin-top: 40px;
 }
 
 
@@ -22,6 +22,9 @@ body {
 .breadcrumb .badge {
     background-color: #de0303;
     color: #ffffff;
+
+    background-color: white;
+    color: rgb(220, 41, 41);
     padding: 6px 12px;
     border-radius: 10px;
     font-size: 0.75rem;
@@ -29,7 +32,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+
     border: 1px solid #fbf7f7;
+    border: 1px solid rgb(220, 41, 41);
 }
 
 .page-header {

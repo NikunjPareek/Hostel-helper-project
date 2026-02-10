@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+.complaint_history {
+    padding: 24px;
+    background-color:  #ffffff;
+}
+
+.title-section {
+  max-width: 900px;
+}
+
+.history-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background-color: #e9efff;
+  color: #d32f2f;
+  margin-bottom: 10px;
+}
+
+.title-section h1 {
+  margin: 10px 0 8px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.title-section p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  max-width: 600px;
+}
+
+/* Controls section layout */
+.controls-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background-color: #ffffff;
+  margin-top: 16px;
+}
+
+/* Filter area */
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-section span {
+  font-size: 14px;
+  color: #444;
+}
+
+.filter-section select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button-section {
+  display: flex;
+  gap: 10px;
+}
+
+.button-section button {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-section button:first-child {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.button-section button:last-child {
+  background-color:rgb(220, 41, 41);
+  color: #ffffff;
+}
+
+
