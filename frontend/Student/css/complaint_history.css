@@ -44,7 +44,6 @@ body {
   max-width: 600px;
 }
 
-/* Controls section layout */
 .controls-section {
   display: flex;
   justify-content: space-between;
@@ -54,7 +53,6 @@ body {
   margin-top: 16px;
 }
 
-/* Filter area */
 .filter-section {
   display: flex;
   align-items: center;
@@ -96,4 +94,120 @@ body {
   color: #ffffff;
 }
 
+.complaint-history-section {
+  background-color: #ffffff;
+  margin: 20px 24px;
+  padding: 18px 22px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
 
+.complaint-history-section h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.no-complaints {
+  background-color: #ffffff;
+  margin: 20px 24px;
+  padding: 50px 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
+
+.no-complaints-icon img {
+  width: 65px;
+  margin-bottom: 18px;
+  opacity: 0.7;
+}
+
+.no-complaints-text h2 {
+  margin: 10px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.no-complaints-text p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.no-complaints-action button {
+  padding: 12px 20px;
+  font-size: 14px;
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.no-complaints-action button:hover {
+  background-color: #dc2626;
+}
+
+.complaint_history{
+  background-color: #ffffff;
+  margin: 24px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.controls-section {
+  background-color: #ffffff;
+  margin: 0 24px 20px 24px;
+  padding: 18px 22px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.complaint-history-section {
+  background-color: #ffffff;
+  margin: 0 24px;
+  padding: 18px 22px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.no-complaints {
+  background-color: #ffffff;
+  margin: 20px 24px;
+  padding: 50px 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+button:hover {
+  opacity: 0.9;
+  transition: 0.2s;
+}
+
+body [
+  background-color: #f4f6f9;
+]
+
+.complaint_history {
+  max-width: 1100px;
+  margin: 30px auto 15px auto;
+  padding: 25px;
+}
+
+.controls-section {
+  max-width: 1100px;
+  margin: 0 auto 15px auto;
+  padding: 18px 25px;
+}
+
+.complaint-history-section {
+  max-width: 1100px;
+  margin: 0 auto 15px auto;
+  padding: 18px 25px;
+}
