@@ -119,12 +119,13 @@ header{
 footer{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 100px 100px;
-    background-color:rgba(0, 0, 0, 0.9);
+    padding: 53px 100px;
+    background-color:rgb(22,24,29);
     color:white;
     bottom: 0;
     width: 100%;
+    gap: 20px;
+    border-bottom:0.1px solid rgba(255, 255, 255, 0.2) ;
 }
 
 .Uniname{
@@ -139,7 +140,7 @@ footer{
 }
 
 .Unimoto{
-    font-size: 23px;
+    font-size: 16px;
     color: #ccc;
     max-width: 600px;
 }
@@ -151,7 +152,7 @@ footer{
 }
 
 .pincode, .phone-no, .email{
-    font-size: 20px;
+    font-size: 16px;
     color: #ccc;
     margin-bottom: 14px;
     max-width: 500px;
@@ -164,8 +165,12 @@ footer{
 }
 
 .Noticepara{
-    font-size: 20px;
-    color: #ccc;
-    max-width: 600px;
+    background-color: rgb(46,48,52);
+    padding: 20px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    color:rgb(226, 222, 222);
+    max-width: 540px;
 }
+
 
