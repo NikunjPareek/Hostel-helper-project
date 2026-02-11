@@ -74,7 +74,7 @@ header{
     border-top: 0.1px solid rgba(255, 255, 255, 0.2);
 }
 
-.nav-link{
+.nav_link{
     display: flex;
     align-items: center;
     gap: 6px;
@@ -86,7 +86,7 @@ header{
     transition: 0.2s;
 }
 
-.nav-link svg{
+/*.nav-link svg{
     width: 16px;
     height: 16px;
     fill: none;
@@ -95,20 +95,20 @@ header{
 }
 
 /* HOVER */
-.nav-link:hover{
+.nav_link:hover{
     background: rgba(255,255,255,0.15);
 }
 
 /* ACTIVE TAB */
-.nav-link.active{
+.nav_link.active{
     background: white;
     color: rgb(220, 41, 41);
 }
 
-.nav-link.active svg{
+.nav_link.active svg{
     stroke: rgb(220, 41, 41);
-    background-color: whi;
-} 
+    background-color: white;
+} */
 
 .special{
     background: white;
@@ -172,5 +172,6 @@ footer{
     color:rgb(226, 222, 222);
     max-width: 540px;
 }
+
 
 
