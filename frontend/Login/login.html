@@ -1,16 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login | Hostel Complaint's</title> 
-  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <title>Login | JECRC hostels</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
-    <div class="login-container">
-        <div class="login-header">
-            
-            
+<div class="page-wrapper">
+    <div class="login-card">
 
+        <div class="logo-section">
+            <img src="../assets/jecrc+jmch logo.png" alt="JECRC Logo">
+            <h1>Sign In</h1>
+        </div>
+
+        <form id="loginForm">
+
+            <!-- USERNAME -->
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="username" 
+                    placeholder=" " 
+                    required
+                >
+                <label for="username">User Name</label>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group password-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder=" " 
+                    required
+                >
+                <label for="password">Password</label>
+            </div>
+
+            <!-- CAPTCHA -->
+            <div class="captcha-group">
+
+                <button type="button" id="refreshCaptcha">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
+
+                <div class="captcha-box">
+                    <span id="captchaCode">0000</span>
+                </div>
+
+                <div class="form-group captcha-input-group">
+                    <input 
+                        type="text" 
+                        id="captchaInput"
+                        placeholder=" "
+                        maxlength="4"
+                        required
+                    >
+                    <label for="captchaInput">Enter Code</label>
+                </div>
+
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="rememberMe">
+                    Remember me
+                </label>
+
+                <a href="#">Reset Password</a>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Sign In
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<script src="login.js"></script>
 </body>
 </html>
