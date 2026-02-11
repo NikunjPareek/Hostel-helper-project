@@ -6,11 +6,10 @@ body {
     margin:0px;
 }
 
-.container {
-    max-width: 100px;
-    margin: 30px auto;
-    max-width: 100%;
-    margin-top: 40px;
+.container{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
 }
  
 
