@@ -190,9 +190,9 @@ button:hover {
   transition: 0.2s;
 }
 
-body [
+body {
   background-color: #f4f6f9;
-]
+} 
 
 .complaint_history {
   max-width: 1100px;
@@ -236,7 +236,8 @@ body [
 
 .complaint_history,
 .controls-section,
-.complaint-history-section,{
-  padding-lifet: 28px;
+.complaint-history-section,
+.no-complaints{
+  padding-left: 28px;
   padding-right: 28px;
 }
