@@ -12,7 +12,7 @@ body{
     justify-content: space-between;
     padding: 100px 100px;
     padding-bottom: 200px;
-    padding-top: 200px;
+    padding-top: 70px;
 }
 .span1{
     font-size: 17px;
@@ -76,7 +76,7 @@ body{
     border-radius: 20px;
     
 }
-.section2{
+/*.section2{
     padding: 80px 100px;
     background-color: white;
 }
@@ -111,6 +111,80 @@ body{
     float: right;
     font-size:21px;
     color: #555;
+}*/
+
+
+.section2 {
+    font-family: sans-serif;
+    background-color: white;
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+.Dashboard {
+    font-size: 25px;
+    padding-left: 150px;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 3. The Container holding the 3 cards */
+/* We target the div immediately inside section2 */
+.section2 > div {
+    display: flex;
+    justify-content: center; /* <--- THIS MOVES CARDS TO THE CENTER */
+    gap: 30px; /* Increased space between cards looks better when centered */
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* 4. The Card Styling */
+.section2 > div > div {
+    background: white;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    width: 400px; /* Fixed width */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 5px solid #ccc; 
+    text-align: left; /* Keeps text inside the card aligned left */
+}
+
+/* 5. Colors */
+
+/* Card 1: Total - Red */
+.section2 > div > div:nth-child(1) {
+    border-left-color: #d32f2f; 
+}
+
+/* Card 2: Resolved - Green */
+.section2 > div > div:nth-child(2) {
+    border-left-color: #388e3c; 
+}
+
+/* Card 3: Pending - Orange */
+.section2 > div > div:nth-child(3) {
+    border-left-color: #f57c00; 
+}
+
+/* 6. Typography */
+.Total_complaints, 
+.Resolved_complaints, 
+.Pending_complaints {
+    margin: 0;
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.total-count, 
+.Resolved-count, 
+.Pending-count {
+    margin: 0;
+    font-size: 32px;
+    color: #333;
 }
 
 .section3{
@@ -224,9 +298,12 @@ body{
     border-radius: 10px;  
 }
 
-.section4{
+/*.section4{
     padding: 100px 100px;
     background-color: white;
+    gap: 5px;
+    display: flex;
+    flex-direction:column;
 }
 
 .CommonIssuePoll{
@@ -234,7 +311,7 @@ body{
     margin-bottom: 1px;
     color: black;
     font-weight: bold;
-    padding-bottom: 20px;
+    padding-bottom: 20px;;
 }
 
 .Pollpara{
@@ -281,4 +358,96 @@ body{
     padding: 50px;
     border-radius: 10px;
     float: center;
+}*/
+
+/* Main Section */
+.section4 {
+    padding: 60px 40px; /* Adjusted padding to look cleaner */
+    background-color: white;
+    font-family: sans-serif;
+}
+
+/* Header Text Styling */
+.CommonIssuePoll {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+.Pollpara {
+    font-size: 16px;
+    margin-bottom: 40px; /* Space between text and the cards */
+    color: #666;
+}
+
+/* --- THE GRID SYSTEM --- */
+.polls-grid {
+    display: flex;
+    flex-wrap: wrap; /* This allows cards to drop to the next line */
+    gap: 20px; /* Space between cards */
+}
+
+/* --- SHARED CARD STYLING --- */
+/* Instead of .poll1, .poll2, we use one class */
+.poll-card {
+    background-color: white; /* Image has white cards */
+    border: 1px solid #e0e0e0; /* Subtle border like the image */
+    padding: 25px;
+    border-radius: 8px;
+    /* This calculation makes 3 cards fit perfectly (33% minus gap) */
+    width: calc(33.333% - 20px); 
+    box-sizing: border-box; /* Ensures padding doesn't break layout */
+    
+    /* Layout inside the card */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card Text Styling */
+.poll-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.poll-card p {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    color: #777;
+    flex-grow: 1; /* Pushes content down so buttons align */
+}
+
+.status-label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* --- BUTTONS --- */
+.button-group {
+    display: flex;
+    gap: 15px;
+}
+
+.button-group button {
+    flex: 1; /* Makes both buttons equal width */
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+}
+
+.red:hover button{
+    background-color: rgb(220, 41, 41);
+    color: white;
+}
+
+.green:hover button{
+    background-color: rgb(46, 204, 113);
+    color: white;
 }
