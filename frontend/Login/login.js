@@ -1,6 +1,6 @@
-/* --------------------
+/* 
    GET ELEMENTS
--------------------- */
+ */
 const captchaCode = document.getElementById("captchaCode");
 const refreshCaptchaBtn = document.getElementById("refreshCaptcha");
 const captchaInput = document.getElementById("captchaInput");
@@ -10,26 +10,26 @@ const togglePasswordBtn = document.getElementById("togglePassword");
 
 const loginForm = document.getElementById("loginForm");
 
-/* --------------------
+/* 
    GENERATE CAPTCHA
--------------------- */
+ */
 function generateCaptcha() {
     // Generate random 4 digit number
     const randomNumber = Math.floor(1000 + Math.random() * 9000);
     captchaCode.textContent = randomNumber;
 }
 
-/* --------------------
+/* 
    REFRESH CAPTCHA
--------------------- */
+ */
 refreshCaptchaBtn.addEventListener("click", function () {
     generateCaptcha();
     captchaInput.value = "";
 });
 
-/* --------------------
+/* 
    SHOW / HIDE PASSWORD
--------------------- */
+ */
 togglePasswordBtn.addEventListener("click", function () {
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
@@ -40,9 +40,9 @@ togglePasswordBtn.addEventListener("click", function () {
     }
 });
 
-/* --------------------
+/* 
    FORM SUBMIT
--------------------- */
+ */
 loginForm.addEventListener("submit", function (event) {
     event.preventDefault(); // stop page refresh
 
@@ -56,7 +56,7 @@ loginForm.addEventListener("submit", function (event) {
     alert("Login successful!");
 });
 
-/* --------------------
+/* 
    INITIAL LOAD
--------------------- */
+ */
 generateCaptcha();

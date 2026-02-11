@@ -7,80 +7,80 @@
 </head>
 <body>
 
-    <!-- Page Wrapper -->
-    <div class="page-wrapper">
+<div class="page-wrapper">
+    <div class="login-card">
 
-        <!-- Login Card -->
-        <div class="login-card">
+        <div class="logo-section">
+            <img src="../assets/jecrc+jmch logo.png" alt="JECRC Logo">
+            <h1>Sign In</h1>
+        </div>
 
-            <!-- Logo Section -->
-            <div class="logo-section">
-                <img 
-                    src="../assets/jecrc+jmch logo.png"
-                    alt="JECRC Logo"
-                    id="logo"
+        <form id="loginForm">
+
+            <!-- USERNAME -->
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="username" 
+                    placeholder=" " 
+                    required
                 >
-                <h1>Sign In</h1>
-                <!-- <p>Please enter your details</p> -->
+                <label for="username">User Name</label>
             </div>
 
-            <!-- Login Form -->
-            <form id="loginForm">
+            <!-- PASSWORD -->
+            <div class="form-group password-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder=" " 
+                    required
+                >
+                <label for="password">Password</label>
+            </div>
 
-                <!-- Username -->
-                <div class="form-group">
-                    <label for="username">User Name</label>
-                    <input type="text" id="username" required>
-                </div>
+            <!-- CAPTCHA -->
+            <div class="captcha-group">
 
-                <!-- Password -->
-                <div class="form-group password-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                    <button type="button" id="togglePassword">
-                        Show
-                    </button>
-                </div>
-
-                <!-- Captcha -->
-                <div class="captcha-group">
-
-                    <button type="button" id="refreshCaptcha">
-                        ↻
-                    </button>
-                    <div class="captcha-box">
-                    <span id="captchaCode">0000</span>
-                    </div>
-                    <input 
-                        type="text" 
-                        id="captchaInput" 
-                        placeholder="Code" 
-                        maxlength="4" 
-                        required
-                    >
-                </div>
-
-                <!-- Remember Me -->
-                <div class="options">
-                    <label>
-                        <input type="checkbox" id="rememberMe">
-                        Remember me
-                    </label>
-
-                    <a href="#">Reset Password</a>
-                </div>
-
-                <!-- Submit -->
-                <button type="submit" class="submit-btn">
-                    Sign In
+                <button type="button" id="refreshCaptcha">
+                    <i class="fa-solid fa-rotate"></i>
                 </button>
 
-            </form>
+                <div class="captcha-box">
+                    <span id="captchaCode">0000</span>
+                </div>
 
-        </div>
+                <div class="form-group captcha-input-group">
+                    <input 
+                        type="text" 
+                        id="captchaInput"
+                        placeholder=" "
+                        maxlength="4"
+                        required
+                    >
+                    <label for="captchaInput">Enter Code</label>
+                </div>
+
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox" id="rememberMe">
+                    Remember me
+                </label>
+
+                <a href="#">Reset Password</a>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Sign In
+            </button>
+
+        </form>
+
     </div>
+</div>
 
-    <!-- JavaScript file -->
-    <script src="login.js"></script>
+<script src="login.js"></script>
 </body>
 </html>

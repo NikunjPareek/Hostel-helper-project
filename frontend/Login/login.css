@@ -1,222 +1,184 @@
-/* --------------------
-   BASIC RESET
--------------------- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* 
+   RESET
+ */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* --------------------
-   PAGE BACKGROUND
--------------------- */
-body {
-    background-color: #fdfaf0;
-    
+body{
+    background:#ffffff;   /* PURE WHITE */
+    font-family: Arial, sans-serif;
 }
 
-/* --------------------
+/* 
    CENTER PAGE
--------------------- */
-.page-wrapper {
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
+ */
+.page-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* --------------------
+/* 
    LOGIN CARD
--------------------- */
-.login-card {
-    width: 100%;
-    max-width: 440px;
-    margin-top: 60px;
-    background-color: #ffffff;
-
-    padding: 32px;            /* p-8 */
-    border-radius: 16px;      /* rounded-2xl */
-
-    border: 1.5px solid #0000001d; /* border-slate-100 */
-
-    /* shadow-xl shadow-slate-200/60 */
-    /* box-shadow: 
-        0 20px 25px -5px rgba(255, 255, 255, 0.6),
-        0 10px 10px -5px rgba(255, 255, 255, 0.952); */
-}
-/* --------------------
-   LOGO SECTION
--------------------- */
-.logo-section {
-    text-align: center;
-    margin-top: 1px;
-    /* margin-bottom: 10px; */
+ */
+.login-card{
+    width:100%;
+    max-width:440px;
+    margin-top:60px;
+    background:#ffffff;
+    padding:32px;
+    border-radius:16px;
+    border:1px solid #e0e0e0;
 }
 
-.logo-section img {
-    height: 130px;
-    /* margin-bottom: 0px; */
+/* 
+   LOGO
+ */
+.logo-section{
+    text-align:center;
+    margin-bottom:25px;
 }
 
-.logo-section h1 {
-    font-size: 28px;
-    font-weight: 1000;
-    color: #041531;
-    padding-bottom: 17px;
+.logo-section img{
+    height:120px;
 }
 
-/* .logo-section p {
-    font-size: 14px;
-    color: #94a3b8;
-    margin-top: 6px;
-} */
-
-/* --------------------
-   FORM GROUP
--------------------- */
-.form-group {
-    margin-bottom: 20px;
+.logo-section h1{
+    font-size:26px;
+    color:#041531;
 }
 
-.form-group label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #232a32;
+/* 
+   FLOATING LABEL FIELDS
+ */
+.form-group{
+    position:relative;
+    margin-bottom:25px;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    font-size: 14px;
+.form-group input{
+    width:100%;
+    padding:16px 12px;
+    border:1px solid #cccccc;
+    border-radius:6px;
+    font-size:14px;
+    background:#ffffff;
 }
 
-.form-group input:focus {
-    border-color: #d32f2f;
-    outline: none;
+/* Red border on focus */
+.form-group input:focus{
+    border-color:#d32f2f;
+    outline:none;
 }
 
-/* --------------------
-   PASSWORD FIELD
--------------------- */
-.password-group {
-    position: relative;
+/* Label inside input */
+.form-group label{
+    position:absolute;
+    left:12px;
+    top:16px;
+    font-size:14px;
+    color:#777;
+    background:#ffffff;
+    padding:0 4px;
+    transition:0.3s ease;
+    pointer-events:none;
 }
 
-#togglePassword {
-    position: absolute;
-    right: 17px;
-    top: 37px;
-    background: none;
-    border: none; 
-    /* box na bane ees liye */
-    color: #566881;
-    cursor: pointer;
-    font-size: 13px;
+/* Floating effect */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label{
+    top:-8px;
+    font-size:12px;
+    color:#d32f2f;
 }
 
-/* --------------------
+/* 
+   PASSWORD ICON
+ */
+.password-group input{
+    padding-right:40px;
+}
+
+.toggle-password{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#777;
+    font-size:16px;
+}
+
+/* 
    CAPTCHA
--------------------- */
-.captcha-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+ */
+.captcha-group{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
 }
 
-#refreshCaptcha {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: #94a3b8;
+#refreshCaptcha{
+    background:none;
+    border:none;
+    font-size:18px;
+    cursor:pointer;
+    color:#777;
 }
 
-#captchaCode {
-    font-size: 22px;
-    font-weight: bold;
-    color: #d32f2f;
-    letter-spacing: 4px;
+.captcha-box{
+    padding:10px 14px;
+    border:1px solid #e0e0e0;
+    border-radius:6px;
+    background:#f5f5f5;
+    font-weight:bold;
+    letter-spacing:3px;
+    color:#d32f2f;
 }
 
-#captchaInput {
-    flex: 1;
-    padding: 14px;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 14px;
+.captcha-input-group{
+    flex:1;
+    margin-bottom:0;
 }
 
-#captchaInput:focus {
-    border-color: #d32f2f;
-    outline: none;
-}
-
-.captcha-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    min-width: 90px;
-    padding: 8px;
-
-    background-color: #f4f4f5;     
-    border: 1px solid #e2e8f06a;     
-    border-radius: 12px;           
-
-    /* box-shadow: inset 0 2px 4px rgb(0, 0, 0); shadow-inner */
-
-    user-select: none;             /* select-none */
-}
-
-/* Captcha number styling */
-.captcha-box #captchaCode {
-    font-size: 22px;
-    font-weight: 800;
-    color: #d32f2f;
-    letter-spacing: 4px;
-}
-
-
-/* --------------------
+/* 
    OPTIONS
--------------------- */
-.options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    font-size: 14px;
+ */
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    margin-bottom:25px;
 }
 
-.options a {
-    color: #d32f2f;
-    text-decoration: none;
+.options a{
+    color:#d32f2f;
+    text-decoration:none;
 }
 
-.options a:hover {
-    text-decoration: underline;
+.options a:hover{
+    text-decoration:underline;
 }
 
-/* --------------------
-   SUBMIT BUTTON
--------------------- */
-.submit-btn {
-    width: 100%;
-    background-color: #d32f2f;
-    color: #ffffff;
-    border: none;
-    padding: 16px;
-    border-radius: 10px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    cursor: pointer;
+/* 
+   BUTTON
+ */
+.submit-btn{
+    width:100%;
+    background:#d32f2f;
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.submit-btn:hover {
-    background-color: #b71c1c;
+.submit-btn:hover{
+    background:#b71c1c;
 }
