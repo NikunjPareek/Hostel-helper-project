@@ -9,12 +9,12 @@ body {
 .container{
     max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 37px;
 }
  
 
 .breadcrumb {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .breadcrumb .badge {
@@ -24,8 +24,8 @@ body {
     background-color: white;
     color: rgb(220, 41, 41);
     padding: 6px 12px;
-    border-radius: 10px;
-    font-size: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.65rem;
     font-weight: 500;
     display: inline-flex;
     align-items: center;
@@ -40,7 +40,7 @@ body {
 }
 
 .page-header h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
     margin: 0 50px 8px 0;
     color: #222;
     font-weight: 700;
@@ -49,7 +49,7 @@ body {
 .page-header p {
     color: #666;
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 
 
