@@ -42,14 +42,14 @@
         <div class="form-group">
             <label for="complaintType">Complaint Type <span>*</span></label>
             <select id="complaintType" required>
-                <option value="">Select complaint category</option>
-                <option>Electricity Issue</option>
-                <option>Water Problem</option>
-                <option>Cleanliness</option>
-                <option>Internet Issue</option>
-                <option>Food Related</option>
-                <option>vending machine</option>
-                <option>Other</option>
+                <option value="" disabled selected>Select complaint category</option>
+                <option value="Electricity Issue">Electricity Issue</option>
+                <option value="Water Problem">Water Problem</option>
+                <option value="Cleanliness">Cleanliness</option>
+                <option value="Internet Issue">Internet Issue</option>
+                <option value="Food Related">Food Related</option>
+                <option value="Vending Machine">Vending Machine</option>
+                <option value="Other">Other</option>
             </select>
         </div>
 
@@ -72,7 +72,7 @@
                 <small>Max 3 files, 10MB each</small>
             </div>
         </div>
-        <br>
+        
         <div class="form-group">
             <label for="Hostel-info">Hostel Information <span>*</span></label>
             <small class="hostel-helper">
@@ -80,7 +80,7 @@
             </small>
 
             <select id="Hostel-info" required>
-            <option value="" disabled selected>Select your hostel no.</option>
+            <option value="" disabled selected>Select your hostel number</option>
             <option value="BH1">BH1</option>
             <option value="BH2">BH2</option>
             <option value="BH3">BH3</option>
@@ -92,8 +92,7 @@
 
         <!-- User Info -->
         <h3>Your Information</h3>
-        <small>This information is auto-filled from your student profile</small>
-
+        
         <div class="info-grid">
             <input type="text" placeholder="Name">
             <input type="text" placeholder="Room Number">

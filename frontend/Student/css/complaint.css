@@ -166,7 +166,7 @@ body {
 }
 
 .btn-submit {
-    background-color: #d32f2f;
+    background-color: #b71c1c;
     color: #fff;
     border: none;
     padding: 10px 25px;
@@ -175,7 +175,7 @@ body {
 }
 
 .btn-submit:hover {
-    background-color: #d32f2f;
+    background-color: #b71c1c;
 }
 
 /* Hostel Information Section */
