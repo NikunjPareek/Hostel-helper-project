@@ -1,20 +1,44 @@
+<<<<<<< HEAD
 /* ===========================
    LOAD HEADER
 =========================== */
+=======
+function setActiveNavLink() {
+  const path = window.location.pathname.split("/").pop();
+  const currentPage = (path || "home.html").toLowerCase();
+  const navLinks = document.querySelectorAll("#header .nav_link");
+
+  navLinks.forEach((link) => {
+    const href = (link.getAttribute("href") || "").toLowerCase();
+    const isActive = href === currentPage;
+    link.classList.toggle("active", isActive);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+// Load header
+>>>>>>> e9e870dc7aabd38d89bf8318caf164dd39650113
 fetch("header.html")
-  .then(response => response.text())
-  .then(data => {
+  .then((response) => response.text())
+  .then((data) => {
     document.getElementById("header").innerHTML = data;
+    setActiveNavLink();
   });
 
 /* ===========================
    LOAD FOOTER
 =========================== */
 fetch("footer.html")
-  .then(response => response.text())
-  .then(data => {
+  .then((response) => response.text())
+  .then((data) => {
     document.getElementById("footer").innerHTML = data;
   });
+<<<<<<< HEAD
 
 /* ===========================
    DASHBOARD SUMMARY
@@ -97,3 +121,5 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
+=======
+>>>>>>> e9e870dc7aabd38d89bf8318caf164dd39650113

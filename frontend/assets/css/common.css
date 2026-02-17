@@ -92,7 +92,7 @@ header{
     fill: none;
     stroke: white;
     stroke-width: 2;
-}
+}*/
 
 /* HOVER */
 .nav_link:hover{
@@ -108,7 +108,19 @@ header{
 .nav_link.active svg{
     stroke: rgb(220, 41, 41);
     background-color: white;
-} */
+}
+
+.nav_link[aria-current="page"]{
+    background: white;
+    color: rgb(220, 41, 41);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+}
+
+.nav_link[aria-current="page"] svg{
+    stroke: rgb(220, 41, 41);
+    background-color: white;
+}
 
 .special{
     background: white;
@@ -173,6 +185,8 @@ footer{
     max-width: 540px;
 }
 
-
+.bottom-fotter{
+    width: 100%;
+    text-align: center;}
 
 
