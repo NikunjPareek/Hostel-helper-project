@@ -73,19 +73,22 @@
             </div>
         </div>
         <br>
-        <div>
-            <label for="Hostel-info">Hostel Information</label><br>
-            <small>Please provide details about your hostel and room to help us address your complaint more efficiently.</small>
-            <br>
+        <div class="form-group">
+            <label for="Hostel-info">Hostel Information <span>*</span></label>
+            <small class="hostel-helper">
+                 Please provide details about your hostel and room to help us address your complaint more efficiently.
+            </small>
+
             <select id="Hostel-info" required>
-                <option value="">Select your hostel no.</option>
-                <option>BH1</option>
-                <option>BH2</option>
-                <option>BH3</option>
-                <option>Girls hostel</option>
+            <option value="" disabled selected>Select your hostel no.</option>
+            <option value="BH1">BH1</option>
+            <option value="BH2">BH2</option>
+            <option value="BH3">BH3</option>
+            <option value="Girls hostel">Girls hostel</option>
             </select>
-                
+
         </div>
+
 
         <!-- User Info -->
         <h3>Your Information</h3>
