@@ -6,7 +6,6 @@ const refreshCaptchaBtn = document.getElementById("refreshCaptcha");
 const captchaInput = document.getElementById("captchaInput");
 
 const passwordInput = document.getElementById("password");
-const togglePasswordBtn = document.getElementById("togglePassword");
 
 const loginForm = document.getElementById("loginForm");
 
@@ -30,15 +29,6 @@ refreshCaptchaBtn.addEventListener("click", function () {
 /* 
    SHOW / HIDE PASSWORD
  */
-togglePasswordBtn.addEventListener("click", function () {
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        togglePasswordBtn.textContent = "Hide";
-    } else {
-        passwordInput.type = "password";
-        togglePasswordBtn.textContent = "Show";
-    }
-});
 
 /* 
    FORM SUBMIT
