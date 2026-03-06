@@ -50,3 +50,4 @@ loginForm.addEventListener("submit", function (event) {
    INITIAL LOAD
  */
 generateCaptcha();
+ 
