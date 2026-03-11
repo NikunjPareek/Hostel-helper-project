@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | JECRC Hostel Admin</title>
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div id="header"></div>
+  <main class="page-content">
+    <div class="page-title-row">
+      <h1>Dashboard</h1>
+      <p>Welcome back, Admin. Here is an overview of the hostel complaint system.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-icon-circle red">&#128203;</div><div class="stat-info"><p class="stat-label">Total Complaints</p><h2 class="stat-num" id="totalCount">0</h2></div></div>
+      <div class="stat-card"><div class="stat-icon-circle orange">&#128336;</div><div class="stat-info"><p class="stat-label">Pending</p><h2 class="stat-num" id="pendingCount">0</h2></div></div>
+      <div class="stat-card"><div class="stat-icon-circle blue">&#128269;</div><div class="stat-info"><p class="stat-label">Under Review</p><h2 class="stat-num" id="reviewCount">0</h2></div></div>
+      <div class="stat-card"><div class="stat-icon-circle green">&#10004;</div><div class="stat-info"><p class="stat-label">Resolved</p><h2 class="stat-num" id="resolvedCount">0</h2></div></div>
+    </div>
+    <div class="mid-row">
+      <div class="card poll-card">
+        <h3 class="card-title">Student Poll Results</h3>
+        <div id="pollBars"></div>
+      </div>
+      <div class="side-col">
+        <div class="card">
+          <h3 class="card-title">By Category</h3>
+          <div id="categoryList"></div>
+        </div>
+        <div class="card extra-card">
+          <div class="extra-row"><span>Anonymous Complaints</span><strong id="anonCount">0</strong></div>
+          <div class="extra-row"><span>Announcements Posted</span><strong id="announcementCount">0</strong></div>
+          <div class="extra-row"><span>Resolution Rate</span><strong id="resolutionRate">0%</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="card activity-card">
+      <h3 class="card-title">Recent Admin Activity</h3>
+      <div id="activityList"></div>
+    </div>
+  </main>
+  <script src="js/header.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
