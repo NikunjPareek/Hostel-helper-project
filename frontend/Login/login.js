@@ -1,53 +1,27 @@
-/* 
-   GET ELEMENTS
- */
-const captchaCode = document.getElementById("captchaCode");
-const refreshCaptchaBtn = document.getElementById("refreshCaptcha");
-const captchaInput = document.getElementById("captchaInput");
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  var user = document.getElementById("username").value.trim();
+  var pass = document.getElementById("password").value.trim();
+  var err  = document.getElementById("formError");
+  err.textContent = "";
+  if (user === "admin" && pass === "admin123") {
+    localStorage.setItem("loggedInAs", "admin");
+    window.location.href = "../Admin/dashboard.html";
+    return;
+  }
 
-const passwordInput = document.getElementById("password");
+  if (user === "student" && pass === "student123") {
+    localStorage.setItem("loggedInAs", "student");
+    window.location.href = "../Student/home.html";
+    return;
+  }
 
-const loginForm = document.getElementById("loginForm");
-
-/* 
-   GENERATE CAPTCHA
- */
-function generateCaptcha() {
-    // Generate random 4 digit number
-    const randomNumber = Math.floor(1000 + Math.random() * 9000);
-    captchaCode.textContent = randomNumber;
+  err.textContent = "Invalid username or password.";
+  err.style.display = "block";
+});
+if (localStorage.getItem("loggedInAs") === "admin") {
+  window.location.href = "../Admin/dashboard.html";
 }
-
-/* 
-   REFRESH CAPTCHA
- */
-refreshCaptchaBtn.addEventListener("click", function () {
-    generateCaptcha();
-    captchaInput.value = "";
-});
-
-/* 
-   SHOW / HIDE PASSWORD
- */
-
-/* 
-   FORM SUBMIT
- */
-loginForm.addEventListener("submit", function (event) {
-    event.preventDefault(); // stop page refresh
-
-    if (captchaInput.value !== captchaCode.textContent) {
-        alert("Captcha does not match. Please try again.");
-        generateCaptcha();
-        captchaInput.value = "";
-        return;
-    }
-
-    alert("Login successful!");
-});
-
-/* 
-   INITIAL LOAD
- */
-generateCaptcha();
- 
+if (localStorage.getItem("loggedInAs") === "student") {
+  window.location.href = "../Student/home.html";
+}
