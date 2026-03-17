@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Complaints | JECRC Hostel Admin</title>
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/complaints.css">
+  <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+</head>
+<body>
+  
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    
+    <!-- Page Header -->
+    <div class="page-title-row">
+      <div>
+        <h1>All Complaints</h1>
+        <p>Manage and resolve hostel complaints</p>
+      </div>
+      <div class="title-buttons">
+        <button class="btn-export" id="exportCSV">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export CSV
+        </button>
+        <button class="btn-print" id="printReport">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+            <rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print Report
+        </button>
+      </div>
+    </div>
+
+    <!-- Filters Card -->
+    <div class="filters-card">
+      <div class="filters-header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        <span class="filters-label">Filters</span>
+      </div>
+      
+      <div class="filters-grid">
+        <!-- Search -->
+        <div class="search-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input 
+            type="text" 
+            class="search-input" 
+            id="searchInput"
+            placeholder="Search complaints..."
+          >
+        </div>
+
+        <!-- Status Filter -->
+        <select class="filter-select" id="statusFilter">
+          <option value="All">All Statuses</option>
+          <option value="Submitted">Submitted</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+
+        <!-- Category Filter -->
+        <select class="filter-select" id="categoryFilter">
+          <option value="All">All Categories</option>
+          <option value="Mess">Mess</option>
+          <option value="Water">Water</option>
+          <option value="WiFi">WiFi</option>
+          <option value="Electricity">Electricity</option>
+          <option value="Sanitation">Sanitation</option>
+        </select>
+
+        <!-- Month Filter -->
+        <select class="filter-select" id="monthFilter">
+          <option value="All">All Months</option>
+          <!-- Months will be dynamically populated -->
+        </select>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-count">
+      Showing <span id="filteredCount">0</span> of <span id="totalCount">0</span> complaints
+    </div>
+
+    <!-- Complaints Table -->
+    <div class="table-wrapper">
+      <table class="complaints-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Student</th>
+            <th>Room</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th class="print-hide">Action</th>
+          </tr>
+        </thead>
+        <tbody id="complaintsTableBody">
+          <!-- Table rows will be dynamically inserted -->
+        </tbody>
+      </table>
+      
+      <!-- Empty State -->
+      <div class="table-empty" id="emptyState" style="display: none;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 12px; color: #ddd;">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <p>No complaints found matching your filters</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="complaintModal">
+    <div class="modal-box">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h2>Complaint <span id="modalComplaintId"></span></h2>
+        <button class="modal-close" id="closeModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Content -->
+      <div class="modal-content">
+        <!-- Info Grid -->
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="info-label">Student</div>
+            <div class="info-value" id="modalStudent"></div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">Room</div>
+            <div class="info-value" id="modalRoom"></div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">Category</div>
+            <div class="info-value" id="modalCategory"></div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">Date</div>
+            <div class="info-value" id="modalDate"></div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="modal-section">
+          <div class="modal-section-title">Description</div>
+          <div class="modal-desc-box" id="modalDescription"></div>
+        </div>
+
+        <!-- Status Update -->
+        <div class="modal-section">
+          <div class="modal-section-title">Update Status</div>
+          <select class="status-select" id="modalStatus">
+            <option value="Submitted">Submitted</option>
+            <option value="Under Review">Under Review</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+
+        <!-- Admin Remarks -->
+        <div class="modal-section">
+          <div class="modal-section-title">Admin Remarks</div>
+          <textarea 
+            class="remarks-textarea" 
+            id="modalRemarks"
+            placeholder="Add remarks about this complaint..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <!-- Last Updated -->
+        <div class="last-updated" id="lastUpdated" style="display: none;">
+          <small style="color: #999; font-size: 12px;"></small>
+        </div>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="modal-actions">
+        <button class="btn-cancel" id="cancelModal">Cancel</button>
+        <button class="btn-save" id="saveComplaint">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/header.js"></script>
+  <script src="js/complaints.js"></script>
+</body>
+</html>
