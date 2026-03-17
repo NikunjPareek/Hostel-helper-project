@@ -6,42 +6,166 @@
   <title>Dashboard | JECRC Hostel Admin</title>
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
 </head>
 <body>
+  
+  <!-- Header -->
   <div id="header"></div>
+
+  <!-- Main Content -->
   <main class="page-content">
+    
+    <!-- Page Header -->
     <div class="page-title-row">
       <h1>Dashboard</h1>
-      <p>Welcome back, Admin. Here is an overview of the hostel complaint system.</p>
+      <p>Hostel management overview for JECRC University</p>
     </div>
+
+    <!-- Stats Cards Grid -->
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-icon-circle red">&#128203;</div><div class="stat-info"><p class="stat-label">Total Complaints</p><h2 class="stat-num" id="totalCount">0</h2></div></div>
-      <div class="stat-card"><div class="stat-icon-circle orange">&#128336;</div><div class="stat-info"><p class="stat-label">Pending</p><h2 class="stat-num" id="pendingCount">0</h2></div></div>
-      <div class="stat-card"><div class="stat-icon-circle blue">&#128269;</div><div class="stat-info"><p class="stat-label">Under Review</p><h2 class="stat-num" id="reviewCount">0</h2></div></div>
-      <div class="stat-card"><div class="stat-icon-circle green">&#10004;</div><div class="stat-info"><p class="stat-label">Resolved</p><h2 class="stat-num" id="resolvedCount">0</h2></div></div>
+      <!-- Total Complaints -->
+      <div class="stat-card">
+        <div class="stat-icon-circle red">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Total Complaints</p>
+          <h2 class="stat-num" id="totalCount">0</h2>
+        </div>
+      </div>
+
+      <!-- Pending -->
+      <div class="stat-card">
+        <div class="stat-icon-circle orange">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Pending</p>
+          <h2 class="stat-num" id="pendingCount">0</h2>
+        </div>
+      </div>
+
+      <!-- Under Review -->
+      <div class="stat-card">
+        <div class="stat-icon-circle blue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Under Review</p>
+          <h2 class="stat-num" id="reviewCount">0</h2>
+        </div>
+      </div>
+
+      <!-- Resolved -->
+      <div class="stat-card">
+        <div class="stat-icon-circle green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Resolved</p>
+          <h2 class="stat-num" id="resolvedCount">0</h2>
+        </div>
+      </div>
     </div>
+
+    <!-- Middle Row - Poll Results + Sidebar -->
     <div class="mid-row">
+      
+      <!-- Poll Results Card -->
       <div class="card poll-card">
-        <h3 class="card-title">Student Poll Results</h3>
-        <div id="pollBars"></div>
+        <div class="card-header">
+          <h3 class="card-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Student Poll Results
+          </h3>
+          <span class="poll-votes-count" id="totalVotes">0 total votes</span>
+        </div>
+        <div class="card-content">
+          <p class="poll-question" id="pollQuestion">Which hostel issue affects you the most?</p>
+          <div id="pollBars">
+            <!-- Poll bars will be dynamically inserted here -->
+          </div>
+        </div>
       </div>
+
+      <!-- Sidebar -->
       <div class="side-col">
+        
+        <!-- Category Breakdown -->
         <div class="card">
-          <h3 class="card-title">By Category</h3>
-          <div id="categoryList"></div>
+          <div class="card-header">
+            <h3 class="card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              By Category
+            </h3>
+          </div>
+          <div class="card-content">
+            <div id="categoryList">
+              <!-- Category breakdown will be dynamically inserted here -->
+            </div>
+          </div>
         </div>
+
+        <!-- Mini Stats -->
         <div class="card extra-card">
-          <div class="extra-row"><span>Anonymous Complaints</span><strong id="anonCount">0</strong></div>
-          <div class="extra-row"><span>Announcements Posted</span><strong id="announcementCount">0</strong></div>
-          <div class="extra-row"><span>Resolution Rate</span><strong id="resolutionRate">0%</strong></div>
+          <div class="extra-row">
+            <span>Anonymous Reports</span>
+            <strong id="anonCount">0</strong>
+          </div>
+          <div class="extra-row">
+            <span>Announcements Posted</span>
+            <strong id="announcementCount">0</strong>
+          </div>
+          <div class="extra-row">
+            <span>Resolution Rate</span>
+            <strong id="resolutionRate" class="rate-value">0%</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Recent Activity Card -->
+    <div class="card activity-card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          Recent Admin Activity
+        </h3>
+      </div>
+      <div class="card-content">
+        <div id="activityList">
+          <!-- Activity items will be dynamically inserted here -->
         </div>
       </div>
     </div>
-    <div class="card activity-card">
-      <h3 class="card-title">Recent Admin Activity</h3>
-      <div id="activityList"></div>
-    </div>
+
   </main>
+
+  <!-- Scripts -->
   <script src="js/header.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
