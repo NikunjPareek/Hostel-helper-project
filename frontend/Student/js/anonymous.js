@@ -1,3 +1,10 @@
+// Authentication check
+function checkStudentAuth() {
+  if (localStorage.getItem("studentLoggedIn") !== "true") {
+    window.location.href = "../Login/login.html";
+  }
+}
+
 function setActiveNavLink() {
   const path = window.location.pathname.split("/").pop();
   const currentPage = (path || "home.html").toLowerCase();
@@ -15,6 +22,11 @@ function setActiveNavLink() {
     }
   });
 }
+
+// Check auth on page load
+document.addEventListener("DOMContentLoaded", function() {
+  checkStudentAuth();
+});
 
 // Load header
 fetch("header.html")
