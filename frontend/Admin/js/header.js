@@ -1,3 +1,5 @@
+// Admin header.js
+
 function loadAdminHeader() {
   var el = document.getElementById("header");
   if (!el) return;
@@ -8,6 +10,7 @@ function loadAdminHeader() {
       setActiveNavLink();
     });
 }
+
 function setActiveNavLink() {
   var page = window.location.pathname.split("/").pop() || "dashboard.html";
   document.querySelectorAll("#header .nav-link").forEach(function(a){
@@ -16,15 +19,19 @@ function setActiveNavLink() {
     else a.classList.remove("active");
   });
 }
+
 function handleLogout() {
   localStorage.removeItem("adminLoggedIn");
-  window.location.href = "login.html";
+  localStorage.removeItem("loggedInAs");
+  window.location.href = "../Login/login.html";
 }
+
 function checkAdminAuth() {
   if (localStorage.getItem("adminLoggedIn") !== "true") {
-    window.location.href = "login.html";
+    window.location.href = "../Login/login.html";
   }
 }
+
 document.addEventListener("DOMContentLoaded", function(){
   checkAdminAuth();
   loadAdminHeader();
