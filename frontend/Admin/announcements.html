@@ -84,21 +84,39 @@
         <div class="form-row">
           <div class="form-field">
             <label class="field-label">Category</label>
-            <select class="field-select" id="announcementCategory">
-              <option value="General">General</option>
-              <option value="Maintenance">Maintenance</option>
-              <option value="Mess">Mess</option>
-              <option value="Infrastructure">Infrastructure</option>
-              <option value="Events">Events</option>
-              <option value="Rules">Rules & Regulations</option>
-            </select>
+            <div class="custom-select-wrapper" id="categorySelectWrapper">
+              <div class="custom-select" tabindex="0">
+                <span class="selected-text">General</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              <ul class="custom-options">
+                <li data-value="General" class="selected">General <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Maintenance">Maintenance <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Mess">Mess <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Infrastructure">Infrastructure <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Events">Events <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Rules">Rules & Regulations <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+              </ul>
+              <input type="hidden" id="announcementCategory" value="General">
+            </div>
           </div>
           <div class="form-field">
             <label class="field-label">Priority</label>
-            <select class="field-select" id="announcementPriority">
-              <option value="Normal">Normal</option>
-              <option value="High">High</option>
-            </select>
+            <div class="custom-select-wrapper" id="prioritySelectWrapper">
+              <div class="custom-select" tabindex="0">
+                <span class="selected-text">Normal</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              <ul class="custom-options">
+                <li data-value="Normal" class="selected">Normal <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="High">High <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+              </ul>
+              <input type="hidden" id="announcementPriority" value="Normal">
+            </div>
           </div>
         </div>
 
@@ -147,6 +165,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
 
   <!-- Scripts -->
   <script src="js/header.js"></script>

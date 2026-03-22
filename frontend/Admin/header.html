@@ -1,19 +1,31 @@
 <header class="admin-header">
   <div class="header-left">
-    <div class="admin-logo">J</div>
+    <div class="admin-logo" style="background: transparent; padding: 0; overflow: hidden;">
+      <img src="../assets/jecrc logo only transparent.png" alt="JECRC Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
+    </div>
     <div class="header-brand">
       <span class="brand-name">JECRC HOSTEL</span>
       <span class="brand-sub">University Jaipur</span>
     </div>
     <span class="admin-badge">ADMIN PANEL</span>
   </div>
-  <nav class="header-nav">
-    <a href="dashboard.html"     class="nav-link" data-page="dashboard.html">Dashboard</a>
-    <a href="complaints.html"    class="nav-link" data-page="complaints.html">All Complaints</a>
-    <a href="anonymous.html"     class="nav-link" data-page="anonymous.html">Anonymous Feedback</a>
-    <a href="announcements.html" class="nav-link" data-page="announcements.html">Announcements</a>
-  </nav>
-  <div class="header-right">
-    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+
+  <div class="header-menu-container" id="headerMenuContainer">
+    <nav class="header-nav">
+      <a href="dashboard.html"     class="nav-link" data-page="dashboard.html">Dashboard</a>
+      <a href="complaints.html"    class="nav-link" data-page="complaints.html">All Complaints</a>
+      <a href="anonymous.html"     class="nav-link" data-page="anonymous.html">Anonymous Feedback</a>
+      <a href="announcements.html" class="nav-link" data-page="announcements.html">Announcements</a>
+    </nav>
+    <div class="header-right">
+      <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    </div>
   </div>
 </header>
