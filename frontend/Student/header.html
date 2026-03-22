@@ -1,44 +1,23 @@
-<header> 
-
-  <link rel="icon" href="../assets/icons/favicn." type="image/png">
-  <!-- TOP NAV --> 
-  <nav class="top-nav"> 
-    <!-- Left: University --> 
-    <div class="uni-Name"> 
-      <div class="logo-circle"> 
-        <img src="../assets/logo.png" alt="JECRC Logo"> 
-      </div> 
-      <div> 
-        <h2>JECRC University</h2>
-         <span>Jaipur</span>
-         </div>
-    </div> 
-    <!-- Center: System Info -->
-      <div class="system-info">
-         <h1>Hostel Complaint Management System</h1>
-          <span>Student Portal</span>
-        </div>
+<header class="student-header">
+  <div class="header-left">
+    <div class="student-logo">J</div>
+    <div class="header-brand">
+      <span class="brand-name">JECRC HOSTEL</span>
+      <span class="brand-sub">University Jaipur</span>
+    </div>
+    <span class="student-badge">STUDENT PANEL</span>
+  </div>
+  <nav class="header-nav">
+    <a href="home.html"             class="nav-link" data-page="home.html">Home</a>
+    <a href="complaint.html"        class="nav-link" data-page="complaint.html">Register Complaint</a>
+    <a href="anonymous.html"        class="nav-link" data-page="anonymous.html">Anonymous Complaint</a>
+    <a href="complaint_history.html" class="nav-link" data-page="complaint_history.html">My Complaints</a>
   </nav>
-
-  <!-- SECOND NAV -->
-<nav class="nav2">
-  <a class="nav_link" href="home.html">
-    Home
-  </a>
-
-  <a class="nav_link" href="complaint.html">
-    Register Complaint
-  </a>
-
-  <a class="nav_link" href="anonymous.html">
-    Anonymous Complaint
-  </a>
-
-  <a class="nav_link" href="complaint_history.html">
-    My Complaints
-  </a>
-</nav>
-
+  <div class="header-right" style="display:flex; align-items:center; gap: 15px;">
+    <div style="text-align:right;">
+      <span id="studentName" style="display:block; font-size:13px; font-weight:700; color:#333;">Student</span>
+      <span id="studentRoom" style="display:block; font-size:11px; color:#888;">Room: ---</span>
+    </div>
+    <button class="logout-btn" onclick="handleStudentLogout()">Logout</button>
+  </div>
 </header>
-
-
