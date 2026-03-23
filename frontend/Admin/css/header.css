@@ -248,6 +248,7 @@ input:focus, select:focus, textarea:focus {
   font-weight: 300;
 }
 
+
 .mobile-toggle:active {
   transform: scale(0.95);
 }
