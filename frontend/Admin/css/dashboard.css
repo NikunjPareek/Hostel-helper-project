@@ -2,17 +2,17 @@
 body { font-family: Arial, Helvetica, sans-serif; background-color: #f9fafb; color: #111827; display: flex; flex-direction: column; min-height: 100vh; }
 
 /* Main Content Container */
-.page-content { max-width: 1400px; margin: 0 auto; padding: 32px 28px; flex: 1; width: 100%; }
+.page-content { max-width: 1400px; margin: 0 auto; padding: 48px 32px; flex: 1; width: 100%; }
 
 /* Page Title */
 .page-title-row { margin-bottom: 24px; display: flex; flex-direction: column; gap: 6px; }
-.page-title-row h1 { font-size: 28px; font-weight: 700; color: #111827; margin: 0; }
+.page-title-row h1 { font-family: 'Manrope', sans-serif; font-size: 28px; font-weight: 800; color: #111827; margin: 0; letter-spacing: -0.025em; }
 .page-title-row p { font-size: 15px; color: #6b7280; line-height: 1.5; margin: 0; }
 
 /* Unified Card styling */
 .card { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.02); overflow: hidden; display: flex; flex-direction: column; }
 .card-header { padding: 20px 24px; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; align-items: center; }
-.card-title { font-size: 16px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 10px; margin: 0; }
+.card-title { font-family: 'Manrope', sans-serif; font-size: 18px; font-weight: 800; color: #111827; display: flex; align-items: center; gap: 10px; margin: 0; }
 .card-title svg { color: #c62828; flex-shrink: 0; }
 .card-content { padding: 24px; display: flex; flex-direction: column; height: 100%; }
 
