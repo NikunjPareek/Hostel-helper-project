@@ -207,6 +207,12 @@ input:focus, select:focus, textarea:focus {
 .header-right {
   display: flex;
   align-items: center;
+  gap: 8px;
+}
+
+/* Hidden on mobile — shown only on desktop */
+.mobile-logout {
+  display: none;
 }
 
 .logout-btn {
@@ -307,11 +313,22 @@ input:focus, select:focus, textarea:focus {
 
   .header-right {
     margin-left: auto;
-    margin-right: 12px;
+    margin-right: 0;
   }
 
-  .logout-btn {
-    padding: 8px 16px;
+  /* Hide desktop logout on mobile; show hamburger */
+  .desktop-logout {
+    display: none;
+  }
+
+  /* Mobile logout inside the nav dropdown */
+  .mobile-logout {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    text-align: center;
+    border-radius: 12px;
   }
 
   .admin-logo {

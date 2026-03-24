@@ -7,111 +7,136 @@
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f0f2f5;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  background-color: #f8f9fb;
   color: #333;
 }
 
-/* Main Content */
+/* ─── Main Content Container ────────────────────────────────────────── */
+/* Match header container: full-width with 32px side padding, no artificial max-width */
 .page-content {
-  max-width: 1000px;
+  max-width: 1920px;
   margin: 0 auto;
-  padding: 48px 32px;
+  padding: 40px 32px 64px;
 }
 
-/* Page Title */
+/* ─── Page Title Row ─────────────────────────────────────────────────── */
+/* Single flex row: title left, button right — always on the same line */
 .page-title-row {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  gap: 16px;
+}
+
+/* Left-aligned title block */
+.page-title-row > div {
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 24px;
-  gap: 20px;
+  gap: 2px;
+  text-align: left;
 }
 
 .page-title-row h1 {
   font-family: 'Manrope', sans-serif;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
   color: #1a1a2e;
-  margin-bottom: 4px;
+  margin: 0;
   letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 .page-title-row p {
-  font-size: 14px;
-  color: #888;
+  font-size: 13px;
+  color: #71787d;
+  margin: 0;
 }
 
+/* Button fixed to the right, same row, no growth */
 .btn-new-announcement {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  background: #c62828;
+  padding: 10px 20px;
+  background: #800000;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   transition: background 0.2s;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .btn-new-announcement:hover {
-  background: #b71c1c;
+  background: #600000;
 }
 
-/* Announcements List */
+/* ─── Announcements Grid ─────────────────────────────────────────────── */
+/* Desktop: 3 columns / Tablet: 2 columns / Mobile: 1 column */
 .announcements-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
 }
 
-/* Announcement Card */
+/* ─── Announcement Card ──────────────────────────────────────────────── */
 .announcement-card {
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  width: 100%;
 }
 
+/* Card top row: badges left, delete icon right */
 .card-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+  gap: 8px;
 }
 
 .announcement-badges {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
+/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   border: 1px solid transparent;
-  gap: 6px;
+  gap: 5px;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .badge svg {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   flex-shrink: 0;
 }
 
@@ -121,24 +146,32 @@ body {
   color: #dc2626;
 }
 
+/* Category badge: slightly increased contrast */
 .badge.category {
-  background: #f3f4f6;
-  border-color: #e5e7eb;
-  color: #4b5563;
+  background: #eef0f3;
+  border-color: #d1d5db;
+  color: #374151;
 }
 
+/* ─── Delete Button ───────────────────────────────────────────────────── */
+/* Reduced visual weight: icon-only, smaller, muted — content is primary */
 .btn-delete {
-  padding: 6px;
+  padding: 4px;
   background: transparent;
   border: none;
-  color: #9ca3af;
+  color: #c4c9d0;
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s;
+  border-radius: 5px;
+  transition: background 0.18s, color 0.18s;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.btn-delete svg {
+  width: 14px;
+  height: 14px;
 }
 
 .btn-delete:hover {
@@ -146,77 +179,87 @@ body {
   color: #dc2626;
 }
 
+/* ─── Card Content Hierarchy ─────────────────────────────────────────── */
+/* Title: visually dominant */
 .announcement-title {
-  font-size: 17px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
   font-weight: 700;
   color: #111827;
-  margin: 4px 0 0 0;
+  margin: 2px 0 0 0;
+  line-height: 1.35;
 }
 
 .announcement-content {
   margin: 0;
 }
 
+/* Description: clear but subordinate */
 .announcement-text {
-  font-size: 15px;
+  font-size: 13.5px;
   color: #4b5563;
   line-height: 1.6;
   margin: 0;
   white-space: pre-line;
 }
 
+/* Card footer: metadata — subtle */
 .announcement-footer {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding-top: 16px;
+  gap: 10px;
+  padding-top: 12px;
   border-top: 1px solid #f3f4f6;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 .footer-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 500;
+  gap: 5px;
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .footer-item svg {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
 }
 
 .footer-separator {
   color: #d1d5db;
-  font-size: 12px;
+  font-size: 11px;
 }
 
-/* Empty State */
+/* ─── Empty State ─────────────────────────────────────────────────────── */
+/* Spans full grid width, matches container width */
 .empty-state {
+  grid-column: 1 / -1;
   background: white;
-  border: 1px solid #eee;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
-  padding: 60px 20px;
+  padding: 72px 32px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  width: 100%;
 }
 
 .empty-state svg {
-  color: #ddd;
+  color: #d1d5db;
   margin: 0 auto 16px;
 }
 
 .empty-title {
-  font-size: 14px;
-  color: #aaa;
-  margin: 0 0 4px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #9ca3af;
+  margin: 0 0 6px 0;
 }
 
 .empty-subtitle {
-  font-size: 12px;
-  color: #ccc;
+  font-size: 13px;
+  color: #c4c9d0;
   margin: 0;
 }
 
@@ -417,15 +460,26 @@ body {
   background: #b71c1c;
 }
 
-/* Responsive */
+/* ─── Responsive Grid Breakpoints ────────────────────────────────────── */
+
+/* Tablet / mid-desktop: 2 columns */
+@media (max-width: 1280px) {
+  .announcements-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: single column, stacked title row */
 @media (max-width: 768px) {
   .page-content {
-    padding: 20px 14px;
+    padding: 20px 16px 48px;
   }
 
+  /* Title row stacks on mobile: title above, button full width below */
   .page-title-row {
     flex-direction: column;
     align-items: flex-start;
+    gap: 14px;
   }
 
   .btn-new-announcement {
@@ -434,7 +488,12 @@ body {
   }
 
   .page-title-row h1 {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .announcements-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .form-row {
@@ -443,14 +502,6 @@ body {
 
   .modal-box {
     margin: 10px;
-  }
-
-  .announcement-top {
-    flex-direction: column;
-  }
-
-  .btn-delete {
-    align-self: flex-start;
   }
 }
 
@@ -585,17 +636,9 @@ body {
   flex-shrink: 0;
 }
 
-
-
 .toast-message {
   font-size: 14px;
   font-weight: 500;
   color: #1a1a2e;
   margin: 0;
-}
-
-/* Override delete hover styling */
-.btn-delete:hover {
-  background: #fee2e2;
-  color: #dc2626;
 }
