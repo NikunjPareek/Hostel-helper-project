@@ -60,6 +60,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Derive CSS class for a status value
+  function getStatusClass(status) {
+    return `status-${status === "Under Review" ? "review" : status.toLowerCase()}`;
+  }
+
+  // Build the status segmented-control HTML for a given node
+  function buildStatusControl(node) {
+    const statuses = ["Submitted", "Under Review", "Resolved"];
+    const activeClass = {
+      "Submitted": "active-submitted",
+      "Under Review": "active-review",
+      "Resolved": "active-resolved"
+    };
+    return statuses.map(s => `
+      <button
+        class="status-btn${node.status === s ? ` ${activeClass[s]}` : ""}"
+        data-id="${escapeHTML(node.id)}"
+        data-status="${escapeHTML(s)}"
+        type="button"
+      >${escapeHTML(s)}</button>
+    `).join("");
+  }
+
+  // Build the admin remarks display block (shown when remarks exist)
+  function buildRemarksDisplay(remarks) {
+    if (!remarks || remarks.trim() === "") return "";
+    return `
+      <div class="admin-remarks">
+        <span class="remarks-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Admin Response
+        </span>
+        <p class="remarks-text">"${escapeHTML(remarks)}"</p>
+      </div>
+    `;
+  }
+
   // Render Component Logic
   function renderFeedback() {
     if (!feedbackGrid || !emptyState) return;
@@ -74,32 +113,17 @@ document.addEventListener("DOMContentLoaded", function () {
       anonymousState.forEach(node => {
         
         const catClass = `cat-${node.category.toLowerCase()}`;
-        const statusClass = `status-${node.status === "Under Review" ? "review" : node.status.toLowerCase()}`;
         
-        let remarksHtml = "";
-        if (node.remarks && node.remarks.trim() !== "") {
-          remarksHtml = `
-            <div class="admin-remarks">
-              <span class="remarks-label">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-                Admin Response
-              </span>
-              <p class="remarks-text">"${escapeHTML(node.remarks)}"</p>
-            </div>
-          `;
-        }
-
         const cardHTML = `
-          <div class="feedback-card">
+          <div class="feedback-card" data-id="${escapeHTML(node.id)}">
+
             <!-- Badges -->
             <div class="card-badges">
               <span class="badge ${catClass}">
                 ${getCategoryIcon(node.category)}
                 ${escapeHTML(node.category)}
               </span>
-              <span class="badge ${statusClass}">
+              <span class="badge ${getStatusClass(node.status)} js-status-badge">
                 ${getStatusIcon(node.status)}
                 ${escapeHTML(node.status)}
               </span>
@@ -113,8 +137,51 @@ document.addEventListener("DOMContentLoaded", function () {
               <p class="description-text">${escapeHTML(node.desc)}</p>
             </div>
 
-            <!-- Remarks Injection -->
-            ${remarksHtml}
+            <!-- Admin Remarks Display (live-updated) -->
+            <div class="js-remarks-display">
+              ${buildRemarksDisplay(node.remarks)}
+            </div>
+
+            <!-- ─── Admin Action Section ─────────────────────── -->
+            <div class="card-admin-section">
+
+              <!-- Status Control -->
+              <div>
+                <p class="admin-section-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  Update Status
+                </p>
+                <div class="status-control">
+                  ${buildStatusControl(node)}
+                </div>
+              </div>
+
+              <!-- Response Textarea -->
+              <div>
+                <p class="admin-section-label">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  Admin Response
+                </p>
+                <textarea
+                  class="admin-response-textarea"
+                  data-id="${escapeHTML(node.id)}"
+                  placeholder="Add admin response…"
+                  rows="3"
+                >${escapeHTML(node.remarks)}</textarea>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="card-action-row">
+                <button class="btn-mark-resolved" data-id="${escapeHTML(node.id)}" type="button">Mark as Resolved</button>
+                <button class="btn-save-response" data-id="${escapeHTML(node.id)}" type="button">Save Response</button>
+              </div>
+
+            </div>
+            <!-- ─────────────────────────────────────────────── -->
 
             <!-- Footer Meta -->
             <div class="card-footer">
@@ -129,12 +196,127 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${escapeHTML(node.date)}
               </span>
             </div>
+
           </div>
         `;
 
         feedbackGrid.insertAdjacentHTML("beforeend", cardHTML);
       });
+
+      // Attach delegated event listeners after all cards are rendered
+      attachCardEvents();
     }
+  }
+
+  // ─── Event Delegation ────────────────────────────────────────────────────
+
+  function attachCardEvents() {
+
+    // Status button clicks
+    feedbackGrid.querySelectorAll(".status-btn").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const id = this.dataset.id;
+        const newStatus = this.dataset.status;
+        const node = anonymousState.find(n => n.id === id);
+        if (!node) return;
+
+        node.status = newStatus;
+
+        // Update the card DOM without full re-render
+        const card = feedbackGrid.querySelector(`.feedback-card[data-id="${id}"]`);
+        if (!card) return;
+
+        // Update status badge
+        const badge = card.querySelector(".js-status-badge");
+        if (badge) {
+          badge.className = `badge ${getStatusClass(newStatus)} js-status-badge`;
+          badge.innerHTML = `${getStatusIcon(newStatus)} ${escapeHTML(newStatus)}`;
+        }
+
+        // Update segmented control active states
+        const activeClass = {
+          "Submitted": "active-submitted",
+          "Under Review": "active-review",
+          "Resolved": "active-resolved"
+        };
+        card.querySelectorAll(".status-btn").forEach(b => {
+          b.classList.remove("active-submitted", "active-review", "active-resolved");
+          if (b.dataset.status === newStatus) {
+            b.classList.add(activeClass[newStatus]);
+          }
+        });
+
+        // If resolved, also update the Mark as Resolved button state
+        const resolveBtn = card.querySelector(".btn-mark-resolved");
+        if (resolveBtn) {
+          resolveBtn.disabled = newStatus === "Resolved";
+          resolveBtn.classList.toggle("btn-resolved-done", newStatus === "Resolved");
+        }
+      });
+    });
+
+    // Save Response button clicks
+    feedbackGrid.querySelectorAll(".btn-save-response").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const id = this.dataset.id;
+        const node = anonymousState.find(n => n.id === id);
+        if (!node) return;
+
+        const card = feedbackGrid.querySelector(`.feedback-card[data-id="${id}"]`);
+        if (!card) return;
+
+        const textarea = card.querySelector(`.admin-response-textarea[data-id="${id}"]`);
+        const newRemarks = textarea ? textarea.value.trim() : "";
+
+        node.remarks = newRemarks;
+
+        // Update the remarks display block in-card without re-rendering
+        const remarksDisplay = card.querySelector(".js-remarks-display");
+        if (remarksDisplay) {
+          remarksDisplay.innerHTML = buildRemarksDisplay(newRemarks);
+        }
+
+        // Provide brief visual feedback on the button
+        this.textContent = "Saved ✓";
+        this.classList.add("btn-save-done");
+        setTimeout(() => {
+          this.textContent = "Save Response";
+          this.classList.remove("btn-save-done");
+        }, 1800);
+      });
+    });
+
+    // Mark as Resolved button clicks
+    feedbackGrid.querySelectorAll(".btn-mark-resolved").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const id = this.dataset.id;
+        const node = anonymousState.find(n => n.id === id);
+        if (!node) return;
+
+        node.status = "Resolved";
+
+        const card = feedbackGrid.querySelector(`.feedback-card[data-id="${id}"]`);
+        if (!card) return;
+
+        // Update status badge
+        const badge = card.querySelector(".js-status-badge");
+        if (badge) {
+          badge.className = `badge status-resolved js-status-badge`;
+          badge.innerHTML = `${getStatusIcon("Resolved")} Resolved`;
+        }
+
+        // Update segmented control
+        card.querySelectorAll(".status-btn").forEach(b => {
+          b.classList.remove("active-submitted", "active-review", "active-resolved");
+          if (b.dataset.status === "Resolved") b.classList.add("active-resolved");
+        });
+
+        // Disable this button
+        this.disabled = true;
+        this.classList.add("btn-resolved-done");
+        this.textContent = "Resolved ✓";
+      });
+    });
   }
 
   // Trigger initial draw
