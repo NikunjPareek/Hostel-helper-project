@@ -1,5 +1,6 @@
 <header class="admin-header">
   <div class="header-container">
+    <!-- Left: Logo + Brand -->
     <div class="header-left">
       <div class="admin-logo">
         <img src="../assets/jecrc logo only transparent.png" alt="JECRC Logo">
@@ -11,36 +12,34 @@
       <span class="admin-badge">ADMIN PANEL</span>
     </div>
 
-    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
-
-    <nav class="header-nav">
-      <!-- Dashboard -->
+    <!-- Center: Nav (desktop) -->
+    <nav class="header-nav" id="headerNav">
       <a href="dashboard.html" class="nav-link" data-page="dashboard.html">
         <span class="material-symbols-outlined">dashboard</span>
         Dashboard
       </a>
-      <!-- All Complaints -->
       <a href="complaints.html" class="nav-link" data-page="complaints.html">
         <span class="material-symbols-outlined">report_problem</span>
         All Complaints
       </a>
-      <!-- Anonymous Feedback -->
       <a href="anonymous.html" class="nav-link" data-page="anonymous.html">
         <span class="material-symbols-outlined">visibility_off</span>
         Anonymous Feedback
       </a>
-      <!-- Announcements -->
       <a href="announcements.html" class="nav-link" data-page="announcements.html">
         <span class="material-symbols-outlined">campaign</span>
         Announcements
       </a>
+      <!-- Logout inside mobile dropdown only -->
+      <button class="logout-btn mobile-logout" onclick="handleLogout()">Logout</button>
     </nav>
-    
-    
+
+    <!-- Right: Desktop Logout + Mobile Hamburger -->
     <div class="header-right">
-      <button class="logout-btn" onclick="handleLogout()">Logout</button>
+      <button class="logout-btn desktop-logout" onclick="handleLogout()">Logout</button>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation" aria-expanded="false">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
     </div>
   </div>
 </header>
