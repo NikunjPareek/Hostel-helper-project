@@ -1,316 +1,145 @@
+/* =========================================
+   Harbor OS - Anonymous Form Protocol
+   (Derives base styling from identical scales found in complaint.css)
+========================================= */
+@import url('complaint.css');
 
-body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: #ffffff;
-    color: #333333;
-    margin:0px;
-}
-
-.container{
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 37px;
-}
- 
-
-.breadcrumb {
-    margin-bottom: 16px;
-}
-
-.breadcrumb .badge {
-    background-color: #de0303;
-    color: #ffffff;
-
-    background-color: white;
-    color: rgb(220, 41, 41);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.65rem;
-    font-weight: 500;
+.badge-locked {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    border: 1px solid #fbf7f7;
-    border: 1px solid rgb(220, 41, 41);
-}
-
-.page-header {
-    margin-bottom: 23px;
-}
-
-.page-header h1 {
-    font-size: 1.6rem;
-    margin: 0 50px 8px 0;
-    color: #222;
+    align-self: flex-start;
+    padding: 6px 12px;
+    background: #f2f4f6;
+    border: 1px solid #e1e2e5;
+    color: #40484c;
+    border-radius: 20px;
+    font-size: 13px;
     font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    gap: 6px;
+    align-items: center;
 }
 
-.page-header p {
-    color: #666;
-    margin: 0;
-    font-size: 0.8rem;
+.privacy-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: rgba(128, 0, 0, 0.08);
+    border: 1px solid rgba(128, 0, 0, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    color: #191c1e;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-
-.alert {
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-}
-
-.alert-header {
+.banner-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(128, 0, 0, 0.1);
+    border-radius: 12px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #800000;
+}
+
+.banner-content h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #191c1e;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.2px;
+}
+
+.banner-content ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.banner-content ul li {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #71787d;
+}
+
+.banner-content ul li::before {
+    content: "•";
+    color: #71787d;
+    font-size: 18px;
+}
+
+/* Info Alert Variant */
+.alert-info {
+    display: flex;
+    align-items: flex-start;
     gap: 12px;
-    margin-bottom: 10px;
+    background: #e1f1f9;
+    border: 1px solid #bfe8ff;
+    padding: 16px 20px;
+    border-radius: 12px;
+    color: #003345;
+}
+.alert-info svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #004b63;
 }
 
-.alert-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
+/* Privacy Muted Alert Variant */
+.alert-muted {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f8f9fa;
+    border: 1px solid #e1e2e5;
+    padding: 16px 20px;
+    border-radius: 12px;
+    color: #40484c;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
-
-.alert ul, .alert p {
-    margin: 0;
-    padding-left: 20px; 
-    font-size: 0.95rem;
+.alert-muted svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #71787d;
 }
-
-.alert p {
-    padding-left: 0;
+.alert-muted .alert-content strong {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #191c1e;
+    font-weight: 700;
 }
-
-
-.alert-red {
-    background-color: #fff5f5; 
-    border-color: #fecaca;     
-    color: #4a1d1d;
-}
-
-.alert-red .alert-header i {
-    color: #dc2626; 
-    font-size: 1.2rem;
-}
-
-.alert-red ul li {
-    list-style-type: disc;
-    margin-bottom: 4px;
-    color: #5f2a2a;
-}
-
-
-.alert-yellow {
-    background-color: #fffbf0; 
-    border-color: #fde68a;     
-    color: #583e0e;
-}
-
-.alert-yellow .alert-header i {
-    color: #d97706; 
-    font-size: 1.2rem;
-}
-
-.alert-yellow p {
-    color: #3b3b3b;
+.alert-muted .alert-content span {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
     line-height: 1.5;
 }
 
-
-.form-card {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 30px;
-    margin-top: 30px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-}
-
-.form-header {
-    margin-bottom: 25px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-}
-
-.form-header h3 {
-    margin: 0 0 50px 0;
-    font-size: 1.2rem;
-    color: #111;
-}
-
-.form-header p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #888;
-}
-
-
-.form-group {
-    margin-bottom: 25px;
-    position: relative; 
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #5c5858;
-    font-size: 0.95rem;
-}
-
-
-select, textarea {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #fbfdfe;
-    border-radius: 6px;
-    font-size: 1rem;
-    color: #333;
-    background-color: #f3f3f3;
-    font-family: inherit;
-    box-sizing: border-box; 
-    transition: border-color 0.2s ease;
-}
-
-select:focus, textarea:focus {
-    outline: none;
-}
-
-textarea {
-    min-height: 150px;
-    resize: vertical;
-}
-
-
-.char-count {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 0.85rem;
-    color: #999;
-}
-
-.helper-text {
-    margin-top: 6px;
-    font-size: 0.85rem;
-    color: #6b7280;
-}
-
-
-.file-upload-box {
-    border: 2px dashed #d1d5db;
-    border-radius: 8px;
-    padding: 40px 20px;
-    text-align: center;
-    background-color: #f9fafb;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.file-upload-box:hover {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-}
-
-.file-upload-box i {
-    font-size: 2rem;
-    color: #6b7280;
-    margin-bottom: 12px;
-}
-
-.file-upload-box p {
-    margin: 0 0 5px 0;
-    font-weight: 500;
-    color: #374151;
-}
-
-.file-upload-box span {
-    font-size: 0.85rem;
-    color: #9ca3af;
-}
-
-.form-actions {
+.btn-danger {
     display: flex;
-    justify-content: flex-end; 
-    gap: 15px;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #f0f0f0;
-}
-
-
-.btn {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 0.65rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
     align-items: center;
     gap: 8px;
-}
-
-
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid #d1d5db;
-    color: #000000;
-}
-
-.btn-outline:hover {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-}
-
-.btn-solid {
-    background-color: #d32f2f; 
-    border: 1px solid #d32f2f;
-    color: white;
-}
-
-.btn-solid:hover {
-    background-color: #b71c1c;
-    border-color: #b71c1c;
-}
-
-
-.footer-note {
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 20px;
-}
-
-.footer-note p {
-    color: #9ca3af;
-    font-size: 0.9rem;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-/*arrow*/
-
-.select-wrapper {
-    position: relative;
-}
-
-.select-wrapper select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding-right: 40px;
-}
-
-.select-wrapper::after {
-    content: "\f078";
-    font-family: "Font Awesome 6 Free";
+    padding: 12px 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ba1a1a 0%, #93000a 100%);
+    color: #ffffff;
+    border: none;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #555;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(147, 0, 10, 0.2);
+}
+.btn-danger:hover {
+    box-shadow: 0 6px 16px rgba(147, 0, 10, 0.3);
 }

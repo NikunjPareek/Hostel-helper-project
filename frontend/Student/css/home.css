@@ -1,453 +1,318 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color:#f7f7f7;
-    color: #333;
-} 
-.section1{
-    justify-content: space-between;
-    padding: 100px 100px;
-    padding-bottom: 200px;
-    padding-top: 70px;
-}
-.span1{
-    font-size: 17px;
-    color: rgb(220, 41, 41);
-    border: 2px solid rgb(220, 41, 41);
-    border-radius: 9px;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-.HCMS{
-    font-size: 40px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    max-width: 600px;
+/* =========================================
+   Harbor OS - Student Dashboard Styles
+========================================= */
+
+/* Use identical structural resets and base from Admin Header */
+body {
+    background-color: var(--background, #f8f9fb);
+    color: var(--on-surface, #191c1e);
 }
 
-.HCMS.para{
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #555;
-    max-width: 700px;
-    line-height: 1.6;
-}
-
-.button1{
-    padding: 12px 25px;
-    font-size: 16px;
-    margin-right: 15px;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-    background-color:rgb(220, 41, 41);
-    color: white;
-}
-.button1:hover{
-    opacity: 0.8;
-}
-
-.button2{
-    padding: 12px 25px;
-    font-size: 16px;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-    background-color:white;
-    color:black;
-    font-weight: bold;
-
-}
-.button2:hover{
-    background-color: rgb(220, 41, 41);
-    color:white;
-    opacity:0.5;
-  }
-.image1 img{
-    width: 600px;
-    height: auto;
-    float: right;
-    margin-right: 30px;
-    border-radius: 20px;
-    
-}
-/*.section2{
-    padding: 80px 100px;
-    background-color: white;
-}
-
-.Dashboard{
-    font-size: 28px;
-    margin-bottom: 30px;
-    color: black;
-    font-weight: bold;
-    padding-bottom: 20px;
-}
-
-
-.Total_complaints{
+.page-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 32px;
     display: flex;
     flex-direction: column;
-    font-size:21px;
-    color: #555;
+    gap: 32px;
 }
 
-.Resolved_complaints{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size:21px;
-    color: #555;
-}
-
-.Pending_complaints{
-    display: flex;
-    flex-direction: column;
-    float: right;
-    font-size:21px;
-    color: #555;
-}*/
-
-
-.section2 {
-    font-family: sans-serif;
-    background-color: white;
-    padding: 20px;
-    padding-bottom: 100px;
-}
-
-.Dashboard {
-    font-size: 25px;
-    padding-left: 150px;
-    margin-bottom: 30px;
-    color: #333;
-    font-weight: bold;
-}
-
-/* 3. The Container holding the 3 cards */
-/* We target the div immediately inside section2 */
-.section2 > div {
-    display: flex;
-    justify-content: center; /* <--- THIS MOVES CARDS TO THE CENTER */
-    gap: 30px; /* Increased space between cards looks better when centered */
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-}
-
-/* 4. The Card Styling */
-.section2 > div > div {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    width: 400px; /* Fixed width */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-left: 5px solid #ccc; 
-    text-align: left; /* Keeps text inside the card aligned left */
-}
-
-/* 5. Colors */
-
-/* Card 1: Total - Red */
-.section2 > div > div:nth-child(1) {
-    border-left-color: #d32f2f; 
-}
-
-/* Card 2: Resolved - Green */
-.section2 > div > div:nth-child(2) {
-    border-left-color: #388e3c; 
-}
-
-/* Card 3: Pending - Orange */
-.section2 > div > div:nth-child(3) {
-    border-left-color: #f57c00; 
-}
-
-/* 6. Typography */
-.Total_complaints, 
-.Resolved_complaints, 
-.Pending_complaints {
-    margin: 0;
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 10px;
-}
-
-.total-count, 
-.Resolved-count, 
-.Pending-count {
-    margin: 0;
-    font-size: 32px;
-    color: #333;
-}
-
-.section3{
-    padding: 30px 100px;
-}
-
-.HostelAnnouncements{
-    font-size: 28px;
-    margin-bottom: 30px;
-    color: black;
-    font-weight: bold;
-    padding-bottom: 20px;
-}
-
-.field1{
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.field1para{
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
-}
-.span2{
-    font-size: 14px;
-    color:black;
-    float: right;
-}
-
-.article1{
-    margin-bottom: 20px;
-    background-color: white;
-    padding: 24px;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;  
-}
-
-.field2{
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.filed2para{
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.span3{
-    font-size: 14px;
-    color:black;
-    float: right;
-}
-
-.article2{
-    margin-bottom: 20px;
-    background-color: white;
-    padding: 24px;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;  
-}
-
-.field3{
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.field3para{
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.span4{
-    font-size: 14px;
-    color:black;
-    float: right;
-}
-
-.article3{
-    margin-bottom: 20px;
-    background-color: white;
-    padding: 24px;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;  
-}
-
-.field4{
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.field4para{
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.span5{
-    font-size: 14px;
-    color:black;
-    float: right;
-}
-
-.article4{
-    margin-bottom: 20px;
-    background-color: white;
-    padding: 24px;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;  
-}
-
-/*.section4{
-    padding: 100px 100px;
-    background-color: white;
-    gap: 5px;
-    display: flex;
-    flex-direction:column;
-}
-
-.CommonIssuePoll{
-    font-size: 28px;
-    margin-bottom: 1px;
-    color: black;
-    font-weight: bold;
-    padding-bottom: 20px;;
-}
-
-.Pollpara{
-    font-size: 18px;
-    margin-bottom: 30px;
-    color: #555;
-    max-width: 900px;
-}
-
-.poll1{
-    margin-bottom: 30px;
-    background-color: #e6e6e6;
-    padding: 50px;
-    border-radius: 10px;
-    float: left;
-}
-
-.poll2{
-    margin-bottom: 30px;
-    background-color: #e6e6e6;
-    padding: 50px;
-    border-radius: 10px;
-    float: right;
-}
-
-.poll3{
-    margin-bottom: 30px;
-    background-color: #e6e6e6;
-    padding: 50px;
-    border-radius: 10px;
-    float: left;
-}
-
-.poll4{
-    margin-bottom: 30px;
-    background-color: #e6e6e6;
-    padding: 50px;
-    border-radius: 10px;
-}
-
-.poll5{
-    margin-bottom: 30px;
-    background-color: #e6e6e6;
-    padding: 50px;
-    border-radius: 10px;
-    float: center;
-}*/
-
-/* Main Section */
-.section4 {
-    padding: 60px 40px; /* Adjusted padding to look cleaner */
-    background-color: white;
-    font-family: sans-serif;
-}
-
-/* Header Text Styling */
-.CommonIssuePoll {
+/* Typography Hierarchy */
+.mt-8 { margin-top: 32px; }
+.section-title {
+    font-family: 'Manrope', sans-serif;
     font-size: 24px;
-    margin-bottom: 10px;
-    color: black;
-    font-weight: bold;
+    font-weight: 700;
+    color: var(--on-surface, #191c1e);
+    margin-bottom: 20px;
+}
+.section-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--on-surface-variant, #40484c);
+    margin-bottom: 20px;
 }
 
-.Pollpara {
-    font-size: 16px;
-    margin-bottom: 40px; /* Space between text and the cards */
-    color: #666;
-}
-
-/* --- THE GRID SYSTEM --- */
-.polls-grid {
+/* Hero Section */
+.hero-card {
+    background: linear-gradient(135deg, rgba(26, 5, 5, 0.85) 0%, rgba(178, 34, 34, 0.75) 100%), url('../assets/icons/University pic.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    padding: 64px 48px;
+    color: #ffffff;
     display: flex;
-    flex-wrap: wrap; /* This allows cards to drop to the next line */
-    gap: 20px; /* Space between cards */
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 12px 32px rgba(178, 34, 34, 0.15);
+    position: relative;
+    overflow: hidden;
 }
 
-/* --- SHARED CARD STYLING --- */
-/* Instead of .poll1, .poll2, we use one class */
-.poll-card {
-    background-color: white; /* Image has white cards */
-    border: 1px solid #e0e0e0; /* Subtle border like the image */
-    padding: 25px;
-    border-radius: 8px;
-    /* This calculation makes 3 cards fit perfectly (33% minus gap) */
-    width: calc(33.333% - 20px); 
-    box-sizing: border-box; /* Ensures padding doesn't break layout */
-    
-    /* Layout inside the card */
+.hero-content {
+    max-width: 650px;
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
 }
 
-/* Card Text Styling */
-.poll-card h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    color: #333;
-}
-
-.poll-card p {
-    margin: 0 0 20px 0;
-    font-size: 14px;
-    color: #777;
-    flex-grow: 1; /* Pushes content down so buttons align */
-}
-
-.status-label {
+.badge-brand {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 20px;
     font-size: 13px;
-    color: #888;
-    margin-bottom: 10px;
-    display: block;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
 }
 
-/* --- BUTTONS --- */
-.button-group {
+.hero-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 46px;
+    line-height: 1.15;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 36px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.hero-actions {
     display: flex;
-    gap: 15px;
+    gap: 16px;
 }
 
-.button-group button {
-    flex: 1; /* Makes both buttons equal width */
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+.btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
-    font-weight: 500;
-    color: #333;
+    transition: all 150ms ease;
+    border: none;
+    font-family: 'Inter', sans-serif;
 }
 
-.red:hover button{
-    background-color: rgb(220, 41, 41);
-    color: white;
+.btn-primary {
+    background: #ffffff;
+    color: #800000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.btn-primary:hover {
+    background: #f9fafb;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-.green:hover button{
-    background-color: rgb(46, 204, 113);
-    color: white;
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.4);
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.stat-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #edeef0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+.stat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: #40484c;
+    font-weight: 600;
+}
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.stat-icon svg { width: 20px; height: 20px; }
+.stat-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: #191c1e;
+}
+.stat-sub { font-size: 13px; color: #71787d; }
+
+.stat-icon.pending { background: #fff7ed; color: #c2410c; }
+.stat-icon.resolved { background: #f0fdf4; color: #15803d; }
+.stat-icon.total { background: #fef2f2; color: #800000; }
+
+
+/* Dashboard Columns */
+.dashboard-columns {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 32px;
+}
+
+/* Announcements Grid */
+.announcements-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.announcement-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #edeef0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.anc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.anc-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #191c1e;
+}
+
+.anc-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #71787d;
+}
+
+.anc-date svg { width: 14px; height: 14px; }
+
+.anc-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #40484c;
+}
+
+/* Polls Stack => Polls Grid (3x2) */
+.polls-stack {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: min-content;
+    gap: 16px;
+}
+
+.poll-item {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #edeef0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.poll-item h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.poll-item p {
+    font-size: 14px;
+    color: #71787d;
+    margin-bottom: 16px;
+}
+.poll-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.btn-poll {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #edeef0;
+    background: #f8f9fb;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #40484c;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.btn-poll:hover { background: #edeef0; }
+.btn-poll.active-facing {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+.btn-poll.active-resolved {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #15803d;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-columns { grid-template-columns: 1fr; }
+    .hero-card { padding: 48px 32px; }
+    .hero-title { font-size: 38px; }
+}
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .hero-card { padding: 40px 24px; }
+    .hero-actions { flex-direction: column; width: 100%; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .hero-title { font-size: 32px; }
+    .page-content { padding: 24px 16px; }
 }
