@@ -1,102 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anonymous Complaint | JECRC Hostel Complaint Management</title>
-    <link rel="stylesheet" href="../assets/css/common.css">
+    <title>Anonymous Report | JECRC Hostel</title>
+    <link rel="stylesheet" href="../Admin/css/header.css">
     <link rel="stylesheet" href="css/anonymous.css">
-    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="header"></div>
 
-        <div id="header"></div>
-    <main class="container">
-
-        
-        <div class="breadcrumb">
-            <span class="badge"><i class="fa-solid fa-eye-slash"></i> Anonymous Complaint</span>
-        </div>
-
-        <div class="page-header">
-            <h1>Submit Anonymous Complaint</h1>
-            <p>Your identity will remain completely anonymous. No personal information will be collected or stored with this complaint.</p>
-        </div>
-
-        <div class="alert alert-red">
-            <div class="alert-header">
-                <i class="fa-solid fa-shield-halved"></i>
-                <h3>Your Identity is Protected</h3>
-            </div>
-            <ul>
-                <li>We do NOT collect your name</li>
-                <li>We do NOT collect your room number</li>
-                <li>We do NOT collect your phone number</li>
-                <li>Your complaint cannot be traced back to you</li>
-            </ul>
-        </div>
-
-        <div class="alert alert-yellow">
-            <div class="alert-header">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <h3>Important</h3>
-            </div>
-            <p>While anonymous complaints are valued, please note that without your contact information, we cannot follow up with you directly regarding the resolution. For urgent matters requiring immediate attention, consider filing a regular complaint.</p>
-        </div>
-
-        <div class="form-card">
-            <div class="form-header">
-                <h3>Complaint Details</h3>
-                <p>All fields marked with * are required</p>
+    <main class="page-content">
+        <div class="form-wrapper">
+            <div class="page-header">
+                <span class="badge badge-locked">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Confidential
+                </span>
+                <h1 class="page-title">Submit Anonymous Report</h1>
+                <p class="page-subtitle">Your identity remains completely protected. No personal tracking mechanisms are applied to this submission.</p>
             </div>
 
-            <form id="complaintForm">
-                <div class="form-group">
-                    <label for="complaintType">Complaint Type *</label>
-                    <div class="select-wrapper">
-                        <select id="complaintType" required>
-                            <option value="" disabled selected>Select complaint category</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="cleanliness">Cleanliness</option>
-                            <option value="discipline">Discipline</option>
-                            <option value="other">Other</option>
-                        </select>
+            <!-- Privacy Guarantee Banner -->
+            <div class="privacy-banner">
+                <div class="banner-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="banner-content">
+                    <h3>Absolute Anonymity</h3>
+                    <ul>
+                        <li>No personal identities tracked</li>
+                        <li>End-to-end encryption active</li>
+                        <li>Secure pipeline to administrative desk</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert-muted mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+                <div class="alert-content">
+                    <strong>Privacy Guaranteed</strong>
+                    <span>Your connection is entirely masked. Personal fields have been disabled to ensure 100% untrackable status.</span>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <div class="alert-content">
+                    <strong>Administrative Note</strong>
+                    <span>While anonymous inputs are highly valued, we cannot follow up with you directly. For urgent issues requiring immediate response, consider a standard report.</span>
+                </div>
+            </div>
+
+            <form id="anonymousForm" class="premium-form">
+                <div class="form-section">
+                    <h3>Report Details</h3>
+                    <p class="form-hint">Fields marked with <span class="required-star">*</span> are mandatory.</p>
+
+                    <!-- Custom Select: Category -->
+                    <div class="form-group">
+                        <label>Category <span class="required-star">*</span></label>
+                        <div class="custom-select-wrapper" id="categorySelect">
+                            <div class="custom-select-trigger">
+                                <span class="selected-text">Select category</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="Maintenance">Maintenance</div>
+                                <div class="custom-option" data-value="Cleanliness">Cleanliness</div>
+                                <div class="custom-option" data-value="Discipline">Discipline</div>
+                                <div class="custom-option" data-value="Other">Other</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="categoryInput" required>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="description">Description *</label>
-                    <span class="char-count" id="charCount">0/500</span>
-                    <textarea id="description" placeholder="Describe your complaint in detail. Include specific location, time, and nature of the issue..." maxlength="500" required></textarea>
-                    <p class="helper-text">Minimum 20 characters required. Be specific but avoid including personally identifiable information if you wish to remain anonymous.</p>
-                </div>
+                    <!-- Textarea: Description -->
+                    <div class="form-group mt-4">
+                        <label>Description <span class="required-star">*</span></label>
+                        <textarea id="descriptionInput" class="premium-input" placeholder="Describe the issue in detail. Avoid including personally identifiable information..." required></textarea>
+                        <span class="help-text">Minimum 20 characters required.</span>
+                    </div>
 
-                <div class="form-group">
-                    <label>Attach Media (Optional)</label>
-                    <div class="file-upload-box" id="dropZone">
-                        <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display: none;">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                        <p>Click to upload images or videos</p>
-                        <span>Max 3 files, 10MB each. Supported: Images & Videos</span>
+                    <!-- Custom Dropzone -->
+                    <div class="form-group mt-4">
+                        <label>Attach Evidence (Optional)</label>
+                        <div class="file-dropzone" id="fileDropzone">
+                            <input type="file" id="fileInput" multiple accept="image/*,video/*">
+                            <div class="dropzone-content">
+                                <div class="drop-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                </div>
+                                <span class="drop-title">Upload evidence files</span>
+                                <span class="drop-subtitle">Images or videos up to 10MB</span>
+                            </div>
+                            <div class="file-preview-list" id="filePreviewList"></div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="btn btn-outline" id="clearBtn">Clear Form</button>
-                    <button type="submit" class="btn btn-solid"><i class="fa-solid fa-eye-slash"></i> Submit Anonymously</button>
+                    <button type="button" class="btn-ghost" id="clearBtn">Wipe Data</button>
+                    <button type="submit" class="btn-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        Submit Anonymously
+                    </button>
                 </div>
             </form>
         </div>
-
-        <div class="footer-note">
-            <p>We value your feedback. Anonymous complaints help us identify and address issues that students may hesitate to report openly.</p>
-        </div>
-
-        
-       <script src="js/anonymous.js"></script>
     </main>
+
+    <!-- UI Toast Storage -->
+    <div id="toastContainer" class="toast-container"></div>
+
     <div id="footer"></div>
+    <script src="js/anonymous.js"></script>
 </body>
 </html>
-

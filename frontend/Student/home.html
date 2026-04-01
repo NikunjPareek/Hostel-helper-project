@@ -1,160 +1,71 @@
-<!doctype html>
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home | JECRC Hostel Complaint Management </title>
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="../Student/css/home.css">
-    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
-    </head>
-    <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | JECRC Hostel</title>
+    <link rel="stylesheet" href="../Admin/css/header.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header"></div>
 
-      <div id="header"></div>
-
-      <main>
-        <section class="section1">
-          <div>
-          <span class="span1">Student Portal</span>
-          <div class="image1">
-          <img src="..\assets\icons\University pic.png" alt="JU-Logo.png">
-          </div>
-          <h2 class="HCMS">Hostel Complaint Management System</h2>
-          <p class="HCMS para">Submit and track your hostel complaints easily.We are committed to resolve your concersns and make your hostel experience better at JECRC University</p>
-          <button class="button1" onclick="window.location.href='complaint.html'">Register Complaint</button>
-          <button class="button2" onclick="window.location.href='complaint_history.html'">View My Complaints</button>
-          </div>
+    <main class="page-content">
+        <!-- Hero Section -->
+        <section class="hero-card">
+            <div class="hero-content">
+                <span class="badge badge-brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 13.29-3.33-10a.42.42 0 0 0-.14-.18.38.38 0 0 0-.22-.11.39.39 0 0 0-.23.07.42.42 0 0 0-.14.18l-2.26 6.67H8.32L6.1 3.26a.42.42 0 0 0-.1-.18.38.38 0 0 0-.26-.1.39.39 0 0 0-.23.07.42.42 0 0 0-.14.18L2 13.29a.74.74 0 0 0 .27.83L12 21l9.69-6.86a.71.71 0 0 0 .31-.85Z"/></svg>
+                    Student Portal
+                </span>
+                <h1 class="hero-title">Welcome to JECRC Hostel</h1>
+                <p class="hero-desc">Submit and track your hostel requests easily. We are committed to resolving your concerns and maintaining an exceptional living experience.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="window.location.href='complaint.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                        Register Issue
+                    </button>
+                    <button class="btn-secondary" onclick="window.location.href='complaint_history.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        View History
+                    </button>
+                </div>
+            </div>
         </section>
 
-                        
-        <section class="section2">
-          <h3 class="Dashboard">Dashboard Summary</h3>
-          <div>
-            <div>
-              <p class="Total_complaints">Toatal Compalints</p>
-              <h4 class="total-count">0</h4>
+        <!-- High-End Stats Grid -->
+        <section class="dashboard-section mt-8">
+            <h2 class="section-title">Overview</h2>
+            <div class="stats-grid" id="statsGrid">
+                <!-- Rendered by home.js -->
             </div>
-            <div>
-              <p class="Resolved_complaints">Resolved Complaints</p>
-              <h4 class="Resolved-count">0</h4>
-            </div>
-            <div>
-              <p class="Pending_complaints">Pending Complaints</p>
-              <h4 class="Pending-count">0</h4>
-            </div>
-          </div>
         </section>
 
-
-        <section class="section3">
-          <h3 class="HostelAnnouncements">Hostel Announcements</h3>
-          <article class="article1">
-            <h4 class="field1">Mess menu updated</h4>
-            <p class="field1para">The mess menu has been updated in accordance to the feedback received from students.
-            </p>
-            <span class="span2">15 Jan 2025</span>
-          </article>
-          <article class="article2">
-            <h4 class="field2">Water Supply Maintenance</h4>
-            <p class="field2para">There will be a water supply maintenance on 15th February 2025 from 10:00 AM to 2:00 PM.</p>
-            <span class="span3">11 Apr 2025</span>
-          </article>
-
-          <article class="article3">
-            <h4 class="field3">WiFi Upgrade</h4>
-            <p class="field3para">The hostel WiFi network is being upgraded to provide better connectivity. Expect intermittent outages on 20th March 2025.</p>
-            <span class="span4">05 Mar 2025</span>
-          </article>
-
-          <article class="article4">
-            <h4 class="field4">Hostel Inspection</h4>
-            <p class="field4para">A routine hostel inspection will be conducted on 25th March 2025. Please ensure your rooms are tidy and adhere to hostel rules.</p>
-            <span class="span5">10 Mar 2025</span> 
-          </article>
-        </section>
-
-
-<section class="section4">
-    <h3 class="CommonIssuePoll">Common Issues Poll</h3>
-    <p class="Pollpara">Help us understand which issues are affecting you. Select your current status for each issue.</p>
-
-    <div class="polls-grid">
-
-        <div class="poll-card">
-            <h3>Mess food quality</h3>
-            <p>Quality and taste of food served in mess</p>
-            <span class="status-label">What is the status of this issue for you?</span>
-            <div class="button-group">
-              <div class="red">
-                <button>Facing Issue</button>
+        <!-- Two Column Layout -->
+        <div class="dashboard-columns mt-8">
+            <!-- Left: Announcements -->
+            <section class="dashboard-section">
+                <h2 class="section-title">Hostel Announcements</h2>
+                <div class="announcements-grid" id="announcementsList">
+                    <!-- Rendered by home.js -->
                 </div>
-                 <div class="green">
-                <button>Resolved</button>
+            </section>
+
+            <!-- Right: Polls -->
+            <section class="dashboard-section">
+                <div class="section-title-row">
+                    <h2 class="section-title">Common Issues Poll</h2>
+                    <p class="section-subtitle">Help us prioritize maintenance</p>
                 </div>
-            </div>
+                <div class="polls-stack" id="pollsContainer">
+                    <!-- Rendered by home.js -->
+                </div>
+            </section>
         </div>
+    </main>
 
-        <div class="poll-card">
-            <h3>Water supply problem</h3>
-            <p>Irregular water supply or low pressure</p>
-            <span class="status-label">What is the status of this issue for you?</span>
-            <div class="button-group">
-              <div class="red">
-                <button>Facing Issue</button>
-                </div>
-                 <div class="green">
-                <button>Resolved</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="poll-card">
-            <h3>Electricity issue</h3>
-            <p>Power cuts, voltage fluctuations</p>
-            <span class="status-label">What is the status of this issue for you?</span>
-            <div class="button-group">
-              <div class="red">
-                <button>Facing Issue</button>
-                </div>
-                 <div class="green">
-                <button>Resolved</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="poll-card">
-            <h3>Room cleanliness</h3>
-            <p>Cleaning staff service and hygiene</p>
-            <span class="status-label">What is the status of this issue for you?</span>
-            <div class="button-group">
-              <div class="red">
-                <button>Facing Issue</button>
-                </div>
-                 <div class="green">
-                <button>Resolved</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="poll-card">
-            <h3>Internet / WiFi issue</h3>
-            <p>Slow internet or connectivity problems</p>
-            <span class="status-label">What is the status of this issue for you?</span>
-            <div class="button-group">
-              <div class="red">
-                <button>Facing Issue</button>
-                </div>
-                 <div class="green">
-                <button>Resolved</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-      </main>
-
-      <div id="footer"></div>
-      <script src="js/home.js"></script>
-      
-    </body>
-    </html>
+    <div id="footer"></div>
+    <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,115 +1,225 @@
-<!doctype html>
-<html lang="en"> 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register Complaint | JECRC Hostel Complaint Management </title>
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="../Student/css/complaint.css">
-    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
-    </head>
-    <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Complaint | JECRC Hostel</title>
+    <link rel="stylesheet" href="../Admin/css/header.css">
+    <link rel="stylesheet" href="css/complaint.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header"></div>
 
-      <div id="header"></div>
-<div class="container">
-
-    <!-- Page Title -->
-    <div class="page-title">
-        <span class="badge">Register Complaint</span>
-        <h1>Submit Your Complaint</h1>
-        <p>
-            Fill out the form below to register your hostel-related complaint.
-            Your identity will be shared with the hostel administration.
-        </p>
-    </div>
-
-    <!-- Important Notice -->
-    <div class="notice">
-        <strong>Important Notice</strong>
-        <small>
-            Filing false or misleading complaints is a violation of university rules
-            and may result in disciplinary action. Please ensure all information
-            provided is accurate.
-        </small>
-    </div>
-
-    <!-- Complaint Form -->
-    <form class="complaint-form">
-
-        <h3>Complaint Details</h3>
-        <small>All fields marked with <span>*</span> are required</small>
-
-        <!-- Complaint Type -->
-        <div class="form-group">
-            <label for="complaintType">Complaint Type <span>*</span></label>
-            <select id="complaintType" required>
-                <option value="" disabled selected>Select complaint category</option>
-                <option value="Electricity Issue">Electricity Issue</option>
-                <option value="Water Problem">Water Problem</option>
-                <option value="Cleanliness">Cleanliness</option>
-                <option value="Internet Issue">Internet Issue</option>
-                <option value="Food Related">Food Related</option>
-                <option value="Vending Machine">Vending Machine</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group">
-            <label for="description">Description <span>*</span></label>
-            <textarea id="description" maxlength="500" required
-                placeholder="Describe your complaint in detail. Include specific location, time, and nature of the issue..."></textarea>
-            <div class="hint">
-                Minimum 20 characters required. Be specific and include relevant details.
+    <main class="page-content">
+        <div class="form-wrapper">
+            <div class="page-header">
+                <span class="badge badge-error">Operations</span>
+                <h1 class="page-title">Register an Issue</h1>
+                <p class="page-subtitle">Submit a detailed report to our maintenance and concierge team. Accurate details ensure a swift resolution.</p>
             </div>
-        </div>
 
-        <!-- Media Upload -->
-        <div class="form-group">
-            <label>Attach Media (Optional)</label>
-            <div class="upload-box">
-                <input type="file" multiple accept="image/*,video/*">
-                <p>Click to upload images or videos</p>
-                <small>Max 3 files, 10MB each</small>
+            <div class="alert alert-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <div class="alert-content">
+                    <strong>Important Notice</strong>
+                    <span>Filing false or misleading reports is a violation of JECRC Hostel guidelines.</span>
+                </div>
             </div>
+
+            <form id="complaintForm" class="premium-form">
+                <div class="form-section">
+                    <h3>Issue Details</h3>
+                    <p class="form-hint">Fields marked with <span class="required-star">*</span> are mandatory.</p>
+
+                    <!-- Custom Select: Complaint Type -->
+                    <div class="form-group">
+                        <label>Category <span class="required-star">*</span></label>
+                        <div class="custom-select-wrapper" id="categorySelect">
+                            <div class="custom-select-trigger">
+                                <span class="selected-text">Select issue category</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option" data-value="Electricity">Electricity</div>
+                                <div class="custom-option" data-value="Water">Water Supply</div>
+                                <div class="custom-option" data-value="Cleanliness">Cleanliness</div>
+                                <div class="custom-option" data-value="Internet">Internet/WiFi</div>
+                                <div class="custom-option" data-value="Food">Food/Mess</div>
+                                <div class="custom-option" data-value="Other">Other</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="categoryInput" required>
+                    </div>
+
+                    <!-- Textarea: Description -->
+                    <div class="form-group mt-4">
+                        <label>Description <span class="required-star">*</span></label>
+                        <textarea id="descriptionInput" class="premium-input" placeholder="Provide specific details about location, time, and the nature of your issue..." required></textarea>
+                        <span class="help-text">Minimum 20 characters required.</span>
+                    </div>
+
+                    <!-- Custom Media Dropzone -->
+                    <div class="form-group mt-4">
+                        <label>Attachments (Optional)</label>
+                        <div class="file-dropzone" id="fileDropzone">
+                            <input type="file" id="fileInput" multiple accept="image/*,video/*">
+                            <div class="dropzone-content">
+                                <div class="drop-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                </div>
+                                <span class="drop-title">Click or drag files to upload</span>
+                                <span class="drop-subtitle">Maximum 3 files (PNG, JPG) up to 10MB each</span>
+                            </div>
+                            <div class="file-preview-list" id="filePreviewList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section divider-top">
+                    <h3>Residence Profile</h3>
+                    
+                    <!-- Row 1: Hostel Type + Block (dependent) -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Hostel Type <span class="required-star">*</span></label>
+                            <div class="custom-select-wrapper" id="hostelTypeSelect">
+                                <div class="custom-select-trigger">
+                                    <span class="selected-text">Select hostel type</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                                </div>
+                                <div class="custom-options">
+                                    <div class="custom-option" data-value="boys">Boy's Hostel</div>
+                                    <div class="custom-option" data-value="girls">Girl's Hostel</div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="hostelTypeInput">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Block <span class="required-star">*</span></label>
+                            <div class="custom-select-wrapper" id="hostelBlockSelect">
+                                <div class="custom-select-trigger">
+                                    <span class="selected-text">Select block</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                                </div>
+                                <div class="custom-options" id="blockOptions">
+                                    <!-- populated dynamically -->
+                                </div>
+                            </div>
+                            <input type="hidden" id="hostelBlockInput">
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Room Number -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Room Number <span class="required-star">*</span></label>
+                            <input type="text" id="roomInput" class="premium-input" placeholder="e.g. 402-B" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-ghost" id="clearBtn">Clear Form</button>
+                    <button type="submit" class="btn-primary">
+                        Submit Report
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </button>
+                </div>
+            </form>
         </div>
-        
-        <div class="form-group">
-            <label for="Hostel-info">Hostel Information <span>*</span></label>
-            <small class="hostel-helper">
-                 Please provide details about your hostel and room to help us address your complaint more efficiently.
-            </small>
+    </main>
 
-            <select id="Hostel-info" required>
-            <option value="" disabled selected>Select your hostel number</option>
-            <option value="BH1">BH1</option>
-            <option value="BH2">BH2</option>
-            <option value="BH3">BH3</option>
-            <option value="Girls hostel">Girls hostel</option>
-            </select>
+    <!-- UI Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <div id="footer"></div>
+
+    <!-- ═══════════════════════════════════════════════
+         SUCCESS MODAL — Complaint Receipt
+    ════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="successModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-box" id="successModalBox">
+
+            <!-- Green Header -->
+            <div class="modal-header-success">
+                <div class="modal-check-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="modal-title" id="modalTitle">Complaint Submitted Successfully!</h2>
+                    <p class="modal-subtitle">Your report has been logged and forwarded to the administration.</p>
+                </div>
+            </div>
+
+            <!-- Receipt Data Block -->
+            <div class="receipt-block">
+                <div class="receipt-row">
+                    <span class="receipt-label">Reference ID</span>
+                    <span class="receipt-value receipt-id" id="receiptId">—</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Category</span>
+                    <span class="receipt-value" id="receiptCategory">—</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Status</span>
+                    <span class="receipt-value"><span class="badge-submitted">Submitted</span></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Submitted On</span>
+                    <span class="receipt-value" id="receiptDate">—</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Hostel / Block</span>
+                    <span class="receipt-value" id="receiptHostel">—</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Room</span>
+                    <span class="receipt-value" id="receiptRoom">—</span>
+                </div>
+            </div>
+
+            <!-- Description Block -->
+            <div class="modal-desc-block">
+                <p class="modal-desc-label">Description</p>
+                <p class="modal-desc-text" id="receiptDesc">—</p>
+            </div>
+
+            <!-- Student Info Block -->
+            <div class="student-info-block">
+                <p class="modal-desc-label">Submitted By</p>
+                <div class="student-info-row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span id="receiptStudent">—</span>
+                </div>
+            </div>
+
+            <!-- Action Row -->
+            <div class="modal-action-row">
+                <button class="btn-modal-neutral" id="modalPrintBtn" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    Print Receipt
+                </button>
+                <button class="btn-modal-ghost" id="modalAnotherBtn" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Submit Another
+                </button>
+                <button class="btn-modal-primary" id="modalViewAllBtn" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    View All Complaints
+                </button>
+            </div>
 
         </div>
+    </div>
+    <!-- ═══════════════════════════════════════════════ -->
 
-
-        <!-- User Info -->
-        <h3>Your Information</h3>
-        
-        <div class="info-grid">
-            <input type="text" placeholder="Name">
-            <input type="text" placeholder="Room Number">
-            <input type="text" placeholder="Phone">
-        </div>
-
-        <!-- Buttons -->
-        <div class="form-actions">
-            <button type="reset" class="btn-clear">Clear Form</button>
-            <button type="submit" class="btn-submit">Submit Complaint</button>
-        </div>
-
-    </form>
-
-</div>
-      <div id="footer"></div>
-      <script src="js/home.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/complaint.js"></script>
 </body>
 </html>

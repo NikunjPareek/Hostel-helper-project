@@ -1,23 +1,69 @@
-<header class="student-header">
-  <div class="header-left">
-    <div class="student-logo">J</div>
-    <div class="header-brand">
-      <span class="brand-name">JECRC HOSTEL</span>
-      <span class="brand-sub">University Jaipur</span>
+<header class="admin-header">
+  <div class="header-container">
+    <div class="header-left">
+      <div class="admin-logo">
+        <img src="../assets/jecrc logo only transparent.png" alt="JECRC Logo">
+      </div>
+      <div class="header-brand">
+        <span class="brand-name">JECRC HOSTEL</span>
+        <span class="brand-sub">University Jaipur</span>
+      </div>
+      <span class="admin-badge">STUDENT PORTAL</span>
     </div>
-    <span class="student-badge">STUDENT PANEL</span>
-  </div>
-  <nav class="header-nav">
-    <a href="home.html"             class="nav-link" data-page="home.html">Home</a>
-    <a href="complaint.html"        class="nav-link" data-page="complaint.html">Register Complaint</a>
-    <a href="anonymous.html"        class="nav-link" data-page="anonymous.html">Anonymous Complaint</a>
-    <a href="complaint_history.html" class="nav-link" data-page="complaint_history.html">My Complaints</a>
-  </nav>
-  <div class="header-right" style="display:flex; align-items:center; gap: 15px;">
-    <div style="text-align:right;">
-      <span id="studentName" style="display:block; font-size:13px; font-weight:700; color:#333;">Student</span>
-      <span id="studentRoom" style="display:block; font-size:11px; color:#888;">Room: ---</span>
+
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+
+    <nav class="header-nav" id="studentHeaderNav">
+      <!-- Home -->
+      <a href="home.html" class="nav-link" data-page="home.html">
+        <span class="material-symbols-outlined">home</span>
+        Home
+      </a>
+      <!-- Register Complaint -->
+      <a href="complaint.html" class="nav-link" data-page="complaint.html">
+        <span class="material-symbols-outlined">edit_document</span>
+        Register Complaint
+      </a>
+      <!-- Anonymous Complaint -->
+      <a href="anonymous.html" class="nav-link" data-page="anonymous.html">
+        <span class="material-symbols-outlined">visibility_off</span>
+        Anonymous Complaint
+      </a>
+      <!-- My Complaints -->
+      <a href="complaint_history.html" class="nav-link" data-page="complaint_history.html">
+        <span class="material-symbols-outlined">history</span>
+        My Complaints
+      </a>
+    </nav>
+    
+    <div class="header-right">
+      <button class="logout-btn" onclick="handleStudentLogout()">Logout</button>
     </div>
-    <button class="logout-btn" onclick="handleStudentLogout()">Logout</button>
   </div>
 </header>
+
+<script>
+  (function() {
+    // Dynamically assign .active to the correct nav link based on current URL
+    const path = window.location.pathname.split("/").pop() || "home.html";
+    const links = document.querySelectorAll("#studentHeaderNav .nav-link");
+    links.forEach(link => {
+      if (link.getAttribute("data-page") === path) {
+        link.classList.add("active");
+      } else {
+        link.classList.remove("active");
+      }
+    });
+
+    // Mobile Toggle Bindings
+    const mobileToggle = document.getElementById("mobileToggle");
+    const headerNav = document.getElementById("studentHeaderNav");
+    if (mobileToggle && headerNav) {
+      mobileToggle.addEventListener("click", () => {
+        headerNav.classList.toggle("active");
+      });
+    }
+  })();
+</script>
