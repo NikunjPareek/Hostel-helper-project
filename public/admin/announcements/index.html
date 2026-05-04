@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements | JECRC Hostel Admin</title>
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/announcements.css">
+  <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+</head>
+<body>
+  
+  <!-- Header -->
+  <div id="header"></div>
+
+  <!-- Main Content -->
+  <main class="page-content">
+    
+    <!-- Page Header -->
+    <div class="page-title-row">
+      <div>
+        <h1>Announcements</h1>
+        <p>Post and manage hostel notices</p>
+      </div>
+      <button class="btn-new-announcement" id="newAnnouncementBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        New Announcement
+      </button>
+    </div>
+
+    <!-- Announcements List -->
+    <div class="announcements-list" id="announcementsList">
+      <!-- Announcement cards will be dynamically inserted here -->
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <p class="empty-title">No announcements yet</p>
+      <p class="empty-subtitle">Click "New Announcement" to create one</p>
+    </div>
+
+  </main>
+
+  <!-- New Announcement Modal -->
+  <div class="modal-overlay" id="announcementModal">
+    <div class="modal-box">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div>
+          <h2>Post New Announcement</h2>
+          <p class="modal-subtitle">This will be visible to all students on the hostel portal</p>
+        </div>
+        <button class="modal-close" id="closeAnnouncementModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Content -->
+      <form class="modal-content" id="announcementForm">
+        
+        <!-- Title -->
+        <div class="form-field">
+          <label class="field-label">Title *</label>
+          <input 
+            type="text" 
+            class="field-input" 
+            id="announcementTitle"
+            placeholder="Announcement title"
+            required
+          >
+        </div>
+
+        <!-- Category and Priority -->
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">Category</label>
+            <div class="custom-select-wrapper" id="categorySelectWrapper">
+              <div class="custom-select" tabindex="0">
+                <span class="selected-text">General</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              <ul class="custom-options">
+                <li data-value="General" class="selected">General <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Maintenance">Maintenance <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Mess">Mess <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Infrastructure">Infrastructure <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Events">Events <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="Rules">Rules & Regulations <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+              </ul>
+              <input type="hidden" id="announcementCategory" value="General">
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Priority</label>
+            <div class="custom-select-wrapper" id="prioritySelectWrapper">
+              <div class="custom-select" tabindex="0">
+                <span class="selected-text">Normal</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+              <ul class="custom-options">
+                <li data-value="Normal" class="selected">Normal <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+                <li data-value="High">High <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+              </ul>
+              <input type="hidden" id="announcementPriority" value="Normal">
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="form-field">
+          <label class="field-label">Content *</label>
+          <textarea 
+            class="field-textarea" 
+            id="announcementContent"
+            placeholder="Write your announcement content..."
+            rows="5"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelAnnouncementBtn">Cancel</button>
+          <button type="submit" class="btn-submit">Post Announcement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-box modal-box-small">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div>
+          <h2>Delete Announcement</h2>
+          <p class="modal-subtitle" id="deleteMessage">Are you sure you want to delete this announcement?</p>
+        </div>
+        <button class="modal-close" id="closeDeleteModal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn-delete" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+
+  
+  <!-- Scripts -->
+  <script src="js/header.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/announcements.js"></script>
+</body>
+</html>

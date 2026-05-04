@@ -1,0 +1,134 @@
+/* Reset */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background:#F8FAFC;
+}
+
+/* Background pattern */
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+opacity:0.05;
+background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23B22222'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM36 4V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+z-index:-1;
+}
+
+/* Layout */
+.page-wrapper{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+/* Header */
+.login-header{
+text-align:center;
+margin-bottom:30px;
+}
+
+.logo-box img{
+width:380px;
+height:140px;
+}
+
+.login-header h1{
+font-size:26px;
+font-weight:700;
+color:#0f172a;
+}
+
+/* Card */
+.login-card{
+width:100%;
+max-width:420px;
+background:white;
+padding:28px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+box-shadow:0 12px 24px rgba(0,0,0,0.08);
+}
+
+/* Form */
+.form-field{
+margin-bottom:20px;
+}
+
+.form-field label{
+font-size:11px;
+font-weight:600;
+color:#64748b;
+letter-spacing:1px;
+display:block;
+margin-bottom:6px;
+}
+
+/* Input group */
+.input-group{
+position:relative;
+}
+
+.input-icon{
+position:absolute;
+left:12px;
+top:50%;
+transform:translateY(-50%);
+color:#94a3b8;
+display:flex;
+}
+
+/* Inputs */
+.input-group input{
+width:100%;
+height:42px;
+padding-left:38px;
+padding-right:12px;
+border:1px solid #cbd5e1;
+border-radius:6px;
+font-size:14px;
+outline:none;
+transition:all 0.2s;
+}
+
+.input-group input:focus{
+border-color:#B22222;
+box-shadow:0 0 0 2px rgba(178,34,34,0.15);
+}
+
+/* Button */
+.submit-btn{
+width:100%;
+height:42px;
+background:#B22222;
+color:white;
+border:none;
+border-radius:6px;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+transition:background 0.2s;
+}
+
+.submit-btn:hover{
+background:#8B1A1A;
+}
+
+/* Error */
+.form-error{
+font-size:13px;
+color:#B22222;
+margin-bottom:10px;
+display:none;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | JECRC Hostel</title>
+    <link rel="stylesheet" href="../Admin/css/header.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="page-content">
+        <!-- Hero Section -->
+        <section class="hero-card">
+            <div class="hero-content">
+                <span class="badge badge-brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 13.29-3.33-10a.42.42 0 0 0-.14-.18.38.38 0 0 0-.22-.11.39.39 0 0 0-.23.07.42.42 0 0 0-.14.18l-2.26 6.67H8.32L6.1 3.26a.42.42 0 0 0-.1-.18.38.38 0 0 0-.26-.1.39.39 0 0 0-.23.07.42.42 0 0 0-.14.18L2 13.29a.74.74 0 0 0 .27.83L12 21l9.69-6.86a.71.71 0 0 0 .31-.85Z"/></svg>
+                    Student Portal
+                </span>
+                <h1 class="hero-title">Welcome to JECRC Hostel</h1>
+                <p class="hero-desc">Submit and track your hostel requests easily. We are committed to resolving your concerns and maintaining an exceptional living experience.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="window.location.href='complaint.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                        Register Issue
+                    </button>
+                    <button class="btn-secondary" onclick="window.location.href='complaint_history.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        View History
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- High-End Stats Grid -->
+        <section class="dashboard-section mt-8">
+            <h2 class="section-title">Overview</h2>
+            <div class="stats-grid" id="statsGrid">
+                <!-- Rendered by home.js -->
+            </div>
+        </section>
+
+        <!-- Two Column Layout -->
+        <div class="dashboard-columns mt-8">
+            <!-- Left: Announcements -->
+            <section class="dashboard-section">
+                <h2 class="section-title">Hostel Announcements</h2>
+                <div class="announcements-grid" id="announcementsList">
+                    <!-- Rendered by home.js -->
+                </div>
+            </section>
+
+            <!-- Right: Polls -->
+            <section class="dashboard-section">
+                <div class="section-title-row">
+                    <h2 class="section-title">Common Issues Poll</h2>
+                    <p class="section-subtitle">Help us prioritize maintenance</p>
+                </div>
+                <div class="polls-stack" id="pollsContainer">
+                    <!-- Rendered by home.js -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="js/home.js"></script>
+</body>
+</html>
