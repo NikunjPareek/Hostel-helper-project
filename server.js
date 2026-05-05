@@ -18,6 +18,11 @@ app.use(express.urlencoded({ extended: false }));
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Root route
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
 // API Routes
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/users', require('./src/routes/users'));
