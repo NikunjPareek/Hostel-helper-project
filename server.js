@@ -23,6 +23,10 @@ app.get('/', (req, res) => {
     res.redirect('/login');
 });
 
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end();
+});
+
 // API Routes
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/users', require('./src/routes/users'));

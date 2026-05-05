@@ -97,8 +97,10 @@ async function seed() {
         await Poll.deleteMany({});
         console.log('Cleared existing data');
 
-        // Insert users (password hashing happens via pre-save hook)
-        await User.insertMany([...students, ...admins]);
+        // Insert users with create() so the password hashing hook runs.
+        for (const user of [...students, ...admins]) {
+            await User.create(user);
+        }
         console.log(`Seeded ${students.length} students + ${admins.length} admins`);
 
         // Insert announcements
