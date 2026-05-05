@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,9 +85,25 @@
 
             </div>
 
+            <!-- Role Selector -->
+            <div class="form-field">
+                <label>LOGIN AS</label>
+                <div class="role-toggle">
+                    <button type="button" class="role-btn active" id="roleStudent" data-role="student">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                        Student
+                    </button>
+                    <button type="button" class="role-btn" id="roleAdmin" data-role="admin">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><path d="m9 11 2 2 4-4"/></svg>
+                        Admin
+                    </button>
+                </div>
+                <input type="hidden" id="selectedRole" value="student">
+            </div>
+
             <p id="formError" class="form-error"></p>
 
-            <button class="submit-btn" type="submit">
+            <button class="submit-btn" type="submit" id="signInBtn">
                 Sign In
             </button>
 
@@ -96,6 +113,7 @@
 
 </div>
 
+<script src="../js/api.js"></script>
 <script src="login.js"></script>
 
 </body>

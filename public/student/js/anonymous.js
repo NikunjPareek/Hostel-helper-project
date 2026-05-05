@@ -2,9 +2,8 @@
    Harbor OS - Anonymous Routing Logic
 ========================================= */
 
-if (localStorage.getItem("studentLoggedIn") !== "true") {
-    window.location.href = "../Login/login.html";
-}
+const currentUser = authGuard('student');
+
 
 document.addEventListener("DOMContentLoaded", () => {
     fetch("header.html").then(res => res.text()).then(data => {
@@ -114,23 +113,18 @@ function initAnonymousEngine() {
         if (!category) { showToast("Please select an issue category.", "error"); return; }
         if (description.trim().length < 20) { showToast("Description must be at least 20 characters.", "error"); return; }
 
-        let complaints = JSON.parse(localStorage.getItem("anonymousState")) || [];
-        const dateStr = new Date().toISOString().split('T')[0].replace(/-/g, '');
-        const id = `ANO-${dateStr}-${String(Math.floor(Math.random()*10000)).padStart(4, '0')}`;
+        const submitBtn = form.querySelector('[type="submit"]');
+        if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
 
-        const payload = {
-            id: id,
-            category: category,
-            content: description,
-            date: new Date().toLocaleDateString('en-GB'),
-            status: 'Submitted'
-        };
-
-        complaints.unshift(payload);
-        localStorage.setItem("anonymousState", JSON.stringify(complaints));
-
-        showToast("Anonymous report submitted securely.", "success");
-        setTimeout(() => { window.location.href = "home.html"; }, 1500);
+        apiCall('POST', '/api/feedback', { category, content: description })
+            .then(() => {
+                showToast("Anonymous report submitted securely.", "success");
+                setTimeout(() => { window.location.href = "/student/home"; }, 1500);
+            })
+            .catch(err => {
+                if (submitBtn) { submitBtn.textContent = 'Submit Report'; submitBtn.disabled = false; }
+                showToast(err.message || 'Failed to submit. Try again.', 'error');
+            });
     });
 }
 
@@ -147,8 +141,4 @@ function showToast(message, type = "success") {
     setTimeout(() => { toast.style.animation = "fadeOut 0.3s forwards"; setTimeout(() => toast.remove(), 300); }, 4000);
 }
 
-function handleStudentLogout() {
-    localStorage.removeItem("studentLoggedIn");
-    localStorage.removeItem("loggedInAs");
-    window.location.href = "../Login/login.html";
-}
+// handleStudentLogout handled by shared handleLogout() in api.js

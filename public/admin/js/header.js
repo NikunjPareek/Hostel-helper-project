@@ -37,19 +37,23 @@ function setActiveNavLink() {
   });
 }
 
-function handleLogout() {
-  localStorage.removeItem("adminLoggedIn");
-  localStorage.removeItem("loggedInAs");
-  window.location.href = "../Login/login.html";
-}
-
-function checkAdminAuth() {
-  if (localStorage.getItem("adminLoggedIn") !== "true") {
-    window.location.href = "../Login/login.html";
+function handleAdminLogout() {
+  // Delegates to shared handleLogout() from api.js
+  if (typeof handleLogout === 'function') {
+    handleLogout();
+  } else {
+    localStorage.removeItem('hh_token');
+    localStorage.removeItem('hh_user');
+    window.location.href = '/login';
   }
 }
 
+function checkAdminAuth() {
+  // Auth now handled by authGuard() in api.js on each page
+  // Keep this as no-op for backward compatibility
+}
+
 document.addEventListener("DOMContentLoaded", function(){
-  checkAdminAuth();
+  // Auth is handled by authGuard() in api.js
   loadAdminHeader();
 });

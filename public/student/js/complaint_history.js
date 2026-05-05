@@ -2,9 +2,8 @@
    Harbor OS - Complaint History Render Logic
 ========================================= */
 
-if (localStorage.getItem("studentLoggedIn") !== "true") {
-    window.location.href = "../Login/login.html";
-}
+const currentUser = authGuard('student');
+
 
 let activeFilter = "All";
 
@@ -48,11 +47,18 @@ function initCustomSelect() {
     });
 }
 
-function renderHistory() {
+async function renderHistory() {
     const grid = document.getElementById('historyGrid');
-    const rawComplaints = JSON.parse(localStorage.getItem('complaints')) || [];
     
-    // Filter matching active filter
+    let rawComplaints = [];
+    try {
+        rawComplaints = await apiCall('GET', '/api/complaints/my');
+    } catch (err) {
+        grid.innerHTML = '<p style="color:#64748b;text-align:center;padding:32px">Could not load complaints. Please try again.</p>';
+        return;
+    }
+    
+    // Use API date field
     const filtered = activeFilter === "All" 
         ? rawComplaints 
         : rawComplaints.filter(c => c.status === activeFilter);
@@ -86,8 +92,8 @@ function renderHistory() {
             <div class="history-card">
                 <div class="hc-header">
                     <div>
-                        <div class="hc-id">#${complaint.id}</div>
-                        <div class="hc-title">${complaint.type}</div>
+                        <div class="hc-id">#${complaint.complaintId}</div>
+                        <div class="hc-title">${complaint.category}</div>
                     </div>
                     <span class="hc-status ${statusBadgeStyle}">
                         ${statusIcon}
@@ -98,7 +104,7 @@ function renderHistory() {
                 <div class="hc-footer">
                     <div class="hc-meta">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                        ${complaint.date}
+                        ${formatDate(complaint.createdAt)}
                     </div>
                     <div class="hc-meta">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg>
@@ -110,8 +116,4 @@ function renderHistory() {
     }).join('');
 }
 
-function handleStudentLogout() {
-    localStorage.removeItem("studentLoggedIn");
-    localStorage.removeItem("loggedInAs");
-    window.location.href = "../Login/login.html";
-}
+// handleStudentLogout handled by shared handleLogout() in api.js

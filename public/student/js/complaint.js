@@ -4,9 +4,7 @@
 ========================================= */
 
 // ── Auth Guard ─────────────────────────────────────────────────────────────
-if (localStorage.getItem("studentLoggedIn") !== "true") {
-    window.location.href = "../Login/login.html";
-}
+const currentUser = authGuard('student');
 
 // ── Bootstrap ──────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
@@ -231,29 +229,40 @@ function initFormEngine() {
         if (!roomNo.trim())                { showToast("Please enter your room number.", "error"); return; }
 
         // Build complaint payload
-        let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
-        const dateStr  = new Date().toISOString().split("T")[0].replace(/-/g, "");
-        const complaintID = `CPL-${dateStr}-${String(complaints.length + 1).padStart(4, "0")}`;
-        const studentName = localStorage.getItem("loggedInAs") || "Student";
         const hostelLabel = (hostelType === "boys" ? "Boy's Hostel" : "Girl's Hostel") + " / " + hostelBlock;
 
-        const payload = {
-            id:          complaintID,
-            type:        category,
-            student:     studentName,
-            hostel:      hostelLabel,
-            room:        roomNo,
-            description: description,
-            date:        new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }),
-            time:        new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
-            status:      "Submitted"
-        };
+        // Show loading state
+        const submitBtn = form.querySelector('[type="submit"]');
+        if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
 
-        complaints.unshift(payload);
-        localStorage.setItem("complaints", JSON.stringify(complaints));
+        apiCall('POST', '/api/complaints', {
+            hostel: hostelLabel,
+            block: hostelBlock,
+            room: roomNo,
+            category: category,
+            description: description
+        }).then(complaint => {
+            if (submitBtn) { submitBtn.textContent = 'Submit Issue'; submitBtn.disabled = false; }
 
-        // TASK 2: Open success modal instead of redirect
-        openSuccessModal(payload);
+            // Build modal-compatible payload from API response
+            const payload = {
+                id:          complaint.complaintId,
+                type:        complaint.category,
+                student:     complaint.studentName,
+                hostel:      complaint.hostel,
+                room:        complaint.room,
+                description: complaint.description,
+                date:        new Date(complaint.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+                time:        new Date(complaint.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+                status:      complaint.status
+            };
+
+            // TASK 2: Open success modal
+            openSuccessModal(payload);
+        }).catch(err => {
+            if (submitBtn) { submitBtn.textContent = 'Submit Issue'; submitBtn.disabled = false; }
+            showToast(err.message || 'Failed to submit complaint. Please try again.', 'error');
+        });
     });
 }
 
@@ -470,8 +479,8 @@ function showToast(message, type = "success") {
 }
 
 // ── Auth Logout ────────────────────────────────────────────────────────────
+// Auth Logout — delegates to shared handleLogout() in api.js
 function handleStudentLogout() {
-    localStorage.removeItem("studentLoggedIn");
-    localStorage.removeItem("loggedInAs");
-    window.location.href = "../Login/login.html";
+    handleLogout();
 }
+

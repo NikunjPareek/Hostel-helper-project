@@ -132,3 +132,8 @@ color:#B22222;
 margin-bottom:10px;
 display:none;
 }
+/* Role Toggle */
+.role-toggle{display:flex;gap:8px;margin-top:6px;}
+.role-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1.5px solid #e2e8f0;border-radius:8px;background:white;font-size:14px;font-weight:600;color:#64748b;cursor:pointer;transition:all 0.2s;}
+.role-btn:hover{border-color:#B22222;color:#B22222;}
+.role-btn.active{background:#B22222;border-color:#B22222;color:white;}

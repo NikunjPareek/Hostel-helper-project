@@ -1,4 +1,7 @@
-// Admin Complaints JS
+// Admin Complaints JS — API Edition
+
+// Auth guard — admin only
+const currentUser = authGuard('admin');
 
 document.addEventListener("DOMContentLoaded", function () {
   // Elements
@@ -32,14 +35,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalStatusInput = document.getElementById("modalStatus");
   const modalStatusText = document.getElementById("modalStatusText");
 
-  // State Array
-  let complaintsState = [
-    { id: "CMP-001", student: "Aarav Patel", room: "A-101", category: "WiFi", date: "Nov 12, 2023", status: "Submitted", desc: "The WiFi access point on the first floor is completely down since yesterday evening.", remarks: "" },
-    { id: "CMP-002", student: "Riya Sharma", room: "B-205", category: "Water", date: "Nov 10, 2023", status: "Under Review", desc: "No hot water coming from the showers in the B block second floor.", remarks: "Plumber informed and scheduled to check at 2PM." },
-    { id: "CMP-003", student: "Karan Singh", room: "C-302", category: "Mess", date: "Nov 08, 2023", status: "Resolved", desc: "Food quality was very poor during dinner last night. Found an insect in the dal.", remarks: "Issue discussed rigorously with contractor. Refund issued and strict hygiene warnings applied." },
-    { id: "CMP-004", student: "Ananya Gupta", room: "A-122", category: "Electricity", date: "Nov 15, 2023", status: "Submitted", desc: "Ceiling fan making a very loud screeching noise and vibrating heavily.", remarks: "" },
-    { id: "CMP-005", student: "Arjun Verma", room: "D-401", category: "Sanitation", date: "Oct 28, 2023", status: "Resolved", desc: "Corridor dusting not done for 3 days.", remarks: "Cleaning staff assigned." }
-  ];
+  // State Array — loaded from API
+  let complaintsState = [];
+  let currentEditingId = null; // will store MongoDB _id
+
+  // Load all complaints from API
+  async function loadComplaints() {
+    try {
+      complaintsState = await apiCall('GET', '/api/complaints');
+      if (totalCountEl) totalCountEl.textContent = complaintsState.length;
+      populateMonthFilter();
+      initCustomDropdowns();
+      renderTable();
+    } catch (err) {
+      console.error('Load complaints failed:', err);
+    }
+  }
 
   let currentEditingId = null;
 
@@ -55,14 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const filteredData = complaintsState.filter(item => {
       const matchSearch = searchTerm === "" || 
-        item.student.toLowerCase().includes(searchTerm) || 
-        item.id.toLowerCase().includes(searchTerm) || 
-        item.room.toLowerCase().includes(searchTerm);
+        (item.studentName || '').toLowerCase().includes(searchTerm) || 
+        (item.complaintId || '').toLowerCase().includes(searchTerm) || 
+        (item.room || '').toLowerCase().includes(searchTerm);
         
       const matchStatus = statusVal === "All" || item.status === statusVal;
       const matchCat = catVal === "All" || item.category === catVal;
       
-      const itemMonth = new Date(item.date).toLocaleString('default', { month: 'long' });
+      const itemMonth = new Date(item.createdAt).toLocaleString('default', { month: 'long' });
       const matchMonth = monthVal === "All" || itemMonth === monthVal;
 
       return matchSearch && matchStatus && matchCat && matchMonth;
@@ -88,14 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td class="td-id">${comp.id}</td>
-          <td class="td-student">${comp.student}</td>
+          <td class="td-id">${comp.complaintId}</td>
+          <td class="td-student">${comp.studentName}</td>
           <td>${comp.room}</td>
           <td>${comp.category}</td>
-          <td>${comp.date}</td>
+          <td>${new Date(comp.createdAt).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'})}</td>
           <td><span class="status-badge ${badgeClass}">${comp.status}</span></td>
           <td style="text-align: right;">
-            <button class="btn-view" data-id="${comp.id}">
+            <button class="btn-view" data-id="${comp._id}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
@@ -188,18 +199,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Modal Flow
   function openModal(id) {
-    const complaint = complaintsState.find(c => c.id === id);
+    const complaint = complaintsState.find(c => c._id === id);
     if (!complaint) return;
     
     currentEditingId = id;
     
-    if (modalComplaintId) modalComplaintId.textContent = complaint.id;
-    if (modalStudent) modalStudent.textContent = complaint.student;
+    if (modalComplaintId) modalComplaintId.textContent = complaint.complaintId;
+    if (modalStudent) modalStudent.textContent = complaint.studentName;
     if (modalRoom) modalRoom.textContent = complaint.room;
     if (modalCategory) modalCategory.textContent = complaint.category;
-    if (modalDate) modalDate.textContent = complaint.date;
-    if (modalDescription) modalDescription.textContent = complaint.desc;
-    if (modalRemarks) modalRemarks.value = complaint.remarks;
+    if (modalDate) modalDate.textContent = new Date(complaint.createdAt).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    if (modalDescription) modalDescription.textContent = complaint.description;
+    if (modalRemarks) modalRemarks.value = complaint.remarks || '';
     
     // Sync custom dropdown logic for status
     if (modalStatusInput && modalStatusText && modalStatusWrapper) {
@@ -222,15 +233,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function saveModalChanges() {
     if (currentEditingId) {
-      const idx = complaintsState.findIndex(c => c.id === currentEditingId);
-      if (idx > -1) {
-        complaintsState[idx].status = modalStatusInput.value;
-        complaintsState[idx].remarks = modalRemarks.value.trim();
-        
-        closeModal();
-        renderTable();
-        showToast("Complaint updated successfully", "success");
-      }
+      const status = modalStatusInput ? modalStatusInput.value : null;
+      const remarks = modalRemarks ? modalRemarks.value.trim() : '';
+
+      apiCall('PUT', `/api/complaints/${currentEditingId}`, { status, remarks })
+        .then(updated => {
+          // Update local state
+          const idx = complaintsState.findIndex(c => c._id === currentEditingId);
+          if (idx > -1) {
+            complaintsState[idx].status  = updated.status;
+            complaintsState[idx].remarks = updated.remarks;
+          }
+          closeModal();
+          renderTable();
+          showToast("Complaint updated successfully", "success");
+        })
+        .catch(err => {
+          showToast(err.message || 'Update failed', 'error');
+        });
     }
   }
 
@@ -278,8 +298,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
   }
 
-  // Init
-  populateMonthFilter();
-  initCustomDropdowns();
-  renderTable();
+  // Init\r\n  loadComplaints();
 });

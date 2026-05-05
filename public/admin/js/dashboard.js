@@ -1,44 +1,62 @@
-// Admin Dashboard JS Architecture
+// Admin Dashboard JS — API Edition
 
-document.addEventListener("DOMContentLoaded", function () {
-  
+// Auth guard — admin only
+const currentUser = authGuard('admin');
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+  // ─── Load Dashboard Data ────────────────────────────────────────
+  let dashboardData = null;
+  try {
+    dashboardData = await apiCall('GET', '/api/dashboard');
+  } catch (err) {
+    console.error('Dashboard load failed:', err);
+  }
+
+  // ─── Load Poll Data ─────────────────────────────────────────────
+  let pollData = null;
+  try {
+    pollData = await apiCall('GET', '/api/polls/active');
+  } catch (err) {
+    console.error('Poll load failed:', err);
+  }
+
+  // ─── Build state from API ───────────────────────────────────────
   const dashboardState = {
-    stats: [
-      { id: "total", label: "Total Complaints", value: 342, icon: "alert", color: "red" },
-      { id: "pending", label: "Pending", value: 45, icon: "clock", color: "orange" },
-      { id: "review", label: "Under Review", value: 12, icon: "search", color: "blue" },
-      { id: "resolved", label: "Resolved", value: 285, icon: "check", color: "green" }
+    stats: dashboardData ? [
+      { id: "total",   label: "Total Complaints", value: dashboardData.stats.total,       icon: "alert",  color: "red" },
+      { id: "pending", label: "Pending",           value: dashboardData.stats.submitted,   icon: "clock",  color: "orange" },
+      { id: "review",  label: "Under Review",      value: dashboardData.stats.underReview, icon: "search", color: "blue" },
+      { id: "resolved",label: "Resolved",          value: dashboardData.stats.resolved,    icon: "check",  color: "green" }
+    ] : [
+      { id: "total",   label: "Total Complaints", value: 0, icon: "alert",  color: "red" },
+      { id: "pending", label: "Pending",           value: 0, icon: "clock",  color: "orange" },
+      { id: "review",  label: "Under Review",      value: 0, icon: "search", color: "blue" },
+      { id: "resolved",label: "Resolved",          value: 0, icon: "check",  color: "green" }
     ],
-    poll: {
-      question: "Which hostel facility needs the most urgent improvement this semester?",
-      totalVotes: 450,
-      results: [
-        { label: "Mess Food Quality", votes: 180 },
-        { label: "WiFi Stability", votes: 120 },
-        { label: "Washroom Hygiene", votes: 90 },
-        { label: "Common Room Furniture", votes: 40 },
-        { label: "Drinking Water Coolers", votes: 20 }
-      ]
+    poll: pollData ? {
+      question:   pollData.question,
+      totalVotes: pollData.totalVotes,
+      results:    pollData.options
+    } : {
+      question: "No active poll",
+      totalVotes: 0,
+      results: []
     },
-    categories: [
-      { label: "Mess / Food", count: 145 },
-      { label: "WiFi / Network", count: 88 },
-      { label: "Water / Plumbing", count: 52 },
-      { label: "Electricity / Appliances", count: 45 },
-      { label: "Sanitation / Cleaning", count: 12 }
-    ],
-    miniStats: [
-      { label: "Anonymous Reports", value: "24", highlight: false },
-      { label: "Announcements Posted", value: "18", highlight: false },
-      { label: "Resolution Rate", value: "83.3%", highlight: true }
-    ],
-    activityLog: [
-      { id: "CMP-089", status: "Resolved", statusColor: "green", category: "WiFi Issue", date: "Today, 10:23 AM", remark: "Network router reset on floor 3. Connectivity restored." },
-      { id: "CMP-090", status: "Under Review", statusColor: "blue", category: "Mess Food", date: "Today, 09:15 AM", remark: "Checking inventory logs for stale bread delivery." },
-      { id: "CMP-091", status: "Submitted", statusColor: "yellow", category: "Water", date: "Yesterday, 11:45 PM", remark: "" },
-      { id: "CMP-088", status: "Resolved", statusColor: "green", category: "Electricity", date: "Yesterday, 04:30 PM", remark: "Ceiling fan capacitor replaced in Room A-101." },
-      { id: "CMP-087", status: "Resolved", statusColor: "green", category: "Sanitation", date: "Nov 12, 02:20 PM", remark: "Deep cleaning scheduled for Block B common rooms." }
-    ]
+    categories: dashboardData ? dashboardData.categories : [],
+    miniStats: dashboardData ? [
+      { label: "Resolution Rate",     value: dashboardData.stats.resolutionRate + "%", highlight: true },
+      { label: "Total Complaints",    value: String(dashboardData.stats.total),         highlight: false },
+      { label: "Active Since",        value: "2024",                                    highlight: false }
+    ] : [],
+    activityLog: dashboardData ? dashboardData.recentActivity.map(a => ({
+      id: a.id,
+      status: a.status,
+      statusColor: a.status === 'Resolved' ? 'green' : a.status === 'Under Review' ? 'blue' : 'yellow',
+      category: a.category,
+      date: a.date,
+      remark: a.remarks || ''
+    })) : []
   };
 
   function getStatIcon(type) {
@@ -51,26 +69,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function escapeHTML(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  // --- Render Systems ---
-
   function renderStatsCards() {
-    const grid = document.getElementById("statsGrid");
-    if (!grid) return;
-    
-    grid.innerHTML = dashboardState.stats.map(stat => `
-      <div class="stat-card">
-        <div class="stat-icon-circle ${stat.color}">
-          ${getStatIcon(stat.icon)}
-        </div>
-        <div class="stat-info">
-          <span class="stat-label">${escapeHTML(stat.label)}</span>
-          <h2 class="stat-num">${stat.value}</h2>
+    const hook = document.getElementById("statsCards");
+    if (!hook) return;
+    hook.innerHTML = dashboardState.stats.map(stat => `
+      <div class="stat-card ${stat.color}">
+        <div class="stat-icon">${getStatIcon(stat.icon)}</div>
+        <div class="stat-content">
+          <div class="stat-value">${stat.value}</div>
+          <div class="stat-label">${escapeHTML(stat.label)}</div>
         </div>
       </div>
     `).join("");
@@ -160,8 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }).join("");
   }
 
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
   // --- Modal & Create Poll Flow ---
-  
   const pollModal = document.getElementById("pollModal");
   const btnOpenPollModal = document.getElementById("btnOpenPollModal");
   const closePollModal = document.getElementById("closePollModal");
@@ -176,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function closeModal() {
     if(pollModal) pollModal.classList.remove("active");
-    // Reset Form
     document.getElementById("newPollQuestion").value = "";
     pollOptionsContainer.innerHTML = `
       <div style="display: flex; gap: 8px; align-items: center;">
@@ -202,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pollOptionsContainer.appendChild(div);
   }
 
-  function saveNewPoll() {
+  async function saveNewPoll() {
     const qNode = document.getElementById("newPollQuestion");
     const inputs = pollOptionsContainer.querySelectorAll(".poll-option-input");
     
@@ -211,37 +221,43 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    let isValid = false;
     const newOptions = [];
     inputs.forEach(input => {
       if(input.value.trim() !== "") {
-        isValid = true;
-        newOptions.push({ label: input.value.trim(), votes: 0 });
+        newOptions.push(input.value.trim());
       }
     });
 
-    if(!isValid || newOptions.length < 2) {
+    if(newOptions.length < 2) {
       showToast("Please provide at least two valid options", "error");
       return;
     }
 
-    dashboardState.poll.question = qNode.value.trim();
-    dashboardState.poll.totalVotes = 0;
-    dashboardState.poll.results = newOptions;
-
-    renderPollResults();
-    closeModal();
-    showToast("Poll published successfully!", "success");
+    try {
+      await apiCall('POST', '/api/polls', { question: qNode.value.trim(), options: newOptions });
+      
+      // Reload poll display
+      const newPoll = await apiCall('GET', '/api/polls/active');
+      if (newPoll) {
+        dashboardState.poll.question   = newPoll.question;
+        dashboardState.poll.totalVotes = newPoll.totalVotes;
+        dashboardState.poll.results    = newPoll.options;
+      }
+      renderPollResults();
+      closeModal();
+      showToast("Poll published successfully!", "success");
+    } catch (err) {
+      showToast(err.message || 'Failed to create poll', 'error');
+    }
   }
 
   // Bind Listeners
   if(btnOpenPollModal) btnOpenPollModal.addEventListener("click", openModal);
   if(closePollModal) closePollModal.addEventListener("click", closeModal);
   if(cancelPollModal) cancelPollModal.addEventListener("click", closeModal);
-  if(pollModal) pollModal.addEventListener("click", e => { if (e.target === pollModal) closeModal() });
+  if(pollModal) pollModal.addEventListener("click", e => { if (e.target === pollModal) closeModal(); });
   if(addPollOptionBtn) addPollOptionBtn.addEventListener("click", addOptionLine);
   if(savePollBtn) savePollBtn.addEventListener("click", saveNewPoll);
-
 
   // --- Toast System ---
   const toastContainer = document.getElementById("toastContainer");

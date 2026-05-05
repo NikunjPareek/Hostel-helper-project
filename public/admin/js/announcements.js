@@ -1,3 +1,6 @@
+// Admin Announcements JS — API Edition
+const currentUser = authGuard('admin');
+
 document.addEventListener("DOMContentLoaded", function () {
   // Elements
   const newBtn = document.getElementById("newAnnouncementBtn");
@@ -10,6 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const toastContainer = document.getElementById("toastContainer");
 
   let announcements = [];
+
+  // Load announcements from API
+  async function loadAnnouncements() {
+    try {
+      announcements = await apiCall('GET', '/api/announcements');
+      // Normalize field names for rendering
+      renderAnnouncements();
+    } catch (err) {
+      console.error('Load announcements failed:', err);
+    }
+  }
 
   // Toast System
   function showToast(message, type = "success") {
@@ -138,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <h3 class="announcement-title">${escapeHTML(annob.title)}</h3>
             <div class="announcement-content">
-              <p class="announcement-text">${escapeHTML(annob.content)}</p>
+              <p class="announcement-text">${escapeHTML(annob.description)}</p>
             </div>
             <div class="announcement-footer">
               <div class="footer-item">
@@ -148,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <line x1="8" y1="2" x2="8" y2="6"></line>
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-                <span>${escapeHTML(annob.date)}</span>
+                <span>${escapeHTML(annob.createdAt ? new Date(annob.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : annob.date)}</span>
               </div>
               <span class="footer-separator">•</span>
               <div class="footer-item">
@@ -220,23 +234,25 @@ document.addEventListener("DOMContentLoaded", function () {
       const content = document.getElementById("announcementContent").value;
 
       if (!title.trim() || !content.trim()) return;
-      
-      const dateOpts = { month: 'short', day: 'numeric', year: 'numeric' };
-      const dateStr = new Date().toLocaleDateString('en-US', dateOpts);
 
-      const newAnnouncement = {
+      const submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn) { submitBtn.textContent = 'Posting...'; submitBtn.disabled = true; }
+
+      apiCall('POST', '/api/announcements', {
         title: title.trim(),
         category: category,
         priority: priority,
-        content: content.trim(),
-        date: dateStr
-      };
-      
-      announcements.unshift(newAnnouncement);
-      
-      renderAnnouncements();
-      closeAnnouncementModal();
-      showToast("Announcement posted successfully!", "success");
+        description: content.trim()
+      }).then(newAnnouncement => {
+        if (submitBtn) { submitBtn.textContent = 'Post Announcement'; submitBtn.disabled = false; }
+        announcements.unshift(newAnnouncement);
+        renderAnnouncements();
+        closeAnnouncementModal();
+        showToast("Announcement posted successfully!", "success");
+      }).catch(err => {
+        if (submitBtn) { submitBtn.textContent = 'Post Announcement'; submitBtn.disabled = false; }
+        showToast(err.message || 'Failed to post announcement', 'error');
+      });
     });
   }
 
@@ -268,15 +284,25 @@ document.addEventListener("DOMContentLoaded", function () {
   if (confirmDeleteBtn) {
     confirmDeleteBtn.addEventListener("click", function() {
       if (deleteIndex > -1) {
-        announcements.splice(deleteIndex, 1);
-        renderAnnouncements();
-        closeDelete();
-        showToast("Announcement deleted successfully.", "success");
+        const announcement = announcements[deleteIndex];
+        if (!announcement) { closeDelete(); return; }
+
+        const announcementId = announcement._id || announcement.id;
+        apiCall('DELETE', `/api/announcements/${announcementId}`)
+          .then(() => {
+            announcements.splice(deleteIndex, 1);
+            renderAnnouncements();
+            closeDelete();
+            showToast("Announcement deleted successfully.", "success");
+          })
+          .catch(err => {
+            showToast(err.message || 'Delete failed', 'error');
+          });
       }
     });
   }
 
   // Initialization
   initCustomDropdowns();
-  renderAnnouncements();
+  loadAnnouncements();
 });

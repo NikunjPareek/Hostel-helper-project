@@ -1,43 +1,31 @@
-// Admin Anonymous Feedback JS
+// Admin Anonymous Feedback JS — API Edition
+const currentUser = authGuard('admin');
+
 document.addEventListener("DOMContentLoaded", function () {
   
   const feedbackGrid = document.getElementById("feedbackGrid");
   const emptyState = document.getElementById("emptyState");
 
-  // Centralized State Management
-  const anonymousState = [
-    { 
-      id: "FBK-001", category: "WiFi", status: "Submitted", date: "Nov 14, 2023", 
-      desc: "The WiFi drops consistently around 10 PM every single night. It makes it impossible to submit assignments on time.",
-      remarks: ""
-    },
-    { 
-      id: "FBK-002", category: "Mess", status: "Under Review", date: "Nov 12, 2023", 
-      desc: "Breakfast timings are too short. If classes run late, there is nothing left by 9:15 AM.",
-      remarks: "Discussing extension of timing with the mess committee."
-    },
-    { 
-      id: "FBK-003", category: "Sanitation", status: "Resolved", date: "Nov 05, 2023", 
-      desc: "The garbage bins in the common area are overflowing and haven't been cleared for two days.",
-      remarks: "Cleaning schedule adjusted. Supervisor notified."
-    },
-    { 
-      id: "FBK-004", category: "General", status: "Submitted", date: "Nov 18, 2023", 
-      desc: "We need more study tables in the common room. Currently there are only 4 for 50 students.",
-      remarks: ""
-    },
-    { 
-      id: "FBK-005", category: "Water", status: "Resolved", date: "Oct 22, 2023", 
-      desc: "Drinking water cooler on 3rd floor is dispensing warm water.",
-      remarks: "Compressor replaced. Cooler functioning normally."
+  // Centralized State Management (loaded from API)
+  let anonymousState = [];
+
+  // Load feedback from API
+  async function loadFeedback() {
+    try {
+      anonymousState = await apiCall('GET', '/api/feedback');
+      renderFeedback();
+    } catch (err) {
+      console.error('Load feedback failed:', err);
+      renderFeedback();
     }
-  ];
+  }
 
   function escapeHTML(str) {
     const div = document.createElement("div");
     div.textContent = str;
     return div.innerHTML;
   }
+
 
   // Pure function ensuring SVG Icon rendering doesn't fallback to messy characters
   function getCategoryIcon(type) {
@@ -76,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return statuses.map(s => `
       <button
         class="status-btn${node.status === s ? ` ${activeClass[s]}` : ""}"
-        data-id="${escapeHTML(node.id)}"
+        data-id="${escapeHTML(node._id || node.id)}"
         data-status="${escapeHTML(s)}"
         type="button"
       >${escapeHTML(s)}</button>
@@ -115,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const catClass = `cat-${node.category.toLowerCase()}`;
         
         const cardHTML = `
-          <div class="feedback-card" data-id="${escapeHTML(node.id)}">
+          <div class="feedback-card" data-id="${escapeHTML(node._id || node.id)}">
 
             <!-- Badges -->
             <div class="card-badges">
@@ -134,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <svg class="description-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
               </svg>
-              <p class="description-text">${escapeHTML(node.desc)}</p>
+              <p class="description-text">${escapeHTML(node.content || node.desc)}</p>
             </div>
 
             <!-- Admin Remarks Display (live-updated) -->
@@ -168,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </p>
                 <textarea
                   class="admin-response-textarea"
-                  data-id="${escapeHTML(node.id)}"
+                  data-id="${escapeHTML(node._id || node.id)}"
                   placeholder="Add admin response…"
                   rows="3"
                 >${escapeHTML(node.remarks)}</textarea>
@@ -176,8 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
               <!-- Action Buttons -->
               <div class="card-action-row">
-                <button class="btn-mark-resolved" data-id="${escapeHTML(node.id)}" type="button">Mark as Resolved</button>
-                <button class="btn-save-response" data-id="${escapeHTML(node.id)}" type="button">Save Response</button>
+                <button class="btn-mark-resolved" data-id="${escapeHTML(node._id || node.id)}" type="button">Mark as Resolved</button>
+                <button class="btn-save-response" data-id="${escapeHTML(node._id || node.id)}" type="button">Save Response</button>
               </div>
 
             </div>
@@ -185,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             <!-- Footer Meta -->
             <div class="card-footer">
-              <span class="card-id">${escapeHTML(node.id)}</span>
+              <span class="card-id">${escapeHTML(node._id || node.id)}</span>
               <span class="card-date">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -193,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <line x1="8" y1="2" x2="8" y2="6"/>
                   <line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
-                ${escapeHTML(node.date)}
+                ${node.createdAt ? new Date(node.createdAt).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : node.date}
               </span>
             </div>
 
@@ -217,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.addEventListener("click", function () {
         const id = this.dataset.id;
         const newStatus = this.dataset.status;
-        const node = anonymousState.find(n => n.id === id);
+        const node = anonymousState.find(n => n\._id === id || n\.id === id);
         if (!node) return;
 
         node.status = newStatus;
@@ -259,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
     feedbackGrid.querySelectorAll(".btn-save-response").forEach(btn => {
       btn.addEventListener("click", function () {
         const id = this.dataset.id;
-        const node = anonymousState.find(n => n.id === id);
+        const node = anonymousState.find(n => n\._id === id || n\.id === id);
         if (!node) return;
 
         const card = feedbackGrid.querySelector(`.feedback-card[data-id="${id}"]`);
@@ -290,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
     feedbackGrid.querySelectorAll(".btn-mark-resolved").forEach(btn => {
       btn.addEventListener("click", function () {
         const id = this.dataset.id;
-        const node = anonymousState.find(n => n.id === id);
+        const node = anonymousState.find(n => n\._id === id || n\.id === id);
         if (!node) return;
 
         node.status = "Resolved";
@@ -320,5 +308,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Trigger initial draw
-  renderFeedback();
+  loadFeedback();
 });
+
