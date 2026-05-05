@@ -1,4 +1,4 @@
-﻿/* =========================================
+/* =========================================
    Harbor OS - Anonymous Routing Logic
 ========================================= */
 
@@ -141,5 +141,5 @@ function showToast(message, type = "success") {
     setTimeout(() => { toast.style.animation = "fadeOut 0.3s forwards"; setTimeout(() => toast.remove(), 300); }, 4000);
 }
 
-// handleStudentLogout handled by shared handleLogout() in api.js
+
 

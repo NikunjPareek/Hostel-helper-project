@@ -1,4 +1,4 @@
-﻿/* =========================================
+/* =========================================
    Harbor OS - Complaint History Render Logic
 ========================================= */
 
@@ -116,5 +116,5 @@ async function renderHistory() {
     }).join('');
 }
 
-// handleStudentLogout handled by shared handleLogout() in api.js
+
 

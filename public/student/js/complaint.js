@@ -1,12 +1,12 @@
-﻿/* =========================================
+/* =========================================
    Harbor OS â€” Complaint Engine
    Tasks: Submit intercept Â· Modal receipt Â· PDF Â· Dependent dropdowns Â· Form reset
 ========================================= */
 
-// â”€â”€ Auth Guard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 const currentUser = authGuard('student');
 
-// â”€â”€ Bootstrap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 document.addEventListener("DOMContentLoaded", () => {
     fetch("/student/header.html")
         .then(res => res.text())
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initModalBindings();
 });
 
-// â”€â”€ TASK 5: Dependent Hostel Dropdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 const BLOCK_MAP = {
     boys:  ["BH-1", "BH-2", "BH-3"],
     girls: ["GH-1", "GH-2", "GH-3"]
@@ -111,7 +111,7 @@ function initHostelDropdowns() {
     });
 }
 
-// â”€â”€ Custom Selects (Category only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function initCustomSelects() {
     const wrappers = document.querySelectorAll(".custom-select-wrapper:not(#hostelTypeSelect):not(#hostelBlockSelect)");
 
@@ -146,7 +146,7 @@ function initCustomSelects() {
     });
 }
 
-// â”€â”€ File Dropzone â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function initFileDropzone() {
     const dropzone   = document.getElementById("fileDropzone");
     const fileInput  = document.getElementById("fileInput");
@@ -205,7 +205,7 @@ function initFileDropzone() {
     }
 }
 
-// â”€â”€ TASK 1: Form Engine â€” intercept submit, remove redirect â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function initFormEngine() {
     const form     = document.getElementById("complaintForm");
     const clearBtn = document.getElementById("clearBtn");
@@ -266,7 +266,7 @@ function initFormEngine() {
     });
 }
 
-// â”€â”€ TASK 2: Open Success Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function openSuccessModal(payload) {
     document.getElementById("receiptId").textContent       = payload.id;
     document.getElementById("receiptCategory").textContent = payload.type;
@@ -291,7 +291,7 @@ function closeSuccessModal() {
     modal._payload = null;
 }
 
-// â”€â”€ TASK 3: Modal Button Bindings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function initModalBindings() {
     // Print Receipt â†’ PDF download
     document.getElementById("modalPrintBtn").addEventListener("click", () => {
@@ -316,7 +316,7 @@ function initModalBindings() {
     });
 }
 
-// â”€â”€ TASK 4: Form Reset â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function resetForm() {
     const form = document.getElementById("complaintForm");
     form.reset();
@@ -350,7 +350,7 @@ function resetForm() {
     if (preview) preview.innerHTML = "";
 }
 
-// â”€â”€ TASK 3: PDF Generation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 async function generateReceiptPDF(payload) {
     if (!window.jspdf) {
         showToast("PDF library not loaded. Please check your connection.", "error");
@@ -364,14 +364,14 @@ async function generateReceiptPDF(payload) {
     const contentW = pageW - margin * 2;
     let y = margin;
 
-    // â”€â”€ Logo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // â”€â”€ Logo
     try {
         const logoUrl = "../assets/jecrc+jmch logo.png";
         const logoData = await loadImageAsBase64(logoUrl);
         doc.addImage(logoData, "PNG", margin, y, 40, 14);
     } catch (_) { /* skip logo if unavailable */ }
 
-    // â”€â”€ Header Text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(128, 0, 0);
@@ -379,12 +379,10 @@ async function generateReceiptPDF(payload) {
 
     y += 22;
 
-    // â”€â”€ Divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     doc.setDrawColor(224, 224, 224);
     doc.line(margin, y, pageW - margin, y);
     y += 8;
-
-    // â”€â”€ Receipt Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const fields = [
         ["Reference ID",  payload.id],
         ["Category",      payload.type],
@@ -412,7 +410,7 @@ async function generateReceiptPDF(payload) {
     doc.line(margin, y, pageW - margin, y);
     y += 8;
 
-    // â”€â”€ Description â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
     doc.setTextColor(100, 100, 100);
@@ -426,7 +424,7 @@ async function generateReceiptPDF(payload) {
     doc.text(descLines, margin, y);
     y += descLines.length * 6 + 8;
 
-    // â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    
     doc.setDrawColor(224, 224, 224);
     doc.line(margin, y, pageW - margin, y);
     y += 6;
@@ -442,7 +440,7 @@ async function generateReceiptPDF(payload) {
     doc.save(`${payload.id}_receipt.pdf`);
 }
 
-// â”€â”€ Helper: image â†’ base64 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function loadImageAsBase64(url) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -459,7 +457,7 @@ function loadImageAsBase64(url) {
     });
 }
 
-// â”€â”€ Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 function showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
     const toast = document.createElement("div");
@@ -478,10 +476,5 @@ function showToast(message, type = "success") {
     }, 4000);
 }
 
-// â”€â”€ Auth Logout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Auth Logout â€” delegates to shared handleLogout() in api.js
-function handleStudentLogout() {
-    handleLogout();
-}
-
-
+// ── Auth Logout ─────────────────────────────────────────────────────────────
+// Auth Logout — handled directly by shared handleLogout() in api.js

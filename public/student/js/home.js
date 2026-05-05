@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     ]);
 });
 
-/* â”€â”€â”€ Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 async function loadStats() {
     try {
         const complaints = await apiCall('GET', '/api/complaints/my');
@@ -76,7 +75,7 @@ function renderStats(s) {
     `;
 }
 
-/* â”€â”€â”€ Announcements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
 async function loadAnnouncements() {
     try {
         const announcements = await apiCall('GET', '/api/announcements');
@@ -109,7 +108,7 @@ function renderAnnouncements(list) {
     `).join('');
 }
 
-/* â”€â”€â”€ Poll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
 let activePollId = null;
 
 async function loadPoll() {
@@ -165,7 +164,7 @@ window.votePoll = async function(optionIndex) {
     }
 };
 
-/* â”€â”€â”€ Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
 function showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
     if (!container) return;
