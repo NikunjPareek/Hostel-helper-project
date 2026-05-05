@@ -1,7 +1,7 @@
 // Admin footer.js
 
 function loadAdminFooter() {
-  fetch("footer.html")
+  fetch("/admin/footer.html")
     .then(function(r) { return r.text(); })
     .then(function(html) {
       document.body.insertAdjacentHTML("beforeend", html);

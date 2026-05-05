@@ -1,29 +1,29 @@
-/* =========================================
-   Harbor OS — Complaint Engine
-   Tasks: Submit intercept · Modal receipt · PDF · Dependent dropdowns · Form reset
+﻿/* =========================================
+   Harbor OS â€” Complaint Engine
+   Tasks: Submit intercept Â· Modal receipt Â· PDF Â· Dependent dropdowns Â· Form reset
 ========================================= */
 
-// ── Auth Guard ─────────────────────────────────────────────────────────────
+// â”€â”€ Auth Guard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const currentUser = authGuard('student');
 
-// ── Bootstrap ──────────────────────────────────────────────────────────────
+// â”€â”€ Bootstrap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("header.html")
+    fetch("/student/header.html")
         .then(res => res.text())
         .then(data => { document.getElementById("header").innerHTML = data; });
 
-    fetch("footer.html")
+    fetch("/student/footer.html")
         .then(res => res.text())
         .then(data => { document.getElementById("footer").innerHTML = data; });
 
     initCustomSelects();     // Category select only
-    initHostelDropdowns();   // Dependent: Type → Block
+    initHostelDropdowns();   // Dependent: Type â†’ Block
     initFileDropzone();
     initFormEngine();
     initModalBindings();
 });
 
-// ── TASK 5: Dependent Hostel Dropdown ─────────────────────────────────────
+// â”€â”€ TASK 5: Dependent Hostel Dropdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const BLOCK_MAP = {
     boys:  ["BH-1", "BH-2", "BH-3"],
     girls: ["GH-1", "GH-2", "GH-3"]
@@ -51,7 +51,7 @@ function initHostelDropdowns() {
         e.stopPropagation();
     });
 
-    // On type selection → inject block options
+    // On type selection â†’ inject block options
     typeOpts.forEach(opt => {
         opt.addEventListener("click", (e) => {
             typeOpts.forEach(o => o.classList.remove("selected"));
@@ -111,7 +111,7 @@ function initHostelDropdowns() {
     });
 }
 
-// ── Custom Selects (Category only) ─────────────────────────────────────────
+// â”€â”€ Custom Selects (Category only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initCustomSelects() {
     const wrappers = document.querySelectorAll(".custom-select-wrapper:not(#hostelTypeSelect):not(#hostelBlockSelect)");
 
@@ -146,7 +146,7 @@ function initCustomSelects() {
     });
 }
 
-// ── File Dropzone ──────────────────────────────────────────────────────────
+// â”€â”€ File Dropzone â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initFileDropzone() {
     const dropzone   = document.getElementById("fileDropzone");
     const fileInput  = document.getElementById("fileInput");
@@ -205,7 +205,7 @@ function initFileDropzone() {
     }
 }
 
-// ── TASK 1: Form Engine — intercept submit, remove redirect ────────────────
+// â”€â”€ TASK 1: Form Engine â€” intercept submit, remove redirect â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initFormEngine() {
     const form     = document.getElementById("complaintForm");
     const clearBtn = document.getElementById("clearBtn");
@@ -213,7 +213,7 @@ function initFormEngine() {
     clearBtn.addEventListener("click", () => resetForm());
 
     form.addEventListener("submit", function (e) {
-        e.preventDefault(); // INTERCEPT — no redirect
+        e.preventDefault(); // INTERCEPT â€” no redirect
 
         const category    = document.getElementById("categoryInput").value;
         const description = document.getElementById("descriptionInput").value;
@@ -266,7 +266,7 @@ function initFormEngine() {
     });
 }
 
-// ── TASK 2: Open Success Modal ─────────────────────────────────────────────
+// â”€â”€ TASK 2: Open Success Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openSuccessModal(payload) {
     document.getElementById("receiptId").textContent       = payload.id;
     document.getElementById("receiptCategory").textContent = payload.type;
@@ -291,23 +291,23 @@ function closeSuccessModal() {
     modal._payload = null;
 }
 
-// ── TASK 3: Modal Button Bindings ──────────────────────────────────────────
+// â”€â”€ TASK 3: Modal Button Bindings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initModalBindings() {
-    // Print Receipt → PDF download
+    // Print Receipt â†’ PDF download
     document.getElementById("modalPrintBtn").addEventListener("click", () => {
         const modal = document.getElementById("successModal");
         if (modal._payload) generateReceiptPDF(modal._payload);
     });
 
-    // Submit Another → close modal + reset form
+    // Submit Another â†’ close modal + reset form
     document.getElementById("modalAnotherBtn").addEventListener("click", () => {
         closeSuccessModal();
         resetForm();
     });
 
-    // View All Complaints → navigate
+    // View All Complaints â†’ navigate
     document.getElementById("modalViewAllBtn").addEventListener("click", () => {
-        window.location.href = "complaint_history.html";
+        window.location.href = "/student/complaint-history";
     });
 
     // Close on overlay click
@@ -316,7 +316,7 @@ function initModalBindings() {
     });
 }
 
-// ── TASK 4: Form Reset ─────────────────────────────────────────────────────
+// â”€â”€ TASK 4: Form Reset â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function resetForm() {
     const form = document.getElementById("complaintForm");
     form.reset();
@@ -350,7 +350,7 @@ function resetForm() {
     if (preview) preview.innerHTML = "";
 }
 
-// ── TASK 3: PDF Generation ─────────────────────────────────────────────────
+// â”€â”€ TASK 3: PDF Generation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function generateReceiptPDF(payload) {
     if (!window.jspdf) {
         showToast("PDF library not loaded. Please check your connection.", "error");
@@ -364,27 +364,27 @@ async function generateReceiptPDF(payload) {
     const contentW = pageW - margin * 2;
     let y = margin;
 
-    // ── Logo ──────────────────────────────────────────────────────────────
+    // â”€â”€ Logo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     try {
         const logoUrl = "../assets/jecrc+jmch logo.png";
         const logoData = await loadImageAsBase64(logoUrl);
         doc.addImage(logoData, "PNG", margin, y, 40, 14);
     } catch (_) { /* skip logo if unavailable */ }
 
-    // ── Header Text ───────────────────────────────────────────────────────
+    // â”€â”€ Header Text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(128, 0, 0);
-    doc.text("JECRC Hostel — Complaint Receipt", pageW / 2, y + 8, { align: "center" });
+    doc.text("JECRC Hostel â€” Complaint Receipt", pageW / 2, y + 8, { align: "center" });
 
     y += 22;
 
-    // ── Divider ───────────────────────────────────────────────────────────
+    // â”€â”€ Divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     doc.setDrawColor(224, 224, 224);
     doc.line(margin, y, pageW - margin, y);
     y += 8;
 
-    // ── Receipt Data ──────────────────────────────────────────────────────
+    // â”€â”€ Receipt Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const fields = [
         ["Reference ID",  payload.id],
         ["Category",      payload.type],
@@ -412,7 +412,7 @@ async function generateReceiptPDF(payload) {
     doc.line(margin, y, pageW - margin, y);
     y += 8;
 
-    // ── Description ───────────────────────────────────────────────────────
+    // â”€â”€ Description â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
     doc.setTextColor(100, 100, 100);
@@ -426,7 +426,7 @@ async function generateReceiptPDF(payload) {
     doc.text(descLines, margin, y);
     y += descLines.length * 6 + 8;
 
-    // ── Footer ────────────────────────────────────────────────────────────
+    // â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     doc.setDrawColor(224, 224, 224);
     doc.line(margin, y, pageW - margin, y);
     y += 6;
@@ -442,7 +442,7 @@ async function generateReceiptPDF(payload) {
     doc.save(`${payload.id}_receipt.pdf`);
 }
 
-// ── Helper: image → base64 ────────────────────────────────────────────────
+// â”€â”€ Helper: image â†’ base64 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function loadImageAsBase64(url) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -459,7 +459,7 @@ function loadImageAsBase64(url) {
     });
 }
 
-// ── Toast ──────────────────────────────────────────────────────────────────
+// â”€â”€ Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
     const toast = document.createElement("div");
@@ -478,9 +478,10 @@ function showToast(message, type = "success") {
     }, 4000);
 }
 
-// ── Auth Logout ────────────────────────────────────────────────────────────
-// Auth Logout — delegates to shared handleLogout() in api.js
+// â”€â”€ Auth Logout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Auth Logout â€” delegates to shared handleLogout() in api.js
 function handleStudentLogout() {
     handleLogout();
 }
+
 

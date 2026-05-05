@@ -3,7 +3,7 @@
 function loadAdminHeader() {
   var el = document.getElementById("header");
   if (!el) return;
-  fetch("header.html")
+  fetch("/admin/header.html")
     .then(function(r){ return r.text(); })
     .then(function(html){
       el.innerHTML = html;
@@ -29,7 +29,9 @@ function loadAdminHeader() {
 }
 
 function setActiveNavLink() {
-  var page = window.location.pathname.split("/").pop() || "dashboard.html";
+  // Get the last non-empty segment of the path (e.g. /admin/dashboard -> "dashboard")
+  var segments = window.location.pathname.split("/").filter(Boolean);
+  var page = segments[segments.length - 1] || "dashboard";
   document.querySelectorAll("#header .nav-link").forEach(function(a){
     var pg = (a.getAttribute("data-page")||"").toLowerCase();
     if (pg === page.toLowerCase()) a.classList.add("active");

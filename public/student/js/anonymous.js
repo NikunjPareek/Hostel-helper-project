@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
    Harbor OS - Anonymous Routing Logic
 ========================================= */
 
@@ -6,10 +6,10 @@ const currentUser = authGuard('student');
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("header.html").then(res => res.text()).then(data => {
+    fetch("/student/header.html").then(res => res.text()).then(data => {
         document.getElementById("header").innerHTML = data;
     });
-    fetch("footer.html").then(res => res.text()).then(data => {
+    fetch("/student/footer.html").then(res => res.text()).then(data => {
         document.getElementById("footer").innerHTML = data;
     });
     
@@ -142,3 +142,4 @@ function showToast(message, type = "success") {
 }
 
 // handleStudentLogout handled by shared handleLogout() in api.js
+

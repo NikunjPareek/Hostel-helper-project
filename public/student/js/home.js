@@ -1,14 +1,14 @@
-/* ===========================
-   STUDENT DASHBOARD — API Edition
+﻿/* ===========================
+   STUDENT DASHBOARD â€” API Edition
 =========================================== */
 
-// Auth guard — must be student
+// Auth guard â€” must be student
 const currentUser = authGuard('student');
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Load header/footer
-    fetch("header.html").then(r => r.text()).then(d => document.getElementById("header").innerHTML = d);
-    fetch("footer.html").then(r => r.text()).then(d => document.getElementById("footer").innerHTML = d);
+    fetch("/student/header.html").then(r => r.text()).then(d => document.getElementById("header").innerHTML = d);
+    fetch("/student/footer.html").then(r => r.text()).then(d => document.getElementById("footer").innerHTML = d);
 
     // Set user name in header if element exists
     setTimeout(() => {
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     ]);
 });
 
-/* ─── Stats ─────────────────────────────────────────── */
+/* â”€â”€â”€ Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 async function loadStats() {
     try {
         const complaints = await apiCall('GET', '/api/complaints/my');
@@ -76,7 +76,7 @@ function renderStats(s) {
     `;
 }
 
-/* ─── Announcements ─────────────────────────────────── */
+/* â”€â”€â”€ Announcements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 async function loadAnnouncements() {
     try {
         const announcements = await apiCall('GET', '/api/announcements');
@@ -109,7 +109,7 @@ function renderAnnouncements(list) {
     `).join('');
 }
 
-/* ─── Poll ────────────────────────────────────────────── */
+/* â”€â”€â”€ Poll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 let activePollId = null;
 
 async function loadPoll() {
@@ -146,7 +146,7 @@ function renderPoll(poll) {
                     </button>
                 `).join('')}
             </div>
-            ${poll.userVoted ? '<p style="font-size:12px;color:#10b981;margin-top:8px;">✓ You have already voted</p>' : ''}
+            ${poll.userVoted ? '<p style="font-size:12px;color:#10b981;margin-top:8px;">âœ“ You have already voted</p>' : ''}
         </div>
     `;
 }
@@ -165,7 +165,7 @@ window.votePoll = async function(optionIndex) {
     }
 };
 
-/* ─── Toast ───────────────────────────────────────────── */
+/* â”€â”€â”€ Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
     if (!container) return;
@@ -178,3 +178,4 @@ function showToast(message, type = "success") {
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
+

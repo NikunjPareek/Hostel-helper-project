@@ -2,7 +2,7 @@
   <div class="header-container">
     <div class="header-left">
       <div class="admin-logo">
-        <img src="../assets/jecrc logo only transparent.png" alt="JECRC Logo">
+        <img src="/assets/jecrc logo only transparent.png" alt="JECRC Logo">
       </div>
       <div class="header-brand">
         <span class="brand-name">JECRC HOSTEL</span>
@@ -17,22 +17,22 @@
 
     <nav class="header-nav" id="studentHeaderNav">
       <!-- Home -->
-      <a href="home.html" class="nav-link" data-page="home.html">
+      <a href="/student/home" class="nav-link" data-page="home">
         <span class="material-symbols-outlined">home</span>
         Home
       </a>
       <!-- Register Complaint -->
-      <a href="complaint.html" class="nav-link" data-page="complaint.html">
+      <a href="/student/complaint" class="nav-link" data-page="complaint">
         <span class="material-symbols-outlined">edit_document</span>
         Register Complaint
       </a>
       <!-- Anonymous Complaint -->
-      <a href="anonymous.html" class="nav-link" data-page="anonymous.html">
+      <a href="/student/anonymous" class="nav-link" data-page="anonymous">
         <span class="material-symbols-outlined">visibility_off</span>
         Anonymous Complaint
       </a>
       <!-- My Complaints -->
-      <a href="complaint_history.html" class="nav-link" data-page="complaint_history.html">
+      <a href="/student/complaint-history" class="nav-link" data-page="complaint-history">
         <span class="material-symbols-outlined">history</span>
         My Complaints
       </a>
@@ -47,10 +47,11 @@
 <script>
   (function() {
     // Dynamically assign .active to the correct nav link based on current URL
-    const path = window.location.pathname.split("/").pop() || "home.html";
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    const page = segments[segments.length - 1] || "home";
     const links = document.querySelectorAll("#studentHeaderNav .nav-link");
     links.forEach(link => {
-      if (link.getAttribute("data-page") === path) {
+      if (link.getAttribute("data-page") === page) {
         link.classList.add("active");
       } else {
         link.classList.remove("active");
@@ -67,3 +68,4 @@
     }
   })();
 </script>
+

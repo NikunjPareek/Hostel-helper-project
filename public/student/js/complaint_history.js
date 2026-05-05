@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
    Harbor OS - Complaint History Render Logic
 ========================================= */
 
@@ -8,10 +8,10 @@ const currentUser = authGuard('student');
 let activeFilter = "All";
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("header.html").then(res => res.text()).then(data => {
+    fetch("/student/header.html").then(res => res.text()).then(data => {
         document.getElementById("header").innerHTML = data;
     });
-    fetch("footer.html").then(res => res.text()).then(data => {
+    fetch("/student/footer.html").then(res => res.text()).then(data => {
         document.getElementById("footer").innerHTML = data;
     });
 
@@ -71,7 +71,7 @@ async function renderHistory() {
                 </div>
                 <h2>No Tracked Issues</h2>
                 <p>You haven't registered any reports matching this criteria yet. Register a new issue to monitor its resolution.</p>
-                <button class="btn-primary" style="margin-top: 8px" onclick="window.location.href='complaint.html'">Register Issue</button>
+                <button class="btn-primary" style="margin-top: 8px" onclick="window.location.href='/student/complaint'">Register Issue</button>
             </div>
         `;
         grid.style.display = 'block'; // Remove grid styling for empty state to center it
@@ -117,3 +117,4 @@ async function renderHistory() {
 }
 
 // handleStudentLogout handled by shared handleLogout() in api.js
+
