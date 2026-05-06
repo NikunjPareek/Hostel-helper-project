@@ -1,5 +1,5 @@
 /* =========================================
-   Harbor OS â€” Complaint Engine
+   Harbor OS   Complaint Engine
    Tasks: Submit intercept Â· Modal receipt Â· PDF Â· Dependent dropdowns Â· Form reset
 ========================================= */
 
@@ -25,24 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 const BLOCK_MAP = {
-    boys:  ["BH-1", "BH-2", "BH-3"],
+    boys: ["BH-1", "BH-2", "BH-3"],
     girls: ["GH-1", "GH-2", "GH-3"]
 };
 
 function initHostelDropdowns() {
-    const typeWrapper   = document.getElementById("hostelTypeSelect");
-    const blockWrapper  = document.getElementById("hostelBlockSelect");
-    const blockOptions  = document.getElementById("blockOptions");
-    const typeInput     = document.getElementById("hostelTypeInput");
-    const blockInput    = document.getElementById("hostelBlockInput");
+    const typeWrapper = document.getElementById("hostelTypeSelect");
+    const blockWrapper = document.getElementById("hostelBlockSelect");
+    const blockOptions = document.getElementById("blockOptions");
+    const typeInput = document.getElementById("hostelTypeInput");
+    const blockInput = document.getElementById("hostelBlockInput");
 
     if (!typeWrapper || !blockWrapper) return;
 
-    const typeTrigger  = typeWrapper.querySelector(".custom-select-trigger");
-    const typeText     = typeWrapper.querySelector(".selected-text");
-    const typeOpts     = typeWrapper.querySelectorAll(".custom-option");
+    const typeTrigger = typeWrapper.querySelector(".custom-select-trigger");
+    const typeText = typeWrapper.querySelector(".selected-text");
+    const typeOpts = typeWrapper.querySelectorAll(".custom-option");
     const blockTrigger = blockWrapper.querySelector(".custom-select-trigger");
-    const blockText    = blockWrapper.querySelector(".selected-text");
+    const blockText = blockWrapper.querySelector(".selected-text");
 
     // Open/close type dropdown
     typeTrigger.addEventListener("click", (e) => {
@@ -116,9 +116,9 @@ function initCustomSelects() {
     const wrappers = document.querySelectorAll(".custom-select-wrapper:not(#hostelTypeSelect):not(#hostelBlockSelect)");
 
     wrappers.forEach(wrapper => {
-        const trigger    = wrapper.querySelector(".custom-select-trigger");
+        const trigger = wrapper.querySelector(".custom-select-trigger");
         const selectedTx = wrapper.querySelector(".selected-text");
-        const options    = wrapper.querySelectorAll(".custom-option");
+        const options = wrapper.querySelectorAll(".custom-option");
         const hiddenInput = wrapper.nextElementSibling;
 
         trigger.addEventListener("click", (e) => {
@@ -148,8 +148,8 @@ function initCustomSelects() {
 
 
 function initFileDropzone() {
-    const dropzone   = document.getElementById("fileDropzone");
-    const fileInput  = document.getElementById("fileInput");
+    const dropzone = document.getElementById("fileDropzone");
+    const fileInput = document.getElementById("fileInput");
     const previewList = document.getElementById("filePreviewList");
     let currentFiles = [];
 
@@ -207,26 +207,26 @@ function initFileDropzone() {
 
 
 function initFormEngine() {
-    const form     = document.getElementById("complaintForm");
+    const form = document.getElementById("complaintForm");
     const clearBtn = document.getElementById("clearBtn");
 
     clearBtn.addEventListener("click", () => resetForm());
 
     form.addEventListener("submit", function (e) {
-        e.preventDefault(); // INTERCEPT â€” no redirect
+        e.preventDefault(); // INTERCEPT   no redirect
 
-        const category    = document.getElementById("categoryInput").value;
+        const category = document.getElementById("categoryInput").value;
         const description = document.getElementById("descriptionInput").value;
-        const hostelType  = document.getElementById("hostelTypeInput").value;
+        const hostelType = document.getElementById("hostelTypeInput").value;
         const hostelBlock = document.getElementById("hostelBlockInput").value;
-        const roomNo      = document.getElementById("roomInput").value;
+        const roomNo = document.getElementById("roomInput").value;
 
         // Validation
-        if (!category)                     { showToast("Please select an issue category.", "error"); return; }
-        if (description.trim().length < 20){ showToast("Description must be at least 20 characters.", "error"); return; }
-        if (!hostelType)                   { showToast("Please select your hostel type.", "error"); return; }
-        if (!hostelBlock)                  { showToast("Please select your hostel block.", "error"); return; }
-        if (!roomNo.trim())                { showToast("Please enter your room number.", "error"); return; }
+        if (!category) { showToast("Please select an issue category.", "error"); return; }
+        if (description.trim().length < 20) { showToast("Description must be at least 20 characters.", "error"); return; }
+        if (!hostelType) { showToast("Please select your hostel type.", "error"); return; }
+        if (!hostelBlock) { showToast("Please select your hostel block.", "error"); return; }
+        if (!roomNo.trim()) { showToast("Please enter your room number.", "error"); return; }
 
         // Build complaint payload
         const hostelLabel = (hostelType === "boys" ? "Boy's Hostel" : "Girl's Hostel") + " / " + hostelBlock;
@@ -246,15 +246,15 @@ function initFormEngine() {
 
             // Build modal-compatible payload from API response
             const payload = {
-                id:          complaint.complaintId,
-                type:        complaint.category,
-                student:     complaint.studentName,
-                hostel:      complaint.hostel,
-                room:        complaint.room,
+                id: complaint.complaintId,
+                type: complaint.category,
+                student: complaint.studentName,
+                hostel: complaint.hostel,
+                room: complaint.room,
                 description: complaint.description,
-                date:        new Date(complaint.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-                time:        new Date(complaint.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
-                status:      complaint.status
+                date: new Date(complaint.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+                time: new Date(complaint.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+                status: complaint.status
             };
 
             // TASK 2: Open success modal
@@ -268,13 +268,13 @@ function initFormEngine() {
 
 
 function openSuccessModal(payload) {
-    document.getElementById("receiptId").textContent       = payload.id;
+    document.getElementById("receiptId").textContent = payload.id;
     document.getElementById("receiptCategory").textContent = payload.type;
-    document.getElementById("receiptDate").textContent     = `${payload.date} at ${payload.time}`;
-    document.getElementById("receiptHostel").textContent   = payload.hostel;
-    document.getElementById("receiptRoom").textContent     = payload.room;
-    document.getElementById("receiptDesc").textContent     = payload.description;
-    document.getElementById("receiptStudent").textContent  = payload.student;
+    document.getElementById("receiptDate").textContent = `${payload.date} at ${payload.time}`;
+    document.getElementById("receiptHostel").textContent = payload.hostel;
+    document.getElementById("receiptRoom").textContent = payload.room;
+    document.getElementById("receiptDesc").textContent = payload.description;
+    document.getElementById("receiptStudent").textContent = payload.student;
 
     const modal = document.getElementById("successModal");
     modal.classList.add("active");
@@ -332,8 +332,8 @@ function resetForm() {
         el.textContent = el.closest("#hostelBlockSelect")
             ? "Select block"
             : el.closest("#hostelTypeSelect")
-            ? "Select hostel type"
-            : "Select issue category";
+                ? "Select hostel type"
+                : "Select issue category";
         el.style.color = "";
         el.style.fontWeight = "";
     });
@@ -359,8 +359,8 @@ async function generateReceiptPDF(payload) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "mm", format: "a4" });
 
-    const margin  = 20;
-    const pageW   = 210;
+    const margin = 20;
+    const pageW = 210;
     const contentW = pageW - margin * 2;
     let y = margin;
 
@@ -371,26 +371,26 @@ async function generateReceiptPDF(payload) {
         doc.addImage(logoData, "PNG", margin, y, 40, 14);
     } catch (_) { /* skip logo if unavailable */ }
 
-    
+
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(128, 0, 0);
-    doc.text("JECRC Hostel â€” Complaint Receipt", pageW / 2, y + 8, { align: "center" });
+    doc.text("JECRC Hostel   Complaint Receipt", pageW / 2, y + 8, { align: "center" });
 
     y += 22;
 
-    
+
     doc.setDrawColor(224, 224, 224);
     doc.line(margin, y, pageW - margin, y);
     y += 8;
     const fields = [
-        ["Reference ID",  payload.id],
-        ["Category",      payload.type],
-        ["Status",        payload.status],
-        ["Submitted On",  `${payload.date} at ${payload.time}`],
+        ["Reference ID", payload.id],
+        ["Category", payload.type],
+        ["Status", payload.status],
+        ["Submitted On", `${payload.date} at ${payload.time}`],
         ["Hostel / Block", payload.hostel],
-        ["Room Number",   payload.room],
-        ["Submitted By",  payload.student],
+        ["Room Number", payload.room],
+        ["Submitted By", payload.student],
     ];
 
     doc.setFontSize(11);
@@ -410,7 +410,7 @@ async function generateReceiptPDF(payload) {
     doc.line(margin, y, pageW - margin, y);
     y += 8;
 
-    
+
     doc.setFont("helvetica", "bold");
     doc.setFontSize(11);
     doc.setTextColor(100, 100, 100);
@@ -424,7 +424,7 @@ async function generateReceiptPDF(payload) {
     doc.text(descLines, margin, y);
     y += descLines.length * 6 + 8;
 
-    
+
     doc.setDrawColor(224, 224, 224);
     doc.line(margin, y, pageW - margin, y);
     y += 6;
@@ -447,7 +447,7 @@ function loadImageAsBase64(url) {
         img.crossOrigin = "anonymous";
         img.onload = () => {
             const canvas = document.createElement("canvas");
-            canvas.width  = img.naturalWidth;
+            canvas.width = img.naturalWidth;
             canvas.height = img.naturalHeight;
             canvas.getContext("2d").drawImage(img, 0, 0);
             resolve(canvas.toDataURL("image/png"));

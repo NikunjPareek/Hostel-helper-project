@@ -1,8 +1,8 @@
 ﻿/* ===========================
-   STUDENT DASHBOARD â€” API Edition
+   STUDENT DASHBOARD   API Edition
 =========================================== */
 
-// Auth guard â€” must be student
+// Auth guard   must be student
 const currentUser = authGuard('student');
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -150,7 +150,7 @@ function renderPoll(poll) {
     `;
 }
 
-window.votePoll = async function(optionIndex) {
+window.votePoll = async function (optionIndex) {
     if (!activePollId) return;
 
     try {

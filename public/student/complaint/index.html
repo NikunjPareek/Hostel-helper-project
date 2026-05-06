@@ -1,13 +1,17 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Complaint | JECRC Hostel</title>
     <link rel="stylesheet" href="/admin/css/header.css">
     <link rel="stylesheet" href="../css/complaint.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div id="header"></div>
 
@@ -16,11 +20,17 @@
             <div class="page-header">
                 <span class="badge badge-error">Operations</span>
                 <h1 class="page-title">Register an Issue</h1>
-                <p class="page-subtitle">Submit a detailed report to our maintenance and concierge team. Accurate details ensure a swift resolution.</p>
+                <p class="page-subtitle">Submit a detailed report to our maintenance and concierge team. Accurate
+                    details ensure a swift resolution.</p>
             </div>
 
             <div class="alert alert-warning">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
                 <div class="alert-content">
                     <strong>Important Notice</strong>
                     <span>Filing false or misleading reports is a violation of JECRC Hostel guidelines.</span>
@@ -38,7 +48,10 @@
                         <div class="custom-select-wrapper" id="categorySelect">
                             <div class="custom-select-trigger">
                                 <span class="selected-text">Select issue category</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
                             </div>
                             <div class="custom-options">
                                 <div class="custom-option" data-value="Electricity">Electricity</div>
@@ -55,7 +68,9 @@
                     <!-- Textarea: Description -->
                     <div class="form-group mt-4">
                         <label>Description <span class="required-star">*</span></label>
-                        <textarea id="descriptionInput" class="premium-input" placeholder="Provide specific details about location, time, and the nature of your issue..." required></textarea>
+                        <textarea id="descriptionInput" class="premium-input"
+                            placeholder="Provide specific details about location, time, and the nature of your issue..."
+                            required></textarea>
                         <span class="help-text">Minimum 20 characters required.</span>
                     </div>
 
@@ -66,7 +81,13 @@
                             <input type="file" id="fileInput" multiple accept="image/*,video/*">
                             <div class="dropzone-content">
                                 <div class="drop-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="17 8 12 3 7 8" />
+                                        <line x1="12" y1="3" x2="12" y2="15" />
+                                    </svg>
                                 </div>
                                 <span class="drop-title">Click or drag files to upload</span>
                                 <span class="drop-subtitle">Maximum 3 files (PNG, JPG) up to 10MB each</span>
@@ -78,7 +99,7 @@
 
                 <div class="form-section divider-top">
                     <h3>Residence Profile</h3>
-                    
+
                     <!-- Row 1: Hostel Type + Block (dependent) -->
                     <div class="form-grid">
                         <div class="form-group">
@@ -86,7 +107,10 @@
                             <div class="custom-select-wrapper" id="hostelTypeSelect">
                                 <div class="custom-select-trigger">
                                     <span class="selected-text">Select hostel type</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m6 9 6 6 6-6" />
+                                    </svg>
                                 </div>
                                 <div class="custom-options">
                                     <div class="custom-option" data-value="boys">Boy's Hostel</div>
@@ -101,7 +125,10 @@
                             <div class="custom-select-wrapper" id="hostelBlockSelect">
                                 <div class="custom-select-trigger">
                                     <span class="selected-text">Select block</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m6 9 6 6 6-6" />
+                                    </svg>
                                 </div>
                                 <div class="custom-options" id="blockOptions">
                                     <!-- populated dynamically -->
@@ -124,7 +151,11 @@
                     <button type="button" class="btn-ghost" id="clearBtn">Clear Form</button>
                     <button type="submit" class="btn-primary">
                         Submit Report
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
                     </button>
                 </div>
             </form>
@@ -137,7 +168,7 @@
     <div id="footer"></div>
 
     <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-         SUCCESS MODAL â€” Complaint Receipt
+         SUCCESS MODAL   Complaint Receipt
     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
     <div class="modal-overlay" id="successModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-box" id="successModalBox">
@@ -145,9 +176,10 @@
             <!-- Green Header -->
             <div class="modal-header-success">
                 <div class="modal-check-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
                 </div>
                 <div>
@@ -160,11 +192,11 @@
             <div class="receipt-block">
                 <div class="receipt-row">
                     <span class="receipt-label">Reference ID</span>
-                    <span class="receipt-value receipt-id" id="receiptId">â€”</span>
+                    <span class="receipt-value receipt-id" id="receiptId"> </span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Category</span>
-                    <span class="receipt-value" id="receiptCategory">â€”</span>
+                    <span class="receipt-value" id="receiptCategory"> </span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Status</span>
@@ -172,45 +204,61 @@
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Submitted On</span>
-                    <span class="receipt-value" id="receiptDate">â€”</span>
+                    <span class="receipt-value" id="receiptDate"> </span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Hostel / Block</span>
-                    <span class="receipt-value" id="receiptHostel">â€”</span>
+                    <span class="receipt-value" id="receiptHostel"> </span>
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Room</span>
-                    <span class="receipt-value" id="receiptRoom">â€”</span>
+                    <span class="receipt-value" id="receiptRoom"> </span>
                 </div>
             </div>
 
             <!-- Description Block -->
             <div class="modal-desc-block">
                 <p class="modal-desc-label">Description</p>
-                <p class="modal-desc-text" id="receiptDesc">â€”</p>
+                <p class="modal-desc-text" id="receiptDesc"> </p>
             </div>
 
             <!-- Student Info Block -->
             <div class="student-info-block">
                 <p class="modal-desc-label">Submitted By</p>
                 <div class="student-info-row">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    <span id="receiptStudent">â€”</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <span id="receiptStudent"> </span>
                 </div>
             </div>
 
             <!-- Action Row -->
             <div class="modal-action-row">
                 <button class="btn-modal-neutral" id="modalPrintBtn" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 6 2 18 2 18 9" />
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                        <rect x="6" y="14" width="12" height="8" />
+                    </svg>
                     Print Receipt
                 </button>
                 <button class="btn-modal-ghost" id="modalAnotherBtn" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
                     Submit Another
                 </button>
                 <button class="btn-modal-primary" id="modalViewAllBtn" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
                     View All Complaints
                 </button>
             </div>
@@ -223,5 +271,5 @@
     <script src="../../js/api.js"></script>
     <script src="../js/complaint.js"></script>
 </body>
-</html>
 
+</html>
