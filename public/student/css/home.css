@@ -291,6 +291,11 @@ body {
     gap: 6px;
 }
 .btn-poll:hover { background: #edeef0; }
+.btn-poll:disabled,
+.btn-poll.voted-disabled {
+    cursor: default;
+    opacity: 0.8;
+}
 .btn-poll.active-facing {
     background: #fef2f2;
     border-color: #fecaca;
@@ -305,11 +310,13 @@ body {
 /* Responsive */
 @media (max-width: 1024px) {
     .dashboard-columns { grid-template-columns: 1fr; }
+    .polls-stack { grid-template-columns: repeat(2, 1fr); }
     .hero-card { padding: 48px 32px; }
     .hero-title { font-size: 38px; }
 }
 @media (max-width: 768px) {
     .stats-grid { grid-template-columns: 1fr; }
+    .polls-stack { grid-template-columns: 1fr; }
     .hero-card { padding: 40px 24px; }
     .hero-actions { flex-direction: column; width: 100%; }
     .btn-primary, .btn-secondary { width: 100%; justify-content: center; }

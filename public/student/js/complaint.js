@@ -5,6 +5,7 @@
 
 
 const currentUser = authGuard('student');
+let selectedComplaintFiles = [];
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -151,7 +152,6 @@ function initFileDropzone() {
     const dropzone = document.getElementById("fileDropzone");
     const fileInput = document.getElementById("fileInput");
     const previewList = document.getElementById("filePreviewList");
-    let currentFiles = [];
 
     dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
     dropzone.addEventListener("dragleave", e => { e.preventDefault(); dropzone.classList.remove("dragover"); });
@@ -166,23 +166,27 @@ function initFileDropzone() {
     });
 
     function handleFiles(files) {
-        if (currentFiles.length + files.length > 3) {
+        if (selectedComplaintFiles.length + files.length > 3) {
             showToast("You can only upload a maximum of 3 attachments.", "error");
             return;
         }
         Array.from(files).forEach(file => {
+            if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
+                showToast(`${file.name} must be an image or video.`, "error");
+                return;
+            }
             if (file.size > 10 * 1024 * 1024) {
                 showToast(`${file.name} exceeds 10MB limit.`, "error");
                 return;
             }
-            currentFiles.push(file);
+            selectedComplaintFiles.push(file);
         });
         renderPreviews();
     }
 
     function renderPreviews() {
         previewList.innerHTML = "";
-        currentFiles.forEach((file, index) => {
+        selectedComplaintFiles.forEach((file, index) => {
             const tag = document.createElement("div");
             tag.className = "file-tag";
             tag.innerHTML = `
@@ -197,7 +201,7 @@ function initFileDropzone() {
         });
         document.querySelectorAll(".remove-file").forEach(btn => {
             btn.addEventListener("click", (e) => {
-                currentFiles.splice(e.currentTarget.dataset.index, 1);
+                selectedComplaintFiles.splice(e.currentTarget.dataset.index, 1);
                 renderPreviews();
                 e.stopPropagation();
             });
@@ -212,7 +216,7 @@ function initFormEngine() {
 
     clearBtn.addEventListener("click", () => resetForm());
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
         e.preventDefault(); // INTERCEPT   no redirect
 
         const category = document.getElementById("categoryInput").value;
@@ -235,13 +239,17 @@ function initFormEngine() {
         const submitBtn = form.querySelector('[type="submit"]');
         if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
 
-        apiCall('POST', '/api/complaints', {
-            hostel: hostelLabel,
-            block: hostelBlock,
-            room: roomNo,
-            category: category,
-            description: description
-        }).then(complaint => {
+        try {
+            const attachments = await filesToAttachmentPayload(selectedComplaintFiles);
+            const complaint = await apiCall('POST', '/api/complaints', {
+                hostel: hostelLabel,
+                block: hostelBlock,
+                room: roomNo,
+                category: category,
+                description: description,
+                attachments
+            });
+
             if (submitBtn) { submitBtn.textContent = 'Submit Issue'; submitBtn.disabled = false; }
 
             // Build modal-compatible payload from API response
@@ -259,11 +267,25 @@ function initFormEngine() {
 
             // TASK 2: Open success modal
             openSuccessModal(payload);
-        }).catch(err => {
+        } catch (err) {
             if (submitBtn) { submitBtn.textContent = 'Submit Issue'; submitBtn.disabled = false; }
             showToast(err.message || 'Failed to submit complaint. Please try again.', 'error');
-        });
+        }
     });
+}
+
+function filesToAttachmentPayload(files) {
+    return Promise.all(files.map(file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+            name: file.name,
+            mimeType: file.type,
+            size: file.size,
+            dataUrl: reader.result
+        });
+        reader.onerror = () => reject(new Error(`Could not read ${file.name}`));
+        reader.readAsDataURL(file);
+    })));
 }
 
 
@@ -346,6 +368,7 @@ function resetForm() {
     if (blockOptions) blockOptions.innerHTML = "";
 
     // Clear file previews
+    selectedComplaintFiles = [];
     const preview = document.getElementById("filePreviewList");
     if (preview) preview.innerHTML = "";
 }

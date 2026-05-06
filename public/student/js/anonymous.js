@@ -3,6 +3,7 @@
 ========================================= */
 
 const currentUser = authGuard('student');
+let selectedAnonymousFiles = [];
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,7 +53,6 @@ function initFileDropzone() {
     const dropzone = document.getElementById('fileDropzone');
     const fileInput = document.getElementById('fileInput');
     const previewList = document.getElementById('filePreviewList');
-    let currentFiles = [];
 
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
     dropzone.addEventListener('dragleave', e => { e.preventDefault(); dropzone.classList.remove('dragover'); });
@@ -60,20 +60,21 @@ function initFileDropzone() {
     fileInput.addEventListener('change', e => { handleFiles(e.target.files); fileInput.value = ""; });
 
     function handleFiles(files) {
-        if (currentFiles.length + files.length > 3) {
+        if (selectedAnonymousFiles.length + files.length > 3) {
             showToast('You can only upload a maximum of 3 attachments.', 'error');
             return;
         }
         Array.from(files).forEach(file => {
+            if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) { showToast(`${file.name} must be an image or video.`, 'error'); return; }
             if (file.size > 10 * 1024 * 1024) { showToast(`${file.name} exceeds 10MB limit.`, 'error'); return; }
-            currentFiles.push(file);
+            selectedAnonymousFiles.push(file);
         });
         renderPreviews();
     }
 
     function renderPreviews() {
         previewList.innerHTML = '';
-        currentFiles.forEach((file, index) => {
+        selectedAnonymousFiles.forEach((file, index) => {
             const tag = document.createElement('div');
             tag.className = 'file-tag';
             tag.innerHTML = `
@@ -88,7 +89,7 @@ function initFileDropzone() {
             previewList.appendChild(tag);
         });
         document.querySelectorAll('.remove-file').forEach(btn => {
-            btn.addEventListener('click', (e) => { currentFiles.splice(e.currentTarget.dataset.index, 1); renderPreviews(); e.stopPropagation(); });
+            btn.addEventListener('click', (e) => { selectedAnonymousFiles.splice(e.currentTarget.dataset.index, 1); renderPreviews(); e.stopPropagation(); });
         });
     }
 }
@@ -99,13 +100,14 @@ function initAnonymousEngine() {
 
     clearBtn.addEventListener('click', () => {
         form.reset();
+        selectedAnonymousFiles = [];
         document.getElementById('categoryInput').value = "";
         document.getElementById('filePreviewList').innerHTML = "";
         document.querySelectorAll('.selected-text').forEach(el => { el.textContent = "Select category"; el.style.color = "#40484c"; el.style.fontWeight = "400"; });
         document.querySelectorAll('.custom-option').forEach(el => el.classList.remove('selected'));
     });
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", async function(e) {
         e.preventDefault();
         const category = document.getElementById("categoryInput").value;
         const description = document.getElementById("descriptionInput").value;
@@ -116,16 +118,30 @@ function initAnonymousEngine() {
         const submitBtn = form.querySelector('[type="submit"]');
         if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
 
-        apiCall('POST', '/api/feedback', { category, content: description })
-            .then(() => {
-                showToast("Anonymous report submitted securely.", "success");
-                setTimeout(() => { window.location.href = "/student/home"; }, 1500);
-            })
-            .catch(err => {
-                if (submitBtn) { submitBtn.textContent = 'Submit Report'; submitBtn.disabled = false; }
-                showToast(err.message || 'Failed to submit. Try again.', 'error');
-            });
+        try {
+            const attachments = await filesToAttachmentPayload(selectedAnonymousFiles);
+            await apiCall('POST', '/api/feedback', { category, content: description, attachments });
+            showToast("Anonymous report submitted securely.", "success");
+            setTimeout(() => { window.location.href = "/student/home"; }, 1500);
+        } catch (err) {
+            if (submitBtn) { submitBtn.textContent = 'Submit Report'; submitBtn.disabled = false; }
+            showToast(err.message || 'Failed to submit. Try again.', 'error');
+        }
     });
+}
+
+function filesToAttachmentPayload(files) {
+    return Promise.all(files.map(file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+            name: file.name,
+            mimeType: file.type,
+            size: file.size,
+            dataUrl: reader.result
+        });
+        reader.onerror = () => reject(new Error(`Could not read ${file.name}`));
+        reader.readAsDataURL(file);
+    })));
 }
 
 function showToast(message, type = "success") {

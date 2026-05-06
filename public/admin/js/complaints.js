@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalCategory = document.getElementById("modalCategory");
   const modalDate = document.getElementById("modalDate");
   const modalDescription = document.getElementById("modalDescription");
+  const modalMediaSection = document.getElementById("modalMediaSection");
+  const modalMediaList = document.getElementById("modalMediaList");
   const modalRemarks = document.getElementById("modalRemarks");
   const modalStatusWrapper = document.getElementById("modalStatusWrapper");
   const modalStatusInput = document.getElementById("modalStatus");
@@ -45,14 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
       complaintsState = await apiCall('GET', '/api/complaints');
       if (totalCountEl) totalCountEl.textContent = complaintsState.length;
       populateMonthFilter();
+      populateCategoryFilter();
       initCustomDropdowns();
       renderTable();
     } catch (err) {
       console.error('Load complaints failed:', err);
     }
   }
-
-  let currentEditingId = null;
 
   // Render Table Engine
   function renderTable() {
@@ -99,12 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td class="td-id">${comp.complaintId}</td>
-          <td class="td-student">${comp.studentName}</td>
-          <td>${comp.room}</td>
-          <td>${comp.category}</td>
+          <td class="td-id">${escapeHTML(comp.complaintId)}</td>
+          <td class="td-student">${escapeHTML(comp.studentName)}</td>
+          <td>${escapeHTML(comp.room)}</td>
+          <td>${escapeHTML(comp.category)}</td>
           <td>${new Date(comp.createdAt).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'})}</td>
-          <td><span class="status-badge ${badgeClass}">${comp.status}</span></td>
+          <td><span class="status-badge ${badgeClass}">${escapeHTML(comp.status)}</span></td>
           <td style="text-align: right;">
             <button class="btn-view" data-id="${comp._id}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -185,15 +186,36 @@ document.addEventListener("DOMContentLoaded", function () {
   function populateMonthFilter() {
     const monthList = document.getElementById("monthOptionsList");
     if (!monthList) return;
+
+    monthList.innerHTML = `
+      <li data-value="All" class="selected">All Months <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+    `;
     
     // Extract unique months
-    const months = [...new Set(complaintsState.map(c => new Date(c.date).toLocaleString('default', { month: 'long' })))];
+    const months = [...new Set(complaintsState.map(c => new Date(c.createdAt).toLocaleString('default', { month: 'long' })))];
     
     months.forEach(m => {
       const li = document.createElement("li");
       li.setAttribute("data-value", m);
       li.innerHTML = `${m} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
       monthList.appendChild(li);
+    });
+  }
+
+  function populateCategoryFilter() {
+    const categoryList = categoryFilterWrapper ? categoryFilterWrapper.querySelector(".custom-options") : null;
+    if (!categoryList) return;
+
+    categoryList.innerHTML = `
+      <li data-value="All" class="selected">All Categories <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></li>
+    `;
+
+    const categories = [...new Set(complaintsState.map(c => c.category).filter(Boolean))].sort();
+    categories.forEach(category => {
+      const li = document.createElement("li");
+      li.setAttribute("data-value", category);
+      li.innerHTML = `${escapeHTML(category)} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="check-icon" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+      categoryList.appendChild(li);
     });
   }
 
@@ -211,6 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (modalDate) modalDate.textContent = new Date(complaint.createdAt).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
     if (modalDescription) modalDescription.textContent = complaint.description;
     if (modalRemarks) modalRemarks.value = complaint.remarks || '';
+    renderMedia(complaint.media || []);
     
     // Sync custom dropdown logic for status
     if (modalStatusInput && modalStatusText && modalStatusWrapper) {
@@ -224,6 +247,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (complaintModal) complaintModal.classList.add("active");
+  }
+
+  function renderMedia(media) {
+    if (!modalMediaSection || !modalMediaList) return;
+
+    if (!media.length) {
+      modalMediaSection.style.display = "none";
+      modalMediaList.innerHTML = "";
+      return;
+    }
+
+    modalMediaSection.style.display = "flex";
+    modalMediaList.innerHTML = media.map(file => {
+      const name = escapeHTML(file.originalName || "Attachment");
+      if (file.mediaType === "video") {
+        return `
+          <div class="media-item">
+            <video controls src="${file.url}"></video>
+            <a href="${file.url}" target="_blank" rel="noopener">${name}</a>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="media-item">
+          <a href="${file.url}" target="_blank" rel="noopener">
+            <img src="${file.url}" alt="${name}">
+            <span>${name}</span>
+          </a>
+        </div>
+      `;
+    }).join("");
   }
 
   function closeModal() {
@@ -275,6 +330,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Toast Component Logic
   const toastContainer = document.getElementById("toastContainer");
+  function escapeHTML(str) {
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+
   function showToast(message, type = "success") {
     if (!toastContainer) return;
     const toast = document.createElement("div");

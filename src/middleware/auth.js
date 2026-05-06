@@ -1,5 +1,16 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Student = require('../models/Student');
+const Admin = require('../models/Admin');
+
+function getAccountModel(decoded) {
+    if (decoded.accountModel === 'Admin') return Admin;
+    if (decoded.accountModel === 'Student') return Student;
+    if (decoded.accountModel === 'User') return User;
+    if (decoded.role === 'admin') return Admin;
+    if (decoded.role === 'student') return Student;
+    return User;
+}
 
 // Verify JWT and attach user to request
 const protect = async (req, res, next) => {
@@ -9,10 +20,27 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = await User.findById(decoded.id).select('-password');
+            const AccountModel = getAccountModel(decoded);
+            req.user = await AccountModel.findById(decoded.id).select('-password');
+
+            // Older tokens did not include the account collection. Try both role
+            // collections before treating the token as invalid.
+            if (!req.user && decoded.role === 'student') {
+                req.user = await Student.findById(decoded.id).select('-password');
+            }
+            if (!req.user && decoded.role === 'admin') {
+                req.user = await Admin.findById(decoded.id).select('-password');
+            }
+            if (!req.user) {
+                req.user = await User.findById(decoded.id).select('-password');
+            }
 
             if (!req.user) {
                 return res.status(401).json({ error: 'User not found' });
+            }
+
+            if (!req.user.role && decoded.role) {
+                req.user.role = decoded.role;
             }
 
             next();

@@ -1,12 +1,18 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Student = require('../models/Student');
+const Admin = require('../models/Admin');
 
 const router = express.Router();
 
 // Generate JWT
-function generateToken(id) {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+function generateToken(user, accountModel) {
+    return jwt.sign(
+        { id: user._id, role: user.role, accountModel },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+    );
 }
 
 // POST /api/auth/login
@@ -18,8 +24,19 @@ router.post('/login', async (req, res) => {
     }
 
     try {
-        // Find user by username AND role
-        const user = await User.findOne({ username, role });
+        const AccountModel = role === 'admin' ? Admin : role === 'student' ? Student : null;
+        if (!AccountModel) {
+            return res.status(400).json({ error: 'Invalid role' });
+        }
+
+        let accountModel = role === 'admin' ? 'Admin' : 'Student';
+        let user = await AccountModel.findOne({ username });
+
+        // Backward-compatible fallback for older databases seeded into users.
+        if (!user) {
+            user = await User.findOne({ username, role });
+            accountModel = 'User';
+        }
 
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
@@ -31,7 +48,7 @@ router.post('/login', async (req, res) => {
         }
 
         res.json({
-            token: generateToken(user._id),
+            token: generateToken(user, accountModel),
             user: {
                 id: user._id,
                 username: user.username,

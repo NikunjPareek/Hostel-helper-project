@@ -16,7 +16,7 @@ const complaintSchema = new mongoose.Schema({
     // Student who submitted (null if anonymous handled separately)
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Student',
         required: true
     },
     studentName: {
@@ -55,7 +55,15 @@ const complaintSchema = new mongoose.Schema({
     remarks: {
         type: String,
         default: ''
-    }
+    },
+    media: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UploadedMedia'
+    }]
 }, { timestamps: true });
+
+complaintSchema.index({ studentId: 1, createdAt: -1 });
+complaintSchema.index({ status: 1, createdAt: -1 });
+complaintSchema.index({ category: 1, createdAt: -1 });
 
 module.exports = mongoose.model('Complaint', complaintSchema);

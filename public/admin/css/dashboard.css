@@ -46,6 +46,10 @@ body { font-family: Arial, Helvetica, sans-serif; background-color: #f9fafb; col
 
 .poll-item { margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
 .poll-item:last-child { margin-bottom: 0; }
+.poll-result-group { padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid #f3f4f6; }
+.poll-result-group:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
+.poll-result-title { font-size: 14px; font-weight: 700; color: #111827; line-height: 1.45; margin-bottom: 4px; }
+.poll-result-meta { font-size: 12.5px; font-weight: 600; color: #6b7280; margin-bottom: 12px; }
 .poll-item-top { display: flex; justify-content: space-between; align-items: center; }
 .poll-item-label { font-size: 14px; font-weight: 500; color: #374151; }
 .poll-item-pct { font-size: 13px; font-weight: 600; color: #6b7280; }

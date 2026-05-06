@@ -6,8 +6,14 @@
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Student = require('./models/Student');
+const Admin = require('./models/Admin');
 const Announcement = require('./models/Announcement');
 const Poll = require('./models/Poll');
+const PollResponse = require('./models/PollResponse');
+const UploadedMedia = require('./models/UploadedMedia');
+const Complaint = require('./models/Complaint');
+const AnonymousFeedback = require('./models/AnonymousFeedback');
 
 const students = [
     {
@@ -93,13 +99,22 @@ async function seed() {
 
         // Clear existing data
         await User.deleteMany({});
+        await Student.deleteMany({});
+        await Admin.deleteMany({});
         await Announcement.deleteMany({});
         await Poll.deleteMany({});
+        await PollResponse.deleteMany({});
+        await UploadedMedia.deleteMany({});
+        await Complaint.deleteMany({});
+        await AnonymousFeedback.deleteMany({});
         console.log('Cleared existing data');
 
-        // Insert users with create() so the password hashing hook runs.
-        for (const user of [...students, ...admins]) {
-            await User.create(user);
+        // Insert accounts with create() so password hashing hooks run.
+        for (const student of students) {
+            await Student.create(student);
+        }
+        for (const admin of admins) {
+            await Admin.create(admin);
         }
         console.log(`Seeded ${students.length} students + ${admins.length} admins`);
 

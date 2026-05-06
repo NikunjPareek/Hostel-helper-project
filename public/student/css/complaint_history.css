@@ -210,6 +210,26 @@ body {
     overflow: hidden;
 }
 
+.hc-media-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hc-media-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #f8f9fb;
+    border: 1px solid #edeef0;
+    color: #800000;
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
 .hc-footer {
     display: flex;
     justify-content: space-between;

@@ -19,8 +19,23 @@ const anonymousFeedbackSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true
-    }
-    // Intentionally no student reference — anonymous by design
+    },
+    status: {
+        type: String,
+        enum: ['Submitted', 'Under Review', 'Resolved'],
+        default: 'Submitted'
+    },
+    remarks: {
+        type: String,
+        default: ''
+    },
+    media: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UploadedMedia'
+    }]
 }, { timestamps: true });
+
+anonymousFeedbackSchema.index({ status: 1, createdAt: -1 });
+anonymousFeedbackSchema.index({ category: 1, createdAt: -1 });
 
 module.exports = mongoose.model('AnonymousFeedback', anonymousFeedbackSchema);

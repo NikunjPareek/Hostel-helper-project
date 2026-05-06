@@ -7,7 +7,7 @@ const router = express.Router();
 // GET /api/announcements — All authenticated users can view
 router.get('/', protect, async (req, res) => {
     try {
-        const announcements = await Announcement.find().sort({ createdAt: -1 });
+        const announcements = await Announcement.find({ isActive: true }).sort({ createdAt: -1 });
         res.json(announcements);
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
@@ -16,7 +16,7 @@ router.get('/', protect, async (req, res) => {
 
 // POST /api/announcements — Admin creates announcement
 router.post('/', protect, adminOnly, async (req, res) => {
-    const { title, description } = req.body;
+    const { title, description, category = 'General', priority = 'Normal' } = req.body;
 
     if (!title || !description) {
         return res.status(400).json({ error: 'Title and description are required' });
@@ -24,9 +24,12 @@ router.post('/', protect, adminOnly, async (req, res) => {
 
     try {
         const announcement = await Announcement.create({
-            title,
-            description,
-            createdBy: req.user.name
+            title: title.trim(),
+            description: description.trim(),
+            category: category || 'General',
+            priority: priority || 'Normal',
+            createdBy: req.user.name,
+            createdByAdmin: req.user._id
         });
         res.status(201).json(announcement);
     } catch (error) {

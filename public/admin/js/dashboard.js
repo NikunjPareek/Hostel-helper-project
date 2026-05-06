@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // ─── Load Poll Data ─────────────────────────────────────────────
-  let pollData = null;
+  let pollData = [];
   try {
     pollData = await apiCall('GET', '/api/polls/active');
+    if (!Array.isArray(pollData)) pollData = pollData ? [pollData] : [];
   } catch (err) {
     console.error('Poll load failed:', err);
   }
@@ -34,15 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       { id: "review",  label: "Under Review",      value: 0, icon: "search", color: "blue" },
       { id: "resolved",label: "Resolved",          value: 0, icon: "check",  color: "green" }
     ],
-    poll: pollData ? {
-      question:   pollData.question,
-      totalVotes: pollData.totalVotes,
-      results:    pollData.options
-    } : {
-      question: "No active poll",
-      totalVotes: 0,
-      results: []
-    },
+    polls: pollData,
     categories: dashboardData ? dashboardData.categories : [],
     miniStats: dashboardData ? [
       { label: "Resolution Rate",     value: dashboardData.stats.resolutionRate + "%", highlight: true },
@@ -90,27 +83,39 @@ document.addEventListener("DOMContentLoaded", async function () {
     
     if (!pollBarsHook) return;
 
-    if (totalVotesNode) totalVotesNode.textContent = `${dashboardState.poll.totalVotes} total votes`;
-    if (questionNode) questionNode.textContent = dashboardState.poll.question;
+    if (!dashboardState.polls.length) {
+      if (totalVotesNode) totalVotesNode.textContent = "0 active polls";
+      if (questionNode) questionNode.textContent = "No active polls";
+      pollBarsHook.innerHTML = '<p style="font-size:13px;color:#6b7280;margin:0;">Create a poll to collect student responses.</p>';
+      return;
+    }
+
+    const totalVotes = dashboardState.polls.reduce((sum, poll) => sum + poll.totalVotes, 0);
+    if (totalVotesNode) totalVotesNode.textContent = `${dashboardState.polls.length} active polls`;
+    if (questionNode) questionNode.textContent = `${totalVotes} total votes across active polls`;
 
     let html = "";
-    dashboardState.poll.results.forEach((res, index) => {
-      let percentage = 0;
-      if (dashboardState.poll.totalVotes > 0) {
-        percentage = Math.round((res.votes / dashboardState.poll.totalVotes) * 100);
-      }
-      const colorClass = `color-${index % 5}`; 
-      
+    dashboardState.polls.forEach((poll, pollIndex) => {
       html += `
-        <div class="poll-item">
-          <div class="poll-item-top">
-            <span class="poll-item-label">${escapeHTML(res.label)}</span>
-            <span class="poll-item-pct">${percentage}% (${res.votes} votes)</span>
+        <div class="poll-result-group">
+          <div class="poll-result-title">${escapeHTML(poll.question)}</div>
+          <div class="poll-result-meta">${poll.totalVotes} total votes</div>
+          ${poll.options.map((res, index) => {
+            const percentage = poll.totalVotes > 0 ? Math.round((res.votes / poll.totalVotes) * 100) : 0;
+            const colorClass = `color-${(pollIndex + index) % 5}`;
+            return `
+              <div class="poll-item">
+                <div class="poll-item-top">
+                  <span class="poll-item-label">${escapeHTML(res.label)}</span>
+                  <span class="poll-item-pct">${percentage}% (${res.votes} votes)</span>
+                </div>
+                <div class="poll-track">
+                  <div class="poll-fill ${colorClass}" style="width: 0%" data-target="${percentage}%"></div>
+                </div>
+              </div>
+            `;
+          }).join("")}
           </div>
-          <div class="poll-track">
-            <div class="poll-fill ${colorClass}" style="width: 0%" data-target="${percentage}%"></div>
-          </div>
-        </div>
       `;
     });
 
@@ -237,12 +242,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       await apiCall('POST', '/api/polls', { question: qNode.value.trim(), options: newOptions });
       
       // Reload poll display
-      const newPoll = await apiCall('GET', '/api/polls/active');
-      if (newPoll) {
-        dashboardState.poll.question   = newPoll.question;
-        dashboardState.poll.totalVotes = newPoll.totalVotes;
-        dashboardState.poll.results    = newPoll.options;
-      }
+      const activePolls = await apiCall('GET', '/api/polls/active');
+      dashboardState.polls = Array.isArray(activePolls) ? activePolls : (activePolls ? [activePolls] : []);
       renderPollResults();
       closeModal();
       showToast("Poll published successfully!", "success");

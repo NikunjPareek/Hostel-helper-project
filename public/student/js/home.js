@@ -109,61 +109,62 @@ function renderAnnouncements(list) {
 }
 
 
-let activePollId = null;
-
 async function loadPoll() {
     try {
-        const poll = await apiCall('GET', '/api/polls/active');
-        renderPoll(poll);
+        const polls = await apiCall('GET', '/api/polls/active');
+        renderPolls(Array.isArray(polls) ? polls : (polls ? [polls] : []));
     } catch (err) {
-        renderPoll(null);
+        renderPolls([]);
     }
 }
 
-function renderPoll(poll) {
+function renderPolls(polls) {
     const container = document.getElementById("pollsContainer");
     if (!container) return;
 
-    if (!poll) {
-        container.innerHTML = '<p style="color:#64748b;padding:16px;">No active poll at the moment.</p>';
+    if (!polls.length) {
+        container.innerHTML = '<p style="color:#64748b;padding:16px;">No active polls at the moment.</p>';
         return;
     }
 
-    activePollId = poll._id;
-
-    container.innerHTML = `
+    container.innerHTML = polls.map(poll => `
         <div class="poll-item">
-            <h3>${poll.question}</h3>
+            <h3>${escapeHTML(poll.question)}</h3>
             <p style="font-size:13px;color:#64748b;margin-bottom:12px;">${poll.totalVotes} total votes</p>
             <div class="poll-actions" id="pollActions">
                 ${poll.options.map((opt, i) => `
                     <button class="btn-poll ${poll.userVoted ? 'voted-disabled' : ''}" 
-                            onclick="votePoll(${i})"
+                            onclick="votePoll('${poll._id}', ${i})"
                             ${poll.userVoted ? 'disabled' : ''}>
-                        ${opt.label}
+                        ${escapeHTML(opt.label)}
                         ${poll.userVoted ? `<span style="font-size:11px;margin-left:4px;">(${opt.votes})</span>` : ''}
                     </button>
                 `).join('')}
             </div>
-            ${poll.userVoted ? '<p style="font-size:12px;color:#10b981;margin-top:8px;">âœ“ You have already voted</p>' : ''}
+            ${poll.userVoted ? '<p style="font-size:12px;color:#10b981;margin-top:8px;">You have already voted</p>' : ''}
         </div>
-    `;
+    `).join('');
 }
 
-window.votePoll = async function (optionIndex) {
-    if (!activePollId) return;
+window.votePoll = async function (pollId, optionIndex) {
+    if (!pollId) return;
 
     try {
-        const result = await apiCall('POST', `/api/polls/${activePollId}/vote`, { optionIndex });
+        await apiCall('POST', `/api/polls/${pollId}/vote`, { optionIndex });
         showToast('Vote recorded!', 'success');
 
-        // Refresh poll
+        // Refresh polls so counts and voted states are current.
         await loadPoll();
     } catch (err) {
         showToast(err.message || 'Could not cast vote', 'error');
     }
 };
 
+function escapeHTML(str) {
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+}
 
 function showToast(message, type = "success") {
     const container = document.getElementById("toastContainer");
@@ -177,4 +178,3 @@ function showToast(message, type = "success") {
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
-

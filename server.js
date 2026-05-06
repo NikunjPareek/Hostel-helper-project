@@ -7,13 +7,10 @@ const connectDB = require('./src/config/db');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB
-connectDB();
-
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '60mb' }));
+app.use(express.urlencoded({ extended: false, limit: '60mb' }));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,6 +32,7 @@ app.use('/api/announcements', require('./src/routes/announcements'));
 app.use('/api/polls', require('./src/routes/polls'));
 app.use('/api/feedback', require('./src/routes/feedback'));
 app.use('/api/dashboard', require('./src/routes/dashboard'));
+app.use('/api/media', require('./src/routes/media'));
 
 // Clean URL routing — serves static HTML pages
 app.get('/:page', (req, res) => {
@@ -47,6 +45,11 @@ app.get('/:section/:page', (req, res) => {
     res.sendFile(file);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+async function startServer() {
+    await connectDB();
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+startServer();
