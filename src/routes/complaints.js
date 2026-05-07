@@ -1,5 +1,6 @@
 const express = require('express');
 const { protect, adminOnly, studentOnly } = require('../middleware/auth');
+const { complaintLimiter } = require('../middleware/rateLimiter');
 const Complaint = require('../models/Complaint');
 const {
     prepareMediaPayload,
@@ -20,7 +21,7 @@ function sendRouteError(res, error, label) {
 }
 
 // POST /api/complaints - Student submits a new complaint
-router.post('/', protect, studentOnly, async (req, res) => {
+router.post('/', protect, studentOnly, complaintLimiter, async (req, res) => {
     const { hostel, block, room, category, description, attachments = [] } = req.body;
 
     if (!hostel || !block || !room || !category || !description) {
@@ -110,7 +111,15 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
             return res.status(404).json({ error: 'Complaint not found' });
         }
 
-        if (status) complaint.status = status;
+        if (status) {
+            complaint.status = status;
+            // Track when complaint is resolved; clear if status reverted
+            if (status === 'Resolved' && !complaint.resolvedAt) {
+                complaint.resolvedAt = new Date();
+            } else if (status !== 'Resolved') {
+                complaint.resolvedAt = null;
+            }
+        }
         if (remarks !== undefined) complaint.remarks = remarks;
 
         await complaint.save();

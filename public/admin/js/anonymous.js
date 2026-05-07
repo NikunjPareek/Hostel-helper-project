@@ -85,17 +85,34 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function buildMedia(media = []) {
-    if (!media.length) return "";
+    if (!media.length) return '';
 
-    return `
-      <div class="feedback-media-list">
-        ${media.map(file => `
-          <a href="${file.url}" target="_blank" rel="noopener" class="feedback-media-link">
-            ${file.mediaType === "video" ? "Video" : "Photo"}: ${escapeHTML(file.originalName)}
-          </a>
-        `).join("")}
-      </div>
-    `;
+    const items = media.map(file => {
+      const name = escapeHTML(file.originalName || 'Attachment');
+      if (file.mediaType === 'video') {
+        return `
+          <div class="feedback-media-item">
+            <video controls preload="none" style="max-width:100%;border-radius:8px;display:block">
+              <source src="${file.url}" type="${file.mimeType || 'video/mp4'}">
+            </video>
+            <div class="feedback-media-name">${name}</div>
+          </div>`;
+      }
+      return `
+        <div class="feedback-media-item">
+          <img src="${file.url}"
+               alt="${name}"
+               loading="lazy"
+               style="max-width:100%;border-radius:8px;display:block"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="media-error" style="display:none;align-items:center;gap:6px;color:#ef4444;font-size:13px">
+            ⚠ Image unavailable
+          </div>
+          <div class="feedback-media-name">${name}</div>
+        </div>`;
+    }).join('');
+
+    return `<div class="feedback-media-grid">${items}</div>`;
   }
 
   function renderFeedback() {

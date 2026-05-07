@@ -1,5 +1,6 @@
 const express = require('express');
 const { protect, adminOnly, studentOnly } = require('../middleware/auth');
+const { anonymousLimiter } = require('../middleware/rateLimiter');
 const AnonymousFeedback = require('../models/AnonymousFeedback');
 const {
     prepareMediaPayload,
@@ -20,7 +21,7 @@ function sendRouteError(res, error, label) {
 }
 
 // POST /api/feedback - Student submits anonymous feedback
-router.post('/', protect, studentOnly, async (req, res) => {
+router.post('/', protect, studentOnly, anonymousLimiter, async (req, res) => {
     const { category, content, attachments = [] } = req.body;
 
     if (!category || !content) {

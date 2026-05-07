@@ -47,6 +47,22 @@ const studentSchema = new mongoose.Schema({
     phone: {
         type: String,
         default: null
+    },
+    parentPhone: {
+        type: String,
+        default: null
+    },
+    course: {
+        type: String,
+        default: null
+    },
+    batch: {
+        type: String,
+        default: null   // e.g. "2022-2026"
+    },
+    address: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true,

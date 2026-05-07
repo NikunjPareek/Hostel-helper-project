@@ -227,12 +227,29 @@ document.addEventListener("DOMContentLoaded", function () {
     currentEditingId = id;
     
     if (modalComplaintId) modalComplaintId.textContent = complaint.complaintId;
-    if (modalStudent) modalStudent.textContent = complaint.studentName;
-    if (modalRoom) modalRoom.textContent = complaint.room;
-    if (modalCategory) modalCategory.textContent = complaint.category;
+    if (modalStudent)    modalStudent.textContent    = complaint.studentName;
+    if (modalRoom)       modalRoom.textContent       = complaint.room;
+    if (modalCategory)   modalCategory.textContent   = complaint.category;
     if (modalDate) modalDate.textContent = new Date(complaint.createdAt).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
     if (modalDescription) modalDescription.textContent = complaint.description;
     if (modalRemarks) modalRemarks.value = complaint.remarks || '';
+
+    // Extended identity fields
+    const hostelEl   = document.getElementById('modalHostel');
+    const blockEl    = document.getElementById('modalBlock');
+    const usernameEl = document.getElementById('modalUsername');
+    const resolvedEl = document.getElementById('modalResolvedAt');
+
+    if (hostelEl)   hostelEl.textContent   = complaint.hostel   || '—';
+    if (blockEl)    blockEl.textContent    = complaint.block    || '—';
+    if (usernameEl) usernameEl.textContent = complaint.studentUsername || '—';
+    if (resolvedEl) {
+      resolvedEl.textContent = complaint.resolvedAt
+        ? 'Resolved on ' + new Date(complaint.resolvedAt).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'})
+        : '';
+      resolvedEl.style.display = complaint.resolvedAt ? 'block' : 'none';
+    }
+
     renderMedia(complaint.media || []);
     
     // Sync custom dropdown logic for status
@@ -253,32 +270,31 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!modalMediaSection || !modalMediaList) return;
 
     if (!media.length) {
-      modalMediaSection.style.display = "none";
-      modalMediaList.innerHTML = "";
+      modalMediaSection.style.display = 'none';
+      modalMediaList.innerHTML = '';
       return;
     }
 
-    modalMediaSection.style.display = "flex";
+    modalMediaSection.style.display = 'flex';
     modalMediaList.innerHTML = media.map(file => {
-      const name = escapeHTML(file.originalName || "Attachment");
-      if (file.mediaType === "video") {
+      const name = escapeHTML(file.originalName || 'Attachment');
+      if (file.mediaType === 'video') {
         return `
           <div class="media-item">
-            <video controls src="${file.url}"></video>
-            <a href="${file.url}" target="_blank" rel="noopener">${name}</a>
-          </div>
-        `;
+            <video controls preload="none" style="max-width:100%;border-radius:6px">
+              <source src="${file.url}" type="${file.mimeType || 'video/mp4'}">
+            </video>
+            <span>${name}</span>
+          </div>`;
       }
-
       return `
         <div class="media-item">
-          <a href="${file.url}" target="_blank" rel="noopener">
-            <img src="${file.url}" alt="${name}">
-            <span>${name}</span>
-          </a>
-        </div>
-      `;
-    }).join("");
+          <img src="${file.url}" alt="${name}" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div style="display:none;color:#ef4444;font-size:12px">⚠ Image unavailable</div>
+          <span>${name}</span>
+        </div>`;
+    }).join('');
   }
 
   function closeModal() {

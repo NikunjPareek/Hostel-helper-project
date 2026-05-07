@@ -56,6 +56,10 @@ const complaintSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    resolvedAt: {
+        type: Date,
+        default: null
+    },
     media: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UploadedMedia'

@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const { loginLimiter } = require('../middleware/rateLimiter');
 const User = require('../models/User');
 const Student = require('../models/Student');
 const Admin = require('../models/Admin');
@@ -16,7 +17,7 @@ function generateToken(user, accountModel) {
 }
 
 // POST /api/auth/login
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
     const { username, password, role } = req.body;
 
     if (!username || !password || !role) {
@@ -54,10 +55,16 @@ router.post('/login', async (req, res) => {
                 username: user.username,
                 name: user.name,
                 role: user.role,
-                studentId: user.studentId,
-                hostelType: user.hostelType,
-                block: user.block,
-                room: user.room
+                studentId: user.studentId || null,
+                hostelType: user.hostelType || null,
+                block: user.block || null,
+                room: user.room || null,
+                email: user.email || null,
+                phone: user.phone || null,
+                parentPhone: user.parentPhone || null,
+                course: user.course || null,
+                batch: user.batch || null,
+                address: user.address || null
             }
         });
     } catch (error) {
