@@ -1,10 +1,8 @@
-/* =========================================
-   Harbor OS - Complaint History Protocol
-========================================= */
+@import url('/css/system.css');
 
 body {
-    background-color: var(--background, #f8f9fb);
-    color: var(--on-surface, #191c1e);
+    background-color: var(--background);
+    color: var(--text-primary);
 }
 
 .page-content {
@@ -277,9 +275,20 @@ body {
     font-size: 15px; color: #71787d; max-width: 400px; line-height: 1.6; margin: 0;
 }
 
+/* Tablet */
+@media (max-width: 1024px) {
+    .history-grid { grid-template-columns: repeat(2, 1fr); }
+    .page-content { padding: var(--space-8) var(--space-6); }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
-    .controls-bar { flex-direction: column; align-items: stretch; gap: 16px; }
+    .page-content { padding: var(--space-6) var(--space-4); }
+    .controls-bar { flex-direction: column; align-items: stretch; gap: var(--space-4); padding: 16px; }
+    .filter-group { flex-direction: column; align-items: stretch; }
     .custom-select-wrapper { width: 100%; }
     .action-group { justify-content: stretch; }
     .action-group button { flex: 1; justify-content: center; }
+    .history-grid { grid-template-columns: 1fr; }
+    .page-title { font-size: 26px; }
 }

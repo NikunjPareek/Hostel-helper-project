@@ -1,11 +1,8 @@
-/* =========================================
-   Harbor OS - Student Dashboard Styles
-========================================= */
+@import url('/css/system.css');
 
-/* Use identical structural resets and base from Admin Header */
 body {
-    background-color: var(--background, #f8f9fb);
-    color: var(--on-surface, #191c1e);
+    background-color: var(--background);
+    color: var(--text-primary);
 }
 
 .page-content {
@@ -308,6 +305,9 @@ body {
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
 @media (max-width: 1024px) {
     .dashboard-columns { grid-template-columns: 1fr; }
     .polls-stack { grid-template-columns: repeat(2, 1fr); }
@@ -315,11 +315,14 @@ body {
     .hero-title { font-size: 38px; }
 }
 @media (max-width: 768px) {
-    .stats-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
     .polls-stack { grid-template-columns: 1fr; }
     .hero-card { padding: 40px 24px; }
     .hero-actions { flex-direction: column; width: 100%; }
     .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
     .hero-title { font-size: 32px; }
-    .page-content { padding: 24px 16px; }
+}
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 26px; }
 }

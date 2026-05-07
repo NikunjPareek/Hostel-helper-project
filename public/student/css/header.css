@@ -1,0 +1,16 @@
+/* ╔══════════════════════════════════════════════════════════════╗
+   ║   STUDENT PORTAL HEADER                                     ║
+   ║   /public/student/css/header.css                            ║
+   ║   Extends shared system; student-specific badge color only. ║
+   ╚══════════════════════════════════════════════════════════════╝ */
+@import url('/css/system.css');
+
+/* Inherit ALL header styles from admin — same HTML structure */
+@import url('/admin/css/header.css');
+
+/* Student portal: override badge to a calm blue-teal to distinguish */
+.admin-badge {
+  background: #e8f4fd;
+  color: #0277bd;
+  border-color: #90caf9;
+}

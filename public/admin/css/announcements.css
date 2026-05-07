@@ -1,15 +1,10 @@
+@import url('/css/system.css');
 /* announcements.css */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  background-color: #f8f9fb;
-  color: #333;
+  font-family: var(--font-sans);
+  background-color: var(--background);
+  color: var(--text-secondary);
 }
 
 /* ─── Main Content Container ────────────────────────────────────────── */
@@ -58,26 +53,12 @@ body {
 
 /* Button fixed to the right, same row, no growth */
 .btn-new-announcement {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: #800000;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  transition: background 0.2s;
-  flex-shrink: 0;
-  white-space: nowrap;
+  font-family: var(--font-sans);
+  background: var(--brand-primary);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
 }
-
-.btn-new-announcement:hover {
-  background: #600000;
-}
+.btn-new-announcement:hover { background: var(--brand-primary-dk); }
 
 /* ─── Announcements Grid ─────────────────────────────────────────────── */
 /* Desktop: 3 columns / Tablet: 2 columns / Mobile: 1 column */
@@ -362,15 +343,15 @@ body {
 .field-textarea {
   width: 100%;
   padding: 11px 14px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
   font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #1a1a2e;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
   outline: none;
   box-sizing: border-box;
-  background: #fff;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  background: var(--surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   appearance: none;
   -webkit-appearance: none;
 }
@@ -378,8 +359,8 @@ body {
 .field-input:focus,
 .field-select:focus,
 .field-textarea:focus {
-  border-color: #c62828;
-  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.08);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(128,0,0,0.08);
 }
 
 .field-input::placeholder,
@@ -421,13 +402,13 @@ body {
 .btn-submit,
 .btn-delete {
   padding: 11px 24px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   border: none;
-  transition: all 0.2s;
+  transition: all var(--transition-fast);
   letter-spacing: 0.1px;
 }
 
@@ -598,47 +579,10 @@ body {
   color: #c62828;
 }
 
-/* Toast Notification */
-.toast-container {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.toast {
-  background: #fff;
-  border-left: 4px solid #10b981;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 16px 20px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transform: translateX(120%);
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.toast.toast-error {
-  border-left-color: #ef4444;
-}
-
-.toast.show {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.toast-icon {
-  flex-shrink: 0;
-}
-
-.toast-message {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1a1a2e;
-  margin: 0;
-}
+/* Toast — aligned with system.css */
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: var(--z-toast); display: flex; flex-direction: column; gap: 12px; }
+.toast { background: var(--surface); border-left: 4px solid var(--color-success); box-shadow: var(--shadow-md); padding: 14px 18px; border-radius: var(--radius-md); display: flex; align-items: center; gap: 12px; transform: translateX(120%); opacity: 0; transition: all var(--transition-smooth); }
+.toast.toast-error { border-left-color: var(--color-error); }
+.toast.show { transform: translateX(0); opacity: 1; }
+.toast-icon { flex-shrink: 0; }
+.toast-message { font-size: 14px; font-weight: 500; color: var(--text-primary); margin: 0; }

@@ -1,5 +1,6 @@
 <header class="admin-header">
   <div class="header-container">
+    <!-- Left: Logo + Brand -->
     <div class="header-left">
       <div class="admin-logo">
         <img src="/assets/jecrc logo only transparent.png" alt="JECRC Logo">
@@ -11,61 +12,79 @@
       <span class="admin-badge">STUDENT PORTAL</span>
     </div>
 
-    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
-
-    <nav class="header-nav" id="studentHeaderNav">
-      <!-- Home -->
+    <!-- Center: Nav -->
+    <nav class="header-nav" id="studentHeaderNav" aria-label="Student navigation">
       <a href="/student/home" class="nav-link" data-page="home">
         <span class="material-symbols-outlined">home</span>
         Home
       </a>
-      <!-- Register Complaint -->
       <a href="/student/complaint" class="nav-link" data-page="complaint">
         <span class="material-symbols-outlined">edit_document</span>
         Register Complaint
       </a>
-      <!-- Anonymous Complaint -->
       <a href="/student/anonymous" class="nav-link" data-page="anonymous">
         <span class="material-symbols-outlined">visibility_off</span>
-        Anonymous Complaint
+        Anonymous
       </a>
-      <!-- My Complaints -->
       <a href="/student/complaint-history" class="nav-link" data-page="complaint-history">
         <span class="material-symbols-outlined">history</span>
         My Complaints
       </a>
+      <!-- Logout shown only in mobile drawer -->
+      <button class="logout-btn mobile-logout" onclick="handleLogout()">Logout</button>
     </nav>
-    
+
+    <!-- Right: Desktop Logout + Hamburger -->
     <div class="header-right">
-      <button class="logout-btn" onclick="handleLogout()">Logout</button>
+      <button class="logout-btn desktop-logout" onclick="handleLogout()">Logout</button>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation" aria-expanded="false">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
     </div>
   </div>
 </header>
 
+<!-- Backdrop overlay (closes drawer on click) -->
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
 <script>
   (function() {
-    // Dynamically assign .active to the correct nav link based on current URL
-    const segments = window.location.pathname.split("/").filter(Boolean);
-    const page = segments[segments.length - 1] || "home";
-    const links = document.querySelectorAll("#studentHeaderNav .nav-link");
-    links.forEach(link => {
-      if (link.getAttribute("data-page") === page) {
-        link.classList.add("active");
-      } else {
-        link.classList.remove("active");
-      }
+    // Active nav link
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    const page = segments[segments.length - 1] || 'home';
+    document.querySelectorAll('#studentHeaderNav .nav-link').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('data-page') === page);
     });
 
-    // Mobile Toggle Bindings
-    const mobileToggle = document.getElementById("mobileToggle");
-    const headerNav = document.getElementById("studentHeaderNav");
-    if (mobileToggle && headerNav) {
-      mobileToggle.addEventListener("click", () => {
-        headerNav.classList.toggle("active");
-      });
+    // Mobile drawer
+    const toggle   = document.getElementById('mobileToggle');
+    const nav      = document.getElementById('studentHeaderNav');
+    const backdrop = document.getElementById('navBackdrop');
+
+    function openDrawer() {
+      nav.classList.add('active');
+      backdrop.classList.add('active');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
     }
+    function closeDrawer() {
+      nav.classList.remove('active');
+      backdrop.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', () =>
+        nav.classList.contains('active') ? closeDrawer() : openDrawer()
+      );
+    }
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+    nav.querySelectorAll('.nav-link').forEach(link =>
+      link.addEventListener('click', () => { if (window.innerWidth <= 1024) closeDrawer(); })
+    );
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
   })();
 </script>
-

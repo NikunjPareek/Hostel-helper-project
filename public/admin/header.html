@@ -1,4 +1,4 @@
-﻿<header class="admin-header">
+<header class="admin-header">
   <div class="header-container">
     <!-- Left: Logo + Brand -->
     <div class="header-left">
@@ -12,8 +12,8 @@
       <span class="admin-badge">ADMIN PANEL</span>
     </div>
 
-    <!-- Center: Nav (desktop) -->
-    <nav class="header-nav" id="headerNav">
+    <!-- Center: Nav -->
+    <nav class="header-nav" id="headerNav" aria-label="Admin navigation">
       <a href="/admin/dashboard" class="nav-link" data-page="dashboard">
         <span class="material-symbols-outlined">dashboard</span>
         Dashboard
@@ -30,11 +30,11 @@
         <span class="material-symbols-outlined">campaign</span>
         Announcements
       </a>
-      <!-- Logout inside mobile dropdown only -->
+      <!-- Logout shown only in mobile drawer -->
       <button class="logout-btn mobile-logout" onclick="handleLogout()">Logout</button>
     </nav>
 
-    <!-- Right: Desktop Logout + Mobile Hamburger -->
+    <!-- Right: Desktop Logout + Hamburger -->
     <div class="header-right">
       <button class="logout-btn desktop-logout" onclick="handleLogout()">Logout</button>
       <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation" aria-expanded="false">
@@ -43,3 +43,49 @@
     </div>
   </div>
 </header>
+
+<!-- Backdrop overlay (closes drawer on click) -->
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
+
+<script>
+  (function() {
+    // Active nav link
+    const page = window.location.pathname.split('/').filter(Boolean).pop() || 'dashboard';
+    document.querySelectorAll('#headerNav .nav-link').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('data-page') === page);
+    });
+
+    // Mobile drawer toggle
+    const toggle   = document.getElementById('mobileToggle');
+    const nav      = document.getElementById('headerNav');
+    const backdrop = document.getElementById('navBackdrop');
+
+    function openDrawer() {
+      nav.classList.add('active');
+      backdrop.classList.add('active');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      nav.classList.remove('active');
+      backdrop.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', () =>
+        nav.classList.contains('active') ? closeDrawer() : openDrawer()
+      );
+    }
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+    // Close on nav link click (mobile)
+    nav.querySelectorAll('.nav-link').forEach(link =>
+      link.addEventListener('click', () => { if (window.innerWidth <= 1024) closeDrawer(); })
+    );
+
+    // Close on ESC
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+  })();
+</script>
