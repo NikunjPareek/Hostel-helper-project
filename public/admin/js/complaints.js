@@ -1,4 +1,4 @@
-// Admin Complaints JS — API Edition
+﻿// Admin Complaints JS — API Edition
 
 // Auth guard — admin only
 const currentUser = authGuard('admin');
@@ -375,5 +375,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
   }
 
-  // Init\r\n  loadComplaints();
+  // Init
+  loadComplaints();
 });
