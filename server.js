@@ -45,21 +45,45 @@ app.use('/api/feedback', require('./src/routes/feedback'));
 app.use('/api/dashboard', require('./src/routes/dashboard'));
 app.use('/api/media', require('./src/routes/media'));
 
-// Clean URL routing — serves static HTML pages
-app.get('/:page', (req, res) => {
+// Clean URL routing — serves static HTML pages.
+// Guard: skip requests that look like static asset files (.js, .css, .png, etc.)
+// so they get a proper 404 instead of being mapped to a folder/index.html.
+const STATIC_EXT = /\.([a-z0-9]{1,6})$/i;
+
+app.get('/:page', (req, res, next) => {
+    if (STATIC_EXT.test(req.params.page)) return next();
     const file = path.join(__dirname, 'public', req.params.page, 'index.html');
-    res.sendFile(file);
+    res.sendFile(file, err => {
+        if (err) res.status(404).send('Page not found');
+    });
 });
 
-app.get('/:section/:page', (req, res) => {
+app.get('/:section/:page', (req, res, next) => {
+    if (STATIC_EXT.test(req.params.section) || STATIC_EXT.test(req.params.page)) return next();
     const file = path.join(__dirname, 'public', req.params.section, req.params.page, 'index.html');
-    res.sendFile(file);
+    res.sendFile(file, err => {
+        if (err) res.status(404).send('Page not found');
+    });
+});
+
+// Catch-all for unmatched requests (static assets that don't exist)
+app.use((req, res) => {
+    res.status(404).send('Not found');
 });
 
 async function startServer() {
     await connectDB();
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
+    });
+    server.on('error', err => {
+        if (err.code === 'EADDRINUSE') {
+            console.error(`\n❌ Port ${PORT} is already in use.`);
+            console.error(`   Stop the existing server first, then run npm start again.\n`);
+        } else {
+            console.error('Server error:', err);
+        }
+        process.exit(1);
     });
 }
 

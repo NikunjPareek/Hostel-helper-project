@@ -106,10 +106,17 @@ async function apiCall(method, path, body = null) {
     const res = await fetch(path, options);
 
     // 401 → session invalid, clear and go to login
+    // Exception: don't auto-redirect if we ARE on the login page or calling the login endpoint
+    // (allows login.js to catch the error and display the message)
     if (res.status === 401) {
-        clearSession();
-        window.location.replace('/login');
-        return null;
+        const isLoginPage = window.location.pathname.startsWith('/login');
+        const isLoginCall = path === '/api/auth/login';
+        if (!isLoginPage && !isLoginCall) {
+            clearSession();
+            window.location.replace('/login');
+            return null;
+        }
+        // On login page: fall through so the error gets thrown below
     }
 
     const data = await res.json();
