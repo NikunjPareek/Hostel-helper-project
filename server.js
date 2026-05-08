@@ -24,6 +24,17 @@ app.get('/favicon.ico', (req, res) => {
     res.status(204).end();
 });
 
+async function ensureDatabase(req, res, next) {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        res.status(500).json({ error: 'Database connection failed' });
+    }
+}
+
+app.use('/api', ensureDatabase);
+
 // API Routes
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/users', require('./src/routes/users'));
@@ -52,4 +63,11 @@ async function startServer() {
     });
 }
 
-startServer();
+if (require.main === module) {
+    startServer().catch(error => {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    });
+}
+
+module.exports = app;
