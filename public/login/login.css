@@ -102,6 +102,29 @@ display:flex;
   background: var(--surface);
   transition: all var(--transition-fast);
 }
+
+/* Password input needs extra right padding for the eye toggle */
+.input-group input[type="password"],
+.input-group input.show-toggle {
+  padding-right: 40px;
+}
+
+/* Eye toggle button */
+.eye-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+.eye-toggle:hover { color: #475569; }
 .input-group input:focus {
   border-color: var(--brand-primary);
   box-shadow: 0 0 0 3px rgba(128,0,0,0.12);
