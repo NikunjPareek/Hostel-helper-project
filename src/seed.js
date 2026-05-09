@@ -54,7 +54,7 @@ const admins = [
     { username: 'admin14', password: 'Admin@Harsh', name: 'Harshwardhan Sharma', role: 'admin' },
     { username: 'admin15', password: 'Admin@Ayush', name: 'Ayush Joshi', role: 'admin' },
     { username: 'admin16', password: 'Admin@Jatin', name: 'Jatin Yadav', role: 'admin' },
-    { username: 'admin17', password: 'Admin@Div', name: 'Divyanshu Tailor', role: 'admin' }
+    { username: 'admin17', password: 'Admin@Dev', name: 'Devyanshu Tailor', role: 'admin' }
 ];
 
 const sampleAnnouncements = [

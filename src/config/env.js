@@ -14,6 +14,9 @@ function required(name) {
     if (!value) {
         throw new Error(`Missing required environment variable: ${name}`);
     }
+    if (value.startsWith(`${name}=`)) {
+        throw new Error(`Invalid ${name}: enter only the value, not "${name}=...".`);
+    }
     return value;
 }
 
