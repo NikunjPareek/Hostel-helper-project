@@ -166,3 +166,35 @@ function formatDateTime(isoString) {
         + ' at '
         + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 }
+
+// ─── Global Mobile Navigation Handler ─────────────────────────
+// Fixes the mobile menu button for dynamically injected headers
+document.addEventListener('click', function(e) {
+    const toggleBtn = e.target.closest('.mobile-toggle');
+    if (toggleBtn) {
+        const nav = document.querySelector('.header-nav');
+        const backdrop = document.querySelector('.nav-backdrop');
+        if (nav) {
+            const isActive = nav.classList.toggle('active');
+            toggleBtn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            if (backdrop) backdrop.classList.toggle('active', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        }
+        return;
+    }
+
+    if (e.target.closest('.nav-backdrop') || e.target.closest('.nav-link')) {
+        const nav = document.querySelector('.header-nav');
+        const backdrop = document.querySelector('.nav-backdrop');
+        const toggleBtn = document.querySelector('.mobile-toggle');
+        
+        if (nav && nav.classList.contains('active')) {
+            if (!e.target.closest('.nav-link') || window.innerWidth <= 1024) {
+                nav.classList.remove('active');
+                if (backdrop) backdrop.classList.remove('active');
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
+        }
+    }
+});

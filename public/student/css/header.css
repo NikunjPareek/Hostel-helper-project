@@ -10,7 +10,14 @@
 
 /* Student portal: override badge to a calm blue-teal to distinguish */
 .admin-badge {
-  background: #e8f4fd;
-  color: #0277bd;
-  border-color: #90caf9;
+    background: #fde8e8;
+  color: #c62828;
+  border: 1px solid var(--brand-primary-mid);
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  letter-spacing: 0.025em;
+  font-family: var(--font-sans);
+  white-space: nowrap;
 }

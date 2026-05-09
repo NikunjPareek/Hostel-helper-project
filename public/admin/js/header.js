@@ -11,16 +11,19 @@ function loadAdminHeader() {
       
       var toggleBtn = document.getElementById("mobileToggle");
       var nav = document.getElementById("headerNav");
+      var backdrop = document.getElementById("navBackdrop");
       if (toggleBtn && nav) {
         toggleBtn.addEventListener('click', function(e) {
           e.stopPropagation();
           var isOpen = nav.classList.toggle('active');
+          if (backdrop) backdrop.classList.toggle('active', isOpen);
           toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
-        // Close when clicking outside the header
+        // Close when clicking outside the header (e.g. on the backdrop)
         document.addEventListener('click', function(e) {
           if (!el.contains(e.target)) {
             nav.classList.remove('active');
+            if (backdrop) backdrop.classList.remove('active');
             toggleBtn.setAttribute('aria-expanded', 'false');
           }
         });

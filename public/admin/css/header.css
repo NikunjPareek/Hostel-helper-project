@@ -244,9 +244,9 @@
 .nav-backdrop {
   display: none;
   position: fixed;
-  inset: 64px 0 0 0;
+  inset: 0;
   background: rgba(0,0,0,0.25);
-  z-index: calc(var(--z-overlay) - 1);
+  z-index: calc(var(--z-header) - 1);
   backdrop-filter: blur(1px);
 }
 .nav-backdrop.active { display: block; }
@@ -306,7 +306,7 @@
   height: 36px;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: #fff;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
