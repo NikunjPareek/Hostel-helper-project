@@ -76,6 +76,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     `).join("");
   }
 
+  let currentPollIndex = 0;
+
+  function handlePollNav(direction) {
+    if (!dashboardState.polls || dashboardState.polls.length <= 1) return;
+    if (direction === 'prev') {
+      currentPollIndex = (currentPollIndex - 1 + dashboardState.polls.length) % dashboardState.polls.length;
+    } else {
+      currentPollIndex = (currentPollIndex + 1) % dashboardState.polls.length;
+    }
+    renderPollResults();
+  }
+
   function renderPollResults() {
     const totalVotesNode = document.getElementById("totalVotes");
     const questionNode = document.getElementById("pollQuestion");
@@ -94,9 +106,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (totalVotesNode) totalVotesNode.textContent = `${dashboardState.polls.length} active polls`;
     if (questionNode) questionNode.textContent = `${totalVotes} total votes across active polls`;
 
-    let html = "";
-    dashboardState.polls.forEach((poll, pollIndex) => {
-      html += `
+    const pollNavControls = document.getElementById("pollNavControls");
+    if (pollNavControls) {
+      pollNavControls.style.display = dashboardState.polls.length > 1 ? "flex" : "none";
+    }
+
+    if (currentPollIndex >= dashboardState.polls.length) {
+      currentPollIndex = Math.max(0, dashboardState.polls.length - 1);
+    }
+
+    const poll = dashboardState.polls[currentPollIndex];
+    const pollIndex = currentPollIndex;
+
+    let html = `
         <div class="poll-result-group">
           <div class="poll-result-title">${escapeHTML(poll.question)}</div>
           <div class="poll-result-meta">${poll.totalVotes} total votes</div>
@@ -117,7 +139,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           }).join("")}
           </div>
       `;
-    });
 
     pollBarsHook.innerHTML = html;
 
@@ -259,6 +280,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   if(pollModal) pollModal.addEventListener("click", e => { if (e.target === pollModal) closeModal(); });
   if(addPollOptionBtn) addPollOptionBtn.addEventListener("click", addOptionLine);
   if(savePollBtn) savePollBtn.addEventListener("click", saveNewPoll);
+  
+  const prevPollBtn = document.getElementById("prevPollBtn");
+  const nextPollBtn = document.getElementById("nextPollBtn");
+  if(prevPollBtn) prevPollBtn.addEventListener("click", () => handlePollNav('prev'));
+  if(nextPollBtn) nextPollBtn.addEventListener("click", () => handlePollNav('next'));
 
   // --- Toast System ---
   const toastContainer = document.getElementById("toastContainer");
