@@ -7,6 +7,7 @@ const {
     savePreparedMedia,
     attachMediaUrls
 } = require('../utils/media');
+const { escapeRegex, isObjectId, requiredText, text } = require('../utils/validation');
 
 const router = express.Router();
 
@@ -22,13 +23,18 @@ function sendRouteError(res, error, label) {
 
 // POST /api/complaints - Student submits a new complaint
 router.post('/', protect, studentOnly, complaintLimiter, async (req, res) => {
-    const { hostel, block, room, category, description, attachments = [] } = req.body;
-
-    if (!hostel || !block || !room || !category || !description) {
-        return res.status(400).json({ error: 'All fields are required' });
-    }
-
     try {
+        const hostel = requiredText(req.body.hostel, 'Hostel', 120);
+        const block = requiredText(req.body.block, 'Block', 40);
+        const room = requiredText(req.body.room, 'Room', 40);
+        const category = requiredText(req.body.category, 'Category', 80);
+        const description = requiredText(req.body.description, 'Description', 3000);
+        const attachments = Array.isArray(req.body.attachments) ? req.body.attachments : [];
+
+        if (description.length < 20) {
+            return res.status(400).json({ error: 'Description must be at least 20 characters' });
+        }
+
         const preparedMedia = prepareMediaPayload(attachments);
 
         const complaint = await Complaint.create({
@@ -80,15 +86,20 @@ router.get('/', protect, adminOnly, async (req, res) => {
         const { status, category, search } = req.query;
         const filter = {};
 
-        if (status && status !== 'All') filter.status = status;
-        if (category && category !== 'All') filter.category = category;
-        if (search) {
+        const cleanStatus = text(status, 40);
+        const cleanCategory = text(category, 80);
+        const cleanSearch = text(search, 100);
+
+        if (cleanStatus && cleanStatus !== 'All') filter.status = cleanStatus;
+        if (cleanCategory && cleanCategory !== 'All') filter.category = cleanCategory;
+        if (cleanSearch) {
+            const safeSearch = escapeRegex(cleanSearch);
             filter.$or = [
-                { studentName: { $regex: search, $options: 'i' } },
-                { studentUsername: { $regex: search, $options: 'i' } },
-                { complaintId: { $regex: search, $options: 'i' } },
-                { category: { $regex: search, $options: 'i' } },
-                { room: { $regex: search, $options: 'i' } }
+                { studentName: { $regex: safeSearch, $options: 'i' } },
+                { studentUsername: { $regex: safeSearch, $options: 'i' } },
+                { complaintId: { $regex: safeSearch, $options: 'i' } },
+                { category: { $regex: safeSearch, $options: 'i' } },
+                { room: { $regex: safeSearch, $options: 'i' } }
             ];
         }
 
@@ -103,9 +114,17 @@ router.get('/', protect, adminOnly, async (req, res) => {
 
 // PUT /api/complaints/:id - Admin updates status and remarks
 router.put('/:id', protect, adminOnly, async (req, res) => {
-    const { status, remarks } = req.body;
-
     try {
+        if (!isObjectId(req.params.id)) {
+            return res.status(404).json({ error: 'Complaint not found' });
+        }
+
+        const status = text(req.body.status, 40);
+        const remarks = text(req.body.remarks, 2000);
+        if (status && !['Submitted', 'Under Review', 'Resolved'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status' });
+        }
+
         const complaint = await Complaint.findById(req.params.id);
         if (!complaint) {
             return res.status(404).json({ error: 'Complaint not found' });
@@ -120,7 +139,7 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
                 complaint.resolvedAt = null;
             }
         }
-        if (remarks !== undefined) complaint.remarks = remarks;
+        if (req.body.remarks !== undefined) complaint.remarks = remarks;
 
         await complaint.save();
         await complaint.populate(mediaPopulate);

@@ -1,26 +1,20 @@
-// login.js — API-based authentication with role-scoped session handling
+// API-based authentication with role-scoped session handling.
 
-// ─── Already logged in? Redirect immediately ──────────────────
 (function redirectIfLoggedIn() {
-    // isTokenExpired is defined in api.js (loaded before this file)
-    const adminToken  = localStorage.getItem('hh_admin_token');
-    const studentToken = localStorage.getItem('hh_student_token');
+    const adminUser = localStorage.getItem('hh_admin_user');
+    const studentUser = localStorage.getItem('hh_student_user');
+    const adminExpiresAt = localStorage.getItem('hh_admin_expires_at');
+    const studentExpiresAt = localStorage.getItem('hh_student_expires_at');
 
-    try {
-        if (adminToken && !isTokenExpired(adminToken)) {
-            window.location.replace('/admin/dashboard');
-            return;
-        }
-        if (studentToken && !isTokenExpired(studentToken)) {
-            window.location.replace('/student/home');
-            return;
-        }
-    } catch (_) {
-        // api.js not yet loaded in edge case — skip guard
+    if (adminUser && adminExpiresAt && Date.now() < Date.parse(adminExpiresAt) - 10000) {
+        window.location.replace('/admin/dashboard');
+        return;
+    }
+    if (studentUser && studentExpiresAt && Date.now() < Date.parse(studentExpiresAt) - 10000) {
+        window.location.replace('/student/home');
     }
 })();
 
-// ─── Role Toggle ───────────────────────────────────────────────
 document.querySelectorAll('.role-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
@@ -29,22 +23,21 @@ document.querySelectorAll('.role-btn').forEach(btn => {
 
         const usernameInput = document.getElementById('username');
         if (btn.dataset.role === 'student') {
-            usernameInput.placeholder = 'Enter student ID (e.g. 24BCAN0745)';
+            usernameInput.placeholder = 'Enter student ID (e.g. demo-student-001)';
         } else {
-            usernameInput.placeholder = 'Enter admin username (e.g. admin13)';
+            usernameInput.placeholder = 'Enter admin username (e.g. demo-admin)';
         }
     });
 });
 
-// ─── Login form submit ─────────────────────────────────────────
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const role     = document.getElementById('selectedRole').value;
-    const errEl    = document.getElementById('formError');
-    const btn      = document.getElementById('signInBtn');
+    const password = document.getElementById('password').value;
+    const role = document.getElementById('selectedRole').value;
+    const errEl = document.getElementById('formError');
+    const btn = document.getElementById('signInBtn');
 
     errEl.textContent = '';
     errEl.style.display = 'none';
@@ -61,11 +54,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     try {
         const data = await apiCall('POST', '/api/auth/login', { username, password, role });
 
-        if (data && data.token) {
-            // setSession uses role-scoped keys — no cross-portal bleed
-            setSession(data.token, data.user);
-
-            // Use replace() so back-button doesn't land back on login
+        if (data && data.user) {
+            setSession(data.expiresAt, data.user);
             const redirect = data.user.role === 'admin' ? '/admin/dashboard' : '/student/home';
             window.location.replace(redirect);
         }

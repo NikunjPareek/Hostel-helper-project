@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
+const env = require('../config/env');
 const User = require('../models/User');
 const Student = require('../models/Student');
 const Admin = require('../models/Admin');
+const { parseCookies } = require('../utils/cookies');
 
 function getAccountModel(decoded) {
     if (decoded.accountModel === 'Admin') return Admin;
@@ -16,10 +18,15 @@ function getAccountModel(decoded) {
 const protect = async (req, res, next) => {
     let token;
 
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+        token = req.headers.authorization.split(' ')[1];
+    } else {
+        token = parseCookies(req.headers.cookie)[env.SESSION_COOKIE_NAME];
+    }
+
+    if (token) {
         try {
-            token = req.headers.authorization.split(' ')[1];
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const decoded = jwt.verify(token, env.JWT_SECRET);
             const AccountModel = getAccountModel(decoded);
             req.user = await AccountModel.findById(decoded.id).select('-password');
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const { protect, studentOnly } = require('../middleware/auth');
 const Student = require('../models/Student');
+const { text } = require('../utils/validation');
 
 const router = express.Router();
 
@@ -35,7 +36,8 @@ router.put('/me', protect, studentOnly, async (req, res) => {
 
         EDITABLE_FIELDS.forEach(field => {
             if (req.body[field] !== undefined) {
-                updates[field] = req.body[field] !== '' ? req.body[field] : null;
+                const value = text(req.body[field], field === 'address' ? 500 : 120);
+                updates[field] = value !== '' ? value : null;
             }
         });
 

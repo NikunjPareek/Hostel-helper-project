@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const env = require('./env');
 
 let cachedConnection = null;
 
@@ -8,16 +9,12 @@ const connectDB = async () => {
     }
 
     try {
-        if (!process.env.MONGO_URI) {
-            throw new Error('MONGO_URI is not configured');
-        }
-
-        const conn = await mongoose.connect(process.env.MONGO_URI);
+        const conn = await mongoose.connect(env.MONGO_URI);
         cachedConnection = conn;
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        console.log('MongoDB connected');
         return conn;
     } catch (error) {
-        console.error(`MongoDB Connection Error: ${error.message}`);
+        console.error(env.isProduction ? 'MongoDB connection failed' : `MongoDB connection failed: ${error.message}`);
         throw error;
     }
 };

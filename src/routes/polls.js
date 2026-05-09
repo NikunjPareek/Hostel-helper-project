@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { protect, adminOnly, studentOnly } = require('../middleware/auth');
 const Poll = require('../models/Poll');
 const PollResponse = require('../models/PollResponse');
+const { isObjectId, text } = require('../utils/validation');
 
 const router = express.Router();
 
@@ -89,22 +90,31 @@ router.get('/', protect, adminOnly, async (req, res) => {
 
 // POST /api/polls - Admin creates a new active poll without disabling older polls
 router.post('/', protect, adminOnly, async (req, res) => {
-    const { question, options, expiresAt = null } = req.body;
+    const { options, expiresAt = null } = req.body;
+    const question = text(req.body.question, 300);
     const cleanOptions = Array.isArray(options)
-        ? options.map(option => String(option).trim()).filter(Boolean)
+        ? options.map(option => text(option, 120)).filter(Boolean)
         : [];
 
     if (!question || cleanOptions.length < 2) {
         return res.status(400).json({ error: 'Question and at least 2 options are required' });
     }
+    if (cleanOptions.length > 10) {
+        return res.status(400).json({ error: 'A poll can have at most 10 options' });
+    }
 
     try {
+        const expiry = expiresAt ? new Date(expiresAt) : null;
+        if (expiresAt && Number.isNaN(expiry.getTime())) {
+            return res.status(400).json({ error: 'Invalid expiry date' });
+        }
+
         const poll = await Poll.create({
-            question: question.trim(),
+            question,
             options: cleanOptions.map(label => ({ label, votes: 0 })),
             createdBy: req.user.name,
             createdByAdmin: req.user._id,
-            expiresAt: expiresAt ? new Date(expiresAt) : null,
+            expiresAt: expiry,
             isActive: true
         });
 
@@ -119,11 +129,19 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
     const { isActive, expiresAt } = req.body;
 
     try {
+        if (!isObjectId(req.params.id)) return res.status(404).json({ error: 'Poll not found' });
+
         const poll = await Poll.findById(req.params.id);
         if (!poll) return res.status(404).json({ error: 'Poll not found' });
 
         if (typeof isActive === 'boolean') poll.isActive = isActive;
-        if (expiresAt !== undefined) poll.expiresAt = expiresAt ? new Date(expiresAt) : null;
+        if (expiresAt !== undefined) {
+            const expiry = expiresAt ? new Date(expiresAt) : null;
+            if (expiresAt && Number.isNaN(expiry.getTime())) {
+                return res.status(400).json({ error: 'Invalid expiry date' });
+            }
+            poll.expiresAt = expiry;
+        }
 
         await poll.save();
         res.json(serializePoll(poll));
@@ -137,6 +155,8 @@ router.post('/:id/vote', protect, studentOnly, async (req, res) => {
     const optionIndex = Number(req.body.optionIndex);
 
     try {
+        if (!isObjectId(req.params.id)) return res.status(404).json({ error: 'Poll not found' });
+
         const poll = await Poll.findById(req.params.id);
         if (!poll) return res.status(404).json({ error: 'Poll not found' });
         if (!poll.isActive) return res.status(400).json({ error: 'Poll is no longer active' });

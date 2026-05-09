@@ -1,16 +1,8 @@
 /**
- * api.js — Shared frontend utility for all portals.
- *
- * Features:
- *  - Role-scoped localStorage (hh_admin_* / hh_student_*) — prevents cross-session bleed
- *  - Client-side JWT expiry check — auto-logout on expired tokens
- *  - Strict authGuard — wrong role → correct portal (no login loop)
- *  - refreshProfile() — syncs hh_user from server on page load
- *  - apiCall() — authenticated fetch wrapper with 401 auto-logout
- *  - handleLogout() — wipes both role namespaces
+ * Shared frontend utility for both portals.
+ * Keeps role-scoped UI state in localStorage while server auth uses httpOnly cookies.
  */
 
-// ─── Role key helpers ─────────────────────────────────────────
 function _portalRole() {
     return window.location.pathname.startsWith('/admin') ? 'admin' : 'student';
 }
@@ -19,20 +11,31 @@ function _key(role, field) {
     return `hh_${role}_${field}`;
 }
 
-// ─── Token expiry check ───────────────────────────────────────
-function isTokenExpired(token) {
+function _expiryFromToken(token) {
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        // Add 10s buffer to avoid edge-case race conditions
-        return Date.now() >= (payload.exp * 1000) - 10000;
+        return payload.exp ? new Date(payload.exp * 1000).toISOString() : null;
     } catch (_) {
-        return true;
+        return null;
     }
 }
 
-// ─── Session helpers ──────────────────────────────────────────
+function isTokenExpired(token) {
+    const expiry = _expiryFromToken(token);
+    return !expiry || Date.now() >= Date.parse(expiry) - 10000;
+}
+
 function getToken() {
     return localStorage.getItem(_key(_portalRole(), 'token'));
+}
+
+function getSessionExpiresAt(role = _portalRole()) {
+    return localStorage.getItem(_key(role, 'expires_at'));
+}
+
+function isSessionExpired(role = _portalRole()) {
+    const expiresAt = getSessionExpiresAt(role);
+    return !expiresAt || Date.now() >= Date.parse(expiresAt) - 10000;
 }
 
 function getUser() {
@@ -40,39 +43,45 @@ function getUser() {
     try { return raw ? JSON.parse(raw) : null; } catch (_) { return null; }
 }
 
-function setSession(token, user) {
+function setSession(sessionValue, user, expiresAt = null) {
     const role = user.role === 'admin' ? 'admin' : 'student';
-    localStorage.setItem(_key(role, 'token'), token);
+    let sessionExpiresAt = expiresAt;
+
+    if (!sessionExpiresAt && typeof sessionValue === 'string') {
+        sessionExpiresAt = sessionValue.includes('.') ? _expiryFromToken(sessionValue) : sessionValue;
+    }
+    if (!sessionExpiresAt) {
+        sessionExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    }
+
+    localStorage.setItem(_key(role, 'expires_at'), sessionExpiresAt);
     localStorage.setItem(_key(role, 'user'), JSON.stringify(user));
+    localStorage.removeItem(_key(role, 'token'));
 }
 
 function clearSession() {
-    // Wipe BOTH role namespaces — guarantees clean state on shared devices
     ['admin', 'student'].forEach(role => {
         localStorage.removeItem(_key(role, 'token'));
+        localStorage.removeItem(_key(role, 'expires_at'));
         localStorage.removeItem(_key(role, 'user'));
     });
 }
 
-// ─── Auth guard ───────────────────────────────────────────────
-/**
- * Call at the top of every protected page.
- * - Expired/missing token → clearSession + redirect to /login
- * - Wrong role → redirect to correct portal (NOT /login — avoids loop)
- */
 function authGuard(requiredRole) {
-    const token = getToken();
+    const role = _portalRole();
+    const legacyToken = getToken();
     const user = getUser();
     const isLoginPage = window.location.pathname.startsWith('/login');
+    const hasValidStoredSession = user && !isSessionExpired(role);
+    const hasValidLegacyToken = user && legacyToken && !isTokenExpired(legacyToken);
 
-    if (!token || !user || isTokenExpired(token)) {
+    if (!user || (!hasValidStoredSession && !hasValidLegacyToken)) {
         clearSession();
         if (!isLoginPage) window.location.replace('/login');
         return null;
     }
 
     if (requiredRole && user.role !== requiredRole) {
-        // Send to their actual portal, not the login page
         const correctPortal = user.role === 'admin' ? '/admin/dashboard' : '/student/home';
         window.location.replace(correctPortal);
         return null;
@@ -81,21 +90,14 @@ function authGuard(requiredRole) {
     return user;
 }
 
-// ─── API call wrapper ─────────────────────────────────────────
-/**
- * Makes an authenticated API request.
- * @param {string} method  - HTTP method
- * @param {string} path    - API path e.g. '/api/complaints'
- * @param {object} [body]  - Optional request body
- * @returns {Promise<any>} - Parsed JSON response
- */
 async function apiCall(method, path, body = null) {
     const token = getToken();
     const options = {
         method,
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
         }
     };
 
@@ -105,9 +107,6 @@ async function apiCall(method, path, body = null) {
 
     const res = await fetch(path, options);
 
-    // 401 → session invalid, clear and go to login
-    // Exception: don't auto-redirect if we ARE on the login page or calling the login endpoint
-    // (allows login.js to catch the error and display the message)
     if (res.status === 401) {
         const isLoginPage = window.location.pathname.startsWith('/login');
         const isLoginCall = path === '/api/auth/login';
@@ -116,59 +115,88 @@ async function apiCall(method, path, body = null) {
             window.location.replace('/login');
             return null;
         }
-        // On login page: fall through so the error gets thrown below
     }
 
-    const data = await res.json();
+    const contentType = res.headers.get('content-type') || '';
+    const data = contentType.includes('application/json') ? await res.json() : await res.text();
 
     if (!res.ok) {
-        throw new Error(data.error || 'Request failed');
+        throw new Error((data && data.error) || 'Request failed');
     }
 
     return data;
 }
 
-// ─── Profile refresh ──────────────────────────────────────────
-/**
- * Syncs the full profile from /api/users/me into localStorage.
- * Call on every student page load after authGuard.
- */
 async function refreshProfile() {
     try {
         const profile = await apiCall('GET', '/api/users/me');
         if (profile) {
             const existing = getUser() || {};
-            setSession(getToken(), { ...existing, ...profile });
+            setSession(getSessionExpiresAt(), { ...existing, ...profile });
         }
     } catch (_) {
-        // Non-fatal — profile panel will show cached data
+        // Non-fatal: existing cached profile can still render the page shell.
     }
 }
 
-// ─── Logout ───────────────────────────────────────────────────
 function handleLogout() {
     clearSession();
-    window.location.replace('/login');
+    fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+        keepalive: true
+    }).finally(() => {
+        window.location.replace('/login');
+    });
 }
 
-// ─── Date formatting helper ───────────────────────────────────
 function formatDate(isoString) {
-    if (!isoString) return '—';
+    if (!isoString) return '-';
     return new Date(isoString).toLocaleDateString('en-GB', {
         day: '2-digit', month: 'short', year: 'numeric'
     });
 }
 
 function formatDateTime(isoString) {
-    if (!isoString) return '—';
+    if (!isoString) return '-';
     const d = new Date(isoString);
     return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
         + ' at '
         + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 }
 
-// ─── Global Mobile Navigation Handler ─────────────────────────
-// Fixes the mobile menu button for dynamically injected headers
+const PUBLIC_CONFIG_FALLBACK = {
+    contactAddress: 'Example Campus Address',
+    contactPhone: '+1 555 010 0000',
+    contactEmail: 'support@example.edu'
+};
+let publicConfigPromise = null;
+
+function getPublicConfig() {
+    if (!publicConfigPromise) {
+        publicConfigPromise = fetch('/api/public-config', { credentials: 'include' })
+            .then(res => res.ok ? res.json() : PUBLIC_CONFIG_FALLBACK)
+            .catch(() => PUBLIC_CONFIG_FALLBACK);
+    }
+    return publicConfigPromise;
+}
+
+async function applyPublicConfig(root = document) {
+    const config = await getPublicConfig();
+    const scope = root.querySelectorAll ? root : document;
+    scope.querySelectorAll('[data-public-config]').forEach(node => {
+        const key = node.getAttribute('data-public-config');
+        if (config[key] && node.textContent !== config[key]) node.textContent = config[key];
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    applyPublicConfig();
+    const observer = new MutationObserver(() => applyPublicConfig());
+    observer.observe(document.body, { childList: true, subtree: true });
+});
+
+// Global mobile navigation handler for dynamically injected headers.
 document.addEventListener('click', function(e) {
     const toggleBtn = e.target.closest('.mobile-toggle');
     if (toggleBtn) {
@@ -187,7 +215,7 @@ document.addEventListener('click', function(e) {
         const nav = document.querySelector('.header-nav');
         const backdrop = document.querySelector('.nav-backdrop');
         const toggleBtn = document.querySelector('.mobile-toggle');
-        
+
         if (nav && nav.classList.contains('active')) {
             if (!e.target.closest('.nav-link') || window.innerWidth <= 1024) {
                 nav.classList.remove('active');

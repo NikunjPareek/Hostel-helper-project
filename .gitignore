@@ -1,4 +1,54 @@
-node_modules
+node_modules/
+
+# Environment and local secrets
 .env
+.env.*
+!.env.example
+
+# Local editor/tooling state
 .DS_Store
-.agent
+.agent/
+.vscode/
+
+# Logs and runtime output
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build and coverage output
+dist/
+build/
+coverage/
+.cache/
+.tmp/
+tmp/
+
+# Database dumps and local databases
+*.sql
+*.dump
+*.bak
+*.backup
+*.sqlite
+*.sqlite3
+*.db
+
+# Private keys and service account files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+id_rsa*
+id_ed25519*
+service-account*.json
+service_account*.json
+credentials*.json
+secret*.json
+
+# Uploaded/generated files
+uploads/
+public/uploads/

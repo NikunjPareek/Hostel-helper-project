@@ -7,6 +7,7 @@ const {
     savePreparedMedia,
     attachMediaUrls
 } = require('../utils/media');
+const { isObjectId, requiredText, text } = require('../utils/validation');
 
 const router = express.Router();
 
@@ -22,17 +23,15 @@ function sendRouteError(res, error, label) {
 
 // POST /api/feedback - Student submits anonymous feedback
 router.post('/', protect, studentOnly, anonymousLimiter, async (req, res) => {
-    const { category, content, attachments = [] } = req.body;
-
-    if (!category || !content) {
-        return res.status(400).json({ error: 'Category and content are required' });
-    }
-
-    if (content.trim().length < 20) {
-        return res.status(400).json({ error: 'Description must be at least 20 characters' });
-    }
-
     try {
+        const category = requiredText(req.body.category, 'Category', 80);
+        const content = requiredText(req.body.content, 'Description', 3000);
+        const attachments = Array.isArray(req.body.attachments) ? req.body.attachments : [];
+
+        if (content.length < 20) {
+            return res.status(400).json({ error: 'Description must be at least 20 characters' });
+        }
+
         const preparedMedia = prepareMediaPayload(attachments);
         const feedback = await AnonymousFeedback.create({ category, content });
 
@@ -74,16 +73,24 @@ router.get('/', protect, adminOnly, async (req, res) => {
 
 // PUT /api/feedback/:id - Admin updates status and remarks
 router.put('/:id', protect, adminOnly, async (req, res) => {
-    const { status, remarks } = req.body;
-
     try {
+        if (!isObjectId(req.params.id)) {
+            return res.status(404).json({ error: 'Feedback not found' });
+        }
+
+        const status = text(req.body.status, 40);
+        const remarks = text(req.body.remarks, 2000);
+        if (status && !['Submitted', 'Under Review', 'Resolved'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status' });
+        }
+
         const feedback = await AnonymousFeedback.findById(req.params.id);
         if (!feedback) {
             return res.status(404).json({ error: 'Feedback not found' });
         }
 
         if (status) feedback.status = status;
-        if (remarks !== undefined) feedback.remarks = remarks;
+        if (req.body.remarks !== undefined) feedback.remarks = remarks;
 
         await feedback.save();
         await feedback.populate(mediaPopulate);
