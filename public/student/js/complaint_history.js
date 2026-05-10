@@ -6,8 +6,7 @@
    - Client-side filter by status + text search
 ========================================================= */
 
-const currentUser = authGuard('student');
-if (!currentUser) throw new Error('Not authenticated');
+let currentUser = null;
 
 // ─── State ─────────────────────────────────────────────────────
 let allComplaints = [];
@@ -16,6 +15,9 @@ let searchQuery   = '';
 
 // ─── Boot ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
+    currentUser = await authGuard('student');
+    if (!currentUser) return;
+
     // Load header / footer fragments
     loadStudentHeader();
     fetch('/student/footer.html').then(r => r.text()).then(html => {

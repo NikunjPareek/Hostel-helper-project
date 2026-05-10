@@ -2,11 +2,14 @@
    Harbor OS - Anonymous Routing Logic
 ========================================= */
 
-const currentUser = authGuard('student');
+let currentUser = null;
 let selectedAnonymousFiles = [];
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    currentUser = await authGuard('student');
+    if (!currentUser) return;
+
     loadStudentHeader();
     fetch("/student/footer.html").then(res => res.text()).then(data => {
         document.getElementById("footer").innerHTML = data;

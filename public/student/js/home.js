@@ -3,9 +3,12 @@
 =========================================== */
 
 // Auth guard   must be student
-const currentUser = authGuard('student');
+let currentUser = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
+    currentUser = await authGuard('student');
+    if (!currentUser) return;
+
     // Load header/footer
     loadStudentHeader();
     fetch("/student/footer.html").then(r => r.text()).then(d => document.getElementById("footer").innerHTML = d);

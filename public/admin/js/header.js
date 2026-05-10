@@ -47,8 +47,7 @@ function handleAdminLogout() {
   if (typeof handleLogout === 'function') {
     handleLogout();
   } else {
-    localStorage.removeItem('hh_token');
-    localStorage.removeItem('hh_user');
+    if (typeof clearSession === 'function') clearSession();
     window.location.href = '/login';
   }
 }

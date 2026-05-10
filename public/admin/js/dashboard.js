@@ -1,9 +1,11 @@
 // Admin Dashboard JS — API Edition
 
 // Auth guard — admin only
-const currentUser = authGuard('admin');
+let currentUser = null;
 
 document.addEventListener("DOMContentLoaded", async function () {
+  currentUser = await authGuard('admin');
+  if (!currentUser) return;
 
   // ─── Load Dashboard Data ────────────────────────────────────────
   let dashboardData = null;

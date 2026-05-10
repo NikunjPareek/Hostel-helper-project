@@ -1,63 +1,49 @@
-const jwt = require('jsonwebtoken');
-const env = require('../config/env');
 const User = require('../models/User');
 const Student = require('../models/Student');
 const Admin = require('../models/Admin');
-const { parseCookies } = require('../utils/cookies');
 
-function getAccountModel(decoded) {
-    if (decoded.accountModel === 'Admin') return Admin;
-    if (decoded.accountModel === 'Student') return Student;
-    if (decoded.accountModel === 'User') return User;
-    if (decoded.role === 'admin') return Admin;
-    if (decoded.role === 'student') return Student;
+function getAccountModel(sessionAuth) {
+    if (sessionAuth.accountModel === 'Admin') return Admin;
+    if (sessionAuth.accountModel === 'Student') return Student;
+    if (sessionAuth.accountModel === 'User') return User;
+    if (sessionAuth.role === 'admin') return Admin;
+    if (sessionAuth.role === 'student') return Student;
     return User;
 }
 
-// Verify JWT and attach user to request
+// Verify server session and attach user to request
 const protect = async (req, res, next) => {
-    let token;
+    const sessionAuth = req.session && req.session.auth;
 
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-        token = req.headers.authorization.split(' ')[1];
-    } else {
-        token = parseCookies(req.headers.cookie)[env.SESSION_COOKIE_NAME];
+    if (!sessionAuth || !sessionAuth.userId) {
+        return res.status(401).json({ error: 'Not authorized, no active session' });
     }
 
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, env.JWT_SECRET);
-            const AccountModel = getAccountModel(decoded);
-            req.user = await AccountModel.findById(decoded.id).select('-password');
+    try {
+        const AccountModel = getAccountModel(sessionAuth);
+        req.user = await AccountModel.findById(sessionAuth.userId).select('-password');
 
-            // Older tokens did not include the account collection. Try both role
-            // collections before treating the token as invalid.
-            if (!req.user && decoded.role === 'student') {
-                req.user = await Student.findById(decoded.id).select('-password');
-            }
-            if (!req.user && decoded.role === 'admin') {
-                req.user = await Admin.findById(decoded.id).select('-password');
-            }
-            if (!req.user) {
-                req.user = await User.findById(decoded.id).select('-password');
-            }
-
-            if (!req.user) {
-                return res.status(401).json({ error: 'User not found' });
-            }
-
-            if (!req.user.role && decoded.role) {
-                req.user.role = decoded.role;
-            }
-
-            next();
-        } catch (error) {
-            return res.status(401).json({ error: 'Invalid or expired token' });
+        if (!req.user && sessionAuth.role === 'student') {
+            req.user = await Student.findById(sessionAuth.userId).select('-password');
         }
-    }
+        if (!req.user && sessionAuth.role === 'admin') {
+            req.user = await Admin.findById(sessionAuth.userId).select('-password');
+        }
+        if (!req.user) {
+            req.user = await User.findById(sessionAuth.userId).select('-password');
+        }
 
-    if (!token) {
-        return res.status(401).json({ error: 'Not authorized, no token provided' });
+        if (!req.user) {
+            return res.status(401).json({ error: 'User not found' });
+        }
+
+        if (!req.user.role && sessionAuth.role) {
+            req.user.role = sessionAuth.role;
+        }
+
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid or expired session' });
     }
 };
 

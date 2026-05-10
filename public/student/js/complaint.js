@@ -4,11 +4,14 @@
 ========================================= */
 
 
-const currentUser = authGuard('student');
+let currentUser = null;
 let selectedComplaintFiles = [];
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    currentUser = await authGuard('student');
+    if (!currentUser) return;
+
     loadStudentHeader();
 
     fetch("/student/footer.html")

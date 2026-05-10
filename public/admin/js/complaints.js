@@ -1,9 +1,12 @@
 ﻿// Admin Complaints JS — API Edition
 
 // Auth guard — admin only
-const currentUser = authGuard('admin');
+let currentUser = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  currentUser = await authGuard('admin');
+  if (!currentUser) return;
+
   // Elements
   const tableBody = document.getElementById("complaintsTableBody");
   const filteredCountEl = document.getElementById("filteredCount");

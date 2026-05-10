@@ -1,7 +1,10 @@
 // Admin Announcements JS — API Edition
-const currentUser = authGuard('admin');
+let currentUser = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  currentUser = await authGuard('admin');
+  if (!currentUser) return;
+
   // Elements
   const newBtn = document.getElementById("newAnnouncementBtn");
   const modal = document.getElementById("announcementModal");

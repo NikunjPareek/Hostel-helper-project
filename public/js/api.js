@@ -11,24 +11,6 @@ function _key(role, field) {
     return `hh_${role}_${field}`;
 }
 
-function _expiryFromToken(token) {
-    try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.exp ? new Date(payload.exp * 1000).toISOString() : null;
-    } catch (_) {
-        return null;
-    }
-}
-
-function isTokenExpired(token) {
-    const expiry = _expiryFromToken(token);
-    return !expiry || Date.now() >= Date.parse(expiry) - 10000;
-}
-
-function getToken() {
-    return localStorage.getItem(_key(_portalRole(), 'token'));
-}
-
 function getSessionExpiresAt(role = _portalRole()) {
     return localStorage.getItem(_key(role, 'expires_at'));
 }
@@ -43,61 +25,64 @@ function getUser() {
     try { return raw ? JSON.parse(raw) : null; } catch (_) { return null; }
 }
 
-function setSession(sessionValue, user, expiresAt = null) {
+function setSession(expiresAt, user) {
     const role = user.role === 'admin' ? 'admin' : 'student';
     let sessionExpiresAt = expiresAt;
-
-    if (!sessionExpiresAt && typeof sessionValue === 'string') {
-        sessionExpiresAt = sessionValue.includes('.') ? _expiryFromToken(sessionValue) : sessionValue;
-    }
     if (!sessionExpiresAt) {
         sessionExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     }
 
     localStorage.setItem(_key(role, 'expires_at'), sessionExpiresAt);
     localStorage.setItem(_key(role, 'user'), JSON.stringify(user));
-    localStorage.removeItem(_key(role, 'token'));
 }
 
 function clearSession() {
     ['admin', 'student'].forEach(role => {
-        localStorage.removeItem(_key(role, 'token'));
         localStorage.removeItem(_key(role, 'expires_at'));
         localStorage.removeItem(_key(role, 'user'));
     });
 }
 
-function authGuard(requiredRole) {
-    const role = _portalRole();
-    const legacyToken = getToken();
-    const user = getUser();
+async function authGuard(requiredRole) {
     const isLoginPage = window.location.pathname.startsWith('/login');
-    const hasValidStoredSession = user && !isSessionExpired(role);
-    const hasValidLegacyToken = user && legacyToken && !isTokenExpired(legacyToken);
 
-    if (!user || (!hasValidStoredSession && !hasValidLegacyToken)) {
+    try {
+        const res = await fetch('/api/users/me', { credentials: 'include' });
+
+        if (res.status === 401) {
+            clearSession();
+            if (!isLoginPage) window.location.replace('/login');
+            return null;
+        }
+
+        if (!res.ok) {
+            throw new Error('Session check failed');
+        }
+
+        const user = await res.json();
+        const userRole = user.role === 'admin' ? 'admin' : 'student';
+        setSession(getSessionExpiresAt(userRole), user);
+
+        if (requiredRole && user.role !== requiredRole) {
+            const correctPortal = user.role === 'admin' ? '/admin/dashboard' : '/student/home';
+            window.location.replace(correctPortal);
+            return null;
+        }
+
+        return user;
+    } catch (_) {
         clearSession();
         if (!isLoginPage) window.location.replace('/login');
         return null;
     }
-
-    if (requiredRole && user.role !== requiredRole) {
-        const correctPortal = user.role === 'admin' ? '/admin/dashboard' : '/student/home';
-        window.location.replace(correctPortal);
-        return null;
-    }
-
-    return user;
 }
 
 async function apiCall(method, path, body = null) {
-    const token = getToken();
     const options = {
         method,
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { Authorization: `Bearer ${token}` } : {})
+            'Content-Type': 'application/json'
         }
     };
 

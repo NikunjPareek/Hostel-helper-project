@@ -4,7 +4,7 @@ Hostel Helper is a Node.js and MongoDB web application for managing hostel compl
 
 ## Features
 
-- Student and admin login with httpOnly cookie-backed JWT sessions
+- Student and admin login with httpOnly cookie-backed server sessions
 - Role-scoped sessions for student and admin portals
 - Student complaint submission with image/video attachments
 - Complaint history and status tracking for students
@@ -21,7 +21,7 @@ Hostel Helper is a Node.js and MongoDB web application for managing hostel compl
 - Node.js 20
 - Express.js
 - MongoDB with Mongoose
-- JSON Web Tokens for authentication
+- express-session with connect-mongo for authentication
 - bcryptjs for password hashing
 - Vanilla HTML, CSS, and JavaScript frontend
 
@@ -67,7 +67,7 @@ npm install
 cp .env.example .env
 ```
 
-Then set `MONGO_URI` and replace `JWT_SECRET` with a high-entropy value.
+Then set `MONGO_URI` and replace `SESSION_SECRET` with a high-entropy value.
 
 3. Seed development data:
 
@@ -171,7 +171,7 @@ Complaints and anonymous feedback support media attachments with these limits:
 
 - Passwords are hashed with bcrypt before storage.
 - Required environment variables are validated at startup with clear errors.
-- API routes accept httpOnly cookie-backed JWT sessions; legacy bearer tokens are still accepted for API compatibility.
+- API routes use httpOnly cookie-backed server sessions.
 - Student-only and admin-only middleware protect role-specific actions.
 - Uploaded media requires authentication and is limited to the owning student or admins.
 - CORS is restricted by `CORS_ORIGINS`; production defaults to same-origin only.

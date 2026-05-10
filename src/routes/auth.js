@@ -1,5 +1,4 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const env = require('../config/env');
 const { loginLimiter } = require('../middleware/rateLimiter');
 const User = require('../models/User');
@@ -9,23 +8,25 @@ const { text } = require('../utils/validation');
 
 const router = express.Router();
 
-// Generate JWT
-function generateToken(user, accountModel) {
-    return jwt.sign(
-        { id: user._id, role: user.role, accountModel },
-        env.JWT_SECRET,
-        { expiresIn: env.JWT_EXPIRES_IN }
-    );
-}
-
-function sessionCookieOptions() {
+function cookieOptions() {
     return {
         httpOnly: true,
         secure: env.isProduction,
-        sameSite: env.CORS_ORIGINS.length ? 'none' : 'lax',
-        maxAge: env.SESSION_MAX_AGE_MS,
+        sameSite: env.isProduction && env.CORS_ORIGINS.length ? 'none' : 'lax',
         path: '/'
     };
+}
+
+function regenerateSession(req) {
+    return new Promise((resolve, reject) => {
+        req.session.regenerate(error => error ? reject(error) : resolve());
+    });
+}
+
+function saveSession(req) {
+    return new Promise((resolve, reject) => {
+        req.session.save(error => error ? reject(error) : resolve());
+    });
 }
 
 function serializeUser(user) {
@@ -49,8 +50,18 @@ function serializeUser(user) {
 
 // POST /api/auth/logout
 router.post('/logout', (req, res) => {
-    res.clearCookie(env.SESSION_COOKIE_NAME, { path: '/' });
-    res.json({ message: 'Logged out' });
+    if (!req.session) {
+        res.clearCookie(env.SESSION_COOKIE_NAME, cookieOptions());
+        return res.json({ message: 'Logged out' });
+    }
+
+    req.session.destroy(error => {
+        res.clearCookie(env.SESSION_COOKIE_NAME, cookieOptions());
+        if (error) {
+            return res.status(500).json({ error: 'Could not log out' });
+        }
+        res.json({ message: 'Logged out' });
+    });
 });
 
 // POST /api/auth/login
@@ -93,9 +104,16 @@ router.post('/login', loginLimiter, async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const token = generateToken(user, accountModel);
         const expiresAt = new Date(Date.now() + env.SESSION_MAX_AGE_MS).toISOString();
-        res.cookie(env.SESSION_COOKIE_NAME, token, sessionCookieOptions());
+
+        await regenerateSession(req);
+        req.session.auth = {
+            userId: user._id.toString(),
+            role: user.role,
+            accountModel
+        };
+        req.session.cookie.maxAge = env.SESSION_MAX_AGE_MS;
+        await saveSession(req);
 
         res.json({
             expiresAt,

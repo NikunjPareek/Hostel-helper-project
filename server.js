@@ -1,12 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
+const MongoStore = require('connect-mongo').default;
 const path = require('path');
 const env = require('./src/config/env');
 const connectDB = require('./src/config/db');
 
 const app = express();
 const PORT = env.PORT;
+
+app.set('trust proxy', 1);
 
 function corsOptions(reqOrigin, callback) {
     if (!reqOrigin) return callback(null, true);
@@ -31,6 +35,23 @@ app.use((req, res, next) => {
 app.use(cors({ origin: corsOptions, credentials: true }));
 app.use(express.json({ limit: '60mb' }));
 app.use(express.urlencoded({ extended: false, limit: '60mb' }));
+app.use(session({
+    name: env.SESSION_COOKIE_NAME,
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: env.MONGO_URI,
+        collectionName: 'sessions'
+    }),
+    cookie: {
+        httpOnly: true,
+        secure: env.isProduction,
+        sameSite: env.isProduction && env.CORS_ORIGINS.length ? 'none' : 'lax',
+        maxAge: env.SESSION_MAX_AGE_MS,
+        path: '/'
+    }
+}));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));

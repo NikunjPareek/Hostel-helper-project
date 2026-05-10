@@ -1,7 +1,10 @@
 // Admin Anonymous Feedback JS - API Edition
-const currentUser = authGuard('admin');
+let currentUser = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  currentUser = await authGuard('admin');
+  if (!currentUser) return;
+
   const feedbackGrid = document.getElementById("feedbackGrid");
   const emptyState = document.getElementById("emptyState");
 
