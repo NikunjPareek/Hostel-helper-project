@@ -56,6 +56,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
         if (data && data.user) {
             setSession(data.expiresAt, data.user);
+            await apiCall('GET', '/api/users/me');
             const redirect = data.user.role === 'admin' ? '/admin/dashboard' : '/student/home';
             window.location.replace(redirect);
         }

@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Global mobile navigation handler for dynamically injected headers.
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const toggleBtn = e.target.closest('.mobile-toggle');
     if (toggleBtn) {
         const nav = document.querySelector('.header-nav');

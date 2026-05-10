@@ -22,7 +22,7 @@ function sessionCookieOptions() {
     return {
         httpOnly: true,
         secure: env.isProduction,
-        sameSite: 'strict',
+        sameSite: env.CORS_ORIGINS.length ? 'none' : 'lax',
         maxAge: env.SESSION_MAX_AGE_MS,
         path: '/'
     };

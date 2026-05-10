@@ -7,7 +7,7 @@ const currentUser = authGuard('student');
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Load header/footer
-    fetch("/student/header.html").then(r => r.text()).then(d => document.getElementById("header").innerHTML = d);
+    loadStudentHeader();
     fetch("/student/footer.html").then(r => r.text()).then(d => document.getElementById("footer").innerHTML = d);
 
     // Set user name in header if element exists

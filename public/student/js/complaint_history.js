@@ -17,9 +17,7 @@ let searchQuery   = '';
 // ─── Boot ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     // Load header / footer fragments
-    fetch('/student/header.html').then(r => r.text()).then(html => {
-        document.getElementById('header').innerHTML = html;
-    });
+    loadStudentHeader();
     fetch('/student/footer.html').then(r => r.text()).then(html => {
         document.getElementById('footer').innerHTML = html;
     });

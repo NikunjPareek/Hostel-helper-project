@@ -9,9 +9,7 @@ let selectedComplaintFiles = [];
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("/student/header.html")
-        .then(res => res.text())
-        .then(data => { document.getElementById("header").innerHTML = data; });
+    loadStudentHeader();
 
     fetch("/student/footer.html")
         .then(res => res.text())
