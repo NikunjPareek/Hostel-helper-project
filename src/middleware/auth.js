@@ -23,16 +23,6 @@ const protect = async (req, res, next) => {
         const AccountModel = getAccountModel(sessionAuth);
         req.user = await AccountModel.findById(sessionAuth.userId).select('-password');
 
-        if (!req.user && sessionAuth.role === 'student') {
-            req.user = await Student.findById(sessionAuth.userId).select('-password');
-        }
-        if (!req.user && sessionAuth.role === 'admin') {
-            req.user = await Admin.findById(sessionAuth.userId).select('-password');
-        }
-        if (!req.user) {
-            req.user = await User.findById(sessionAuth.userId).select('-password');
-        }
-
         if (!req.user) {
             return res.status(401).json({ error: 'User not found' });
         }
