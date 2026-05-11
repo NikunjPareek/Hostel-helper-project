@@ -180,14 +180,6 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-.card-hover {
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-.card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
 .card-header {
   padding: var(--space-5) var(--space-6);
   border-bottom: 1px solid var(--border);
@@ -253,10 +245,6 @@ body {
 .btn-sm {
   font-size: 13px;
   padding: 7px 14px;
-}
-.btn-lg {
-  font-size: 15px;
-  padding: 13px 28px;
 }
 
 /* ── Form Inputs ────────────────────────────────────────────────── */
@@ -600,7 +588,6 @@ body {
   animation: shimmer 1.4s infinite linear;
   border-radius: var(--radius-md);
 }
-.skeleton-text { height: 14px; border-radius: var(--radius-sm); }
 .skeleton-title { height: 28px; border-radius: var(--radius-sm); }
 .skeleton-card { height: 120px; border-radius: var(--radius-lg); }
 
@@ -611,32 +598,12 @@ body {
   gap: var(--space-3);
 }
 
-/* ── Divider ────────────────────────────────────────────────────── */
-.divider { height: 1px; background: var(--border); margin: 0; }
-
 /* ── Utility ────────────────────────────────────────────────────── */
-.sr-only {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
-}
+
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.text-center { text-align: center; }
 
 /* ── Keyframes ──────────────────────────────────────────────────── */
 @keyframes modalFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
-}
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to   { transform: translateX(0);   opacity: 1; }
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
 }
