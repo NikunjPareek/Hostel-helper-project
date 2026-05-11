@@ -9,10 +9,40 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // ─── Load Dashboard Data ────────────────────────────────────────
   let dashboardData = null;
-  try {
-    dashboardData = await apiCall('GET', '/api/dashboard');
-  } catch (err) {
-    console.error('Dashboard load failed:', err);
+  let currentTimeframe = 7;
+
+  async function fetchOverviewData() {
+    const hook = document.getElementById("overviewCards");
+    if (hook) {
+      hook.innerHTML = Array(4).fill(`
+        <div class="overview-card loading-skeleton">
+          <div class="overview-card-header">
+            <div class="overview-icon-container skeleton-block"></div>
+            <div class="skeleton-block skeleton-trend"></div>
+          </div>
+          <div class="skeleton-block skeleton-value"></div>
+          <div class="skeleton-block skeleton-label"></div>
+        </div>
+      `).join("");
+    }
+
+    try {
+      dashboardData = await apiCall('GET', `/api/dashboard?timeframe=${currentTimeframe}`);
+    } catch (err) {
+      console.error('Dashboard load failed:', err);
+    }
+  }
+
+  await fetchOverviewData();
+
+  const timeframeSelect = document.getElementById('timeframeSelect');
+  if (timeframeSelect) {
+    timeframeSelect.addEventListener('change', async (e) => {
+      currentTimeframe = parseInt(e.target.value) || 7;
+      await fetchOverviewData();
+      updateDashboardState();
+      renderOverviewCards();
+    });
   }
 
   // ─── Load Poll Data ─────────────────────────────────────────────
@@ -25,57 +55,126 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // ─── Build state from API ───────────────────────────────────────
-  const dashboardState = {
-    stats: dashboardData ? [
-      { id: "total",   label: "Total Complaints", value: dashboardData.stats.total,       icon: "alert",  color: "red" },
-      { id: "pending", label: "Pending",           value: dashboardData.stats.submitted,   icon: "clock",  color: "orange" },
-      { id: "review",  label: "Under Review",      value: dashboardData.stats.underReview, icon: "search", color: "blue" },
-      { id: "resolved",label: "Resolved",          value: dashboardData.stats.resolved,    icon: "check",  color: "green" }
-    ] : [
-      { id: "total",   label: "Total Complaints", value: 0, icon: "alert",  color: "red" },
-      { id: "pending", label: "Pending",           value: 0, icon: "clock",  color: "orange" },
-      { id: "review",  label: "Under Review",      value: 0, icon: "search", color: "blue" },
-      { id: "resolved",label: "Resolved",          value: 0, icon: "check",  color: "green" }
-    ],
-    polls: pollData,
-    categories: dashboardData ? dashboardData.categories : [],
-    miniStats: dashboardData ? [
+  const dashboardState = {};
+  
+  function updateDashboardState() {
+    dashboardState.summary = dashboardData?.summary || {
+      total_complaints: { current: 0, change_percentage: 0, trend_points: [] },
+      pending: { current: 0, change_percentage: 0, trend_points: [] },
+      under_review: { current: 0, change_percentage: 0, trend_points: [] },
+      resolved: { current: 0, change_percentage: 0, trend_points: [] }
+    };
+    
+    dashboardState.last_updated = dashboardData?.last_updated || new Date().toISOString();
+
+    // Original state definitions (Preserved exactly as before for other components)
+    dashboardState.polls = pollData;
+    dashboardState.categories = dashboardData ? dashboardData.categories : [];
+    dashboardState.miniStats = dashboardData ? [
       { label: "Resolution Rate",     value: dashboardData.stats.resolutionRate + "%", highlight: true },
       { label: "Total Complaints",    value: String(dashboardData.stats.total),         highlight: false },
       { label: "Active Since",        value: "2024",                                    highlight: false }
-    ] : [],
-    activityLog: dashboardData ? dashboardData.recentActivity.map(a => ({
+    ] : [];
+    dashboardState.activityLog = dashboardData ? dashboardData.recentActivity.map(a => ({
       id: a.id,
       status: a.status,
       statusColor: a.status === 'Resolved' ? 'green' : a.status === 'Under Review' ? 'blue' : 'yellow',
       category: a.category,
       date: a.date,
       remark: a.remarks || ''
-    })) : []
-  };
+    })) : [];
+  }
+  
+  updateDashboardState();
 
-  function getStatIcon(type) {
+  function getOverviewIcon(type) {
     switch (type) {
-      case "alert": return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>`;
-      case "clock": return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
-      case "search": return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-      case "check": return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+      case "total": return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`;
+      case "pending": return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+      case "review": return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+      case "resolved": return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
       default: return "";
     }
   }
 
-  function renderStatsCards() {
-    const hook = document.getElementById("statsCards");
+  function generateSparkline(dataPoints) {
+    if (!dataPoints || dataPoints.length === 0) return '';
+    const max = Math.max(...dataPoints, 1);
+    const min = 0;
+    const width = 100;
+    const height = 30;
+    
+    // Flat baseline if all values are 0
+    if (Math.max(...dataPoints) === 0) {
+      return `<path d="M0,${height} L${width},${height}" class="overview-sparkline-path" />`;
+    }
+
+    const points = dataPoints.map((val, idx) => {
+      const x = (idx / (dataPoints.length - 1)) * width;
+      const y = height - ((val - min) / (max - min)) * height;
+      return `${x},${y}`;
+    });
+
+    // Smooth curve rendering
+    const d = `M${points[0]} ` + points.slice(1).map((p, i) => {
+      const [px, py] = points[i].split(',');
+      const [cx, cy] = p.split(',');
+      const cpX = (parseFloat(px) + parseFloat(cx)) / 2;
+      return `C${cpX},${py} ${cpX},${cy} ${cx},${cy}`;
+    }).join(' ');
+
+    return `<path d="${d}" class="overview-sparkline-path" />`;
+  }
+
+  function getTrendIndicator(percentage) {
+    if (percentage > 0) {
+      return `<span class="overview-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>${percentage}%</span>`;
+    } else if (percentage < 0) {
+      return `<span class="overview-trend down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>${Math.abs(percentage)}%</span>`;
+    }
+    return `<span class="overview-trend flat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>0%</span>`;
+  }
+
+  function renderOverviewCards() {
+    const hook = document.getElementById("overviewCards");
     if (!hook) return;
-    hook.innerHTML = dashboardState.stats.map(stat => `
-      <div class="stat-card ${stat.color}">
-        <div class="stat-icon">${getStatIcon(stat.icon)}</div>
-        <div class="stat-content">
-          <div class="stat-value">${stat.value}</div>
-          <div class="stat-label">${escapeHTML(stat.label)}</div>
+
+    const summary = dashboardState.summary;
+    const cards = [
+      { id: "total", label: "Total Complaints", data: summary.total_complaints, color: "red" },
+      { id: "pending", label: "Pending", data: summary.pending, color: "orange" },
+      { id: "review", label: "Under Review", data: summary.under_review, color: "blue" },
+      { id: "resolved", label: "Resolved", data: summary.resolved, color: "green" }
+    ];
+
+    hook.innerHTML = cards.map(c => `
+      <div class="overview-card ${c.color}">
+        <div class="overview-card-header">
+          <div class="overview-icon-container">
+            ${getOverviewIcon(c.id)}
+          </div>
+          ${getTrendIndicator(c.data.change_percentage)}
+        </div>
+        <div class="overview-card-body">
+          <div class="overview-value">${c.data.current}</div>
+          <div class="overview-label">${escapeHTML(c.label)}</div>
+        </div>
+        <div class="overview-sparkline">
+          <svg viewBox="0 0 100 35" preserveAspectRatio="none">
+            ${generateSparkline(c.data.trend_points)}
+          </svg>
         </div>
       </div>
     `).join("");
+
+    const lastUpdatedText = document.getElementById("lastUpdatedText");
+    if (lastUpdatedText && dashboardState.last_updated) {
+      const date = new Date(dashboardState.last_updated);
+      const now = new Date();
+      const diffMs = now - date;
+      if (diffMs < 60000) lastUpdatedText.textContent = "Updated just now";
+      else lastUpdatedText.textContent = `Updated ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    }
   }
 
   let currentPollIndex = 0;
@@ -309,7 +408,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // Init Execution
-  renderStatsCards();
+  // Init Execution
+  renderOverviewCards();
   renderPollResults();
   renderCategories();
   renderMiniStats();

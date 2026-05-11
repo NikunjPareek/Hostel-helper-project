@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | JECRC Hostel Admin</title>
-  <link rel="stylesheet" href="./header.css">
-  <link rel="stylesheet" href="./dashboard.css">
-  <link rel="icon" type="image/x-icon" href="../../assets/icons/favicon.ico">
+  <link rel="stylesheet" href="/admin/css/header.css">
+  <link rel="stylesheet" href="/admin/css/dashboard.css">
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
 </head>
 <body>
   
@@ -16,14 +16,26 @@
   <!-- Main Content -->
   <main class="page-content">
     
-    <!-- Page Header -->
-    <div class="page-title-row">
-      <h1>Dashboard</h1>
-      <p>Hostel management overview and advanced component metrics</p>
+    <!-- Overview Header (ISOLATED) -->
+    <div class="overview-header-row">
+      <div class="overview-header-left">
+        <h1>Dashboard</h1>
+        <p>Hostel management overview and advanced component metrics</p>
+      </div>
+      <div class="overview-header-right">
+        <select id="timeframeSelect" class="overview-timeframe-dropdown">
+          <option value="7">Last 7 Days</option>
+          <option value="30">Last 30 Days</option>
+        </select>
+        <div class="overview-live-status">
+          <div class="pulse-dot"></div>
+          <span id="lastUpdatedText">Updated just now</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Stats Cards Grid -->
-    <div class="stat-grid" id="statsCards">
+    <!-- Overview Metrics Grid (ISOLATED) -->
+    <div class="overview-metrics-grid" id="overviewCards">
       <!-- Dynamically populated from JS -->
     </div>
 
@@ -81,7 +93,14 @@
             </div>
           </div>
         </div>
-
+        <!-- Mini Stats -->
+        <div class="card extra-card">
+          <div class="card-content" style="padding: 16px 24px;">
+            <div id="miniStatsList">
+              <!-- Mini Stat rows dynamically inserted here -->
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
