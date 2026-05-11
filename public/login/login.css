@@ -3,6 +3,10 @@
 body {
   font-family: var(--font-sans);
   background: var(--background);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: 0;
+  overflow: hidden;
 }
 
 /* Background pattern */
@@ -20,47 +24,54 @@ z-index:-1;
 
 /* Layout */
 .page-wrapper{
-min-height:100vh;
+height:100vh;
+height:100dvh;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-padding:20px;
+padding:clamp(12px, 3vh, 20px) 16px;
+overflow:hidden;
 }
 
 /* Header */
 .login-header{
 text-align:center;
-margin-bottom:30px;
+margin-bottom:clamp(14px, 3vh, 24px);
+flex-shrink:0;
 }
 
 .logo-box img{
-width:380px;
-height:140px;
+width:clamp(220px, 48vw, 360px);
+height:auto;
+max-height:clamp(76px, 16vh, 126px);
+object-fit:contain;
+margin:0 auto;
 }
 
 .login-header h1 {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: clamp(20px, 3vw, 24px);
   font-weight: 800;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 /* Card */
 .login-card {
   width: 100%;
-  max-width: 420px;
+  max-width: min(420px, calc(100vw - 32px));
   background: var(--surface);
-  padding: 28px;
+  padding: clamp(20px, 3.5vh, 28px);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
+  flex-shrink: 1;
 }
 
 /* Form */
 .form-field{
-margin-bottom:20px;
+margin-bottom:clamp(14px, 2.5vh, 20px);
 }
 
 .form-field label {
@@ -160,3 +171,33 @@ display:none;
 .role-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1.5px solid #e2e8f0;border-radius:8px;background:white;font-size:14px;font-weight:600;color:#64748b;cursor:pointer;transition:all 0.2s;}
 .role-btn:hover{border-color:#B22222;color:#B22222;}
 .role-btn.active{background:#B22222;border-color:#B22222;color:white;}
+
+@media (max-height: 640px) {
+  .logo-box img {
+    max-height: 68px;
+  }
+
+  .login-header h1 {
+    font-size: 19px;
+  }
+
+  .input-group input,
+  .submit-btn {
+    height: 40px;
+  }
+
+  .role-btn {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .role-toggle {
+    gap: 6px;
+  }
+
+  .role-btn {
+    font-size: 13px;
+    padding: 8px 6px;
+  }
+}

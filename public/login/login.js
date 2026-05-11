@@ -23,9 +23,9 @@ document.querySelectorAll('.role-btn').forEach(btn => {
 
         const usernameInput = document.getElementById('username');
         if (btn.dataset.role === 'student') {
-            usernameInput.placeholder = 'Enter student ID (e.g. demo-student-001)';
+            usernameInput.placeholder = 'Enter Student ID';
         } else {
-            usernameInput.placeholder = 'Enter admin username (e.g. demo-admin)';
+            usernameInput.placeholder = 'Enter Admin ID';
         }
     });
 });
