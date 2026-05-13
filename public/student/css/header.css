@@ -26,24 +26,17 @@
   position: relative;
 }
 
-.header-nav .nav-link[aria-current="page"]::after {
-  content: "";
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 4px;
-  height: 2px;
-  border-radius: 999px;
-  background: currentColor;
-}
-
 @media (max-width: 1024px) {
   .header-nav .nav-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
     left: 6px;
     right: auto;
     top: 10px;
     bottom: 10px;
     width: 3px;
     height: auto;
+    border-radius: 999px;
+    background: currentColor;
   }
 }

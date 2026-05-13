@@ -126,6 +126,8 @@ body {
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* Card top row: badges left, delete icon right */
@@ -135,6 +137,7 @@ body {
   align-items: flex-start;
   width: 100%;
   gap: 8px;
+  min-width: 0;
 }
 
 .announcement-badges {
@@ -215,10 +218,14 @@ body {
   color: #111827;
   margin: 2px 0 0 0;
   line-height: 1.35;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .announcement-content {
   margin: 0;
+  min-width: 0;
 }
 
 /* Description: clear but subordinate */
@@ -228,6 +235,9 @@ body {
   line-height: 1.6;
   margin: 0;
   white-space: pre-line;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* Card footer: metadata — subtle */

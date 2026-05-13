@@ -1,4 +1,4 @@
-﻿/* ===========================
+/* ===========================
    STUDENT DASHBOARD   API Edition
 =========================================== */
 
@@ -97,8 +97,8 @@ function renderAnnouncements(list) {
         return;
     }
 
-    container.innerHTML = list.map(anc => `
-        <div class="announcement-card">
+    container.innerHTML = list.map((anc, index) => `
+        <div class="announcement-card" data-announcement-index="${index}">
             <div class="anc-header">
                 <span class="anc-title">${anc.title}</span>
                 <span class="anc-date">
@@ -107,8 +107,97 @@ function renderAnnouncements(list) {
                 </span>
             </div>
             <p class="anc-desc">${anc.description}</p>
+            <button type="button" class="anc-read-more" hidden>Read More</button>
         </div>
     `).join('');
+
+    bindAnnouncementPreviews(container, list);
+}
+
+function bindAnnouncementPreviews(container, announcements) {
+    const applyPreviewState = () => {
+        container.querySelectorAll('.announcement-card').forEach(card => {
+            const description = card.querySelector('.anc-desc');
+            const readMore = card.querySelector('.anc-read-more');
+            const index = Number(card.getAttribute('data-announcement-index'));
+            const announcement = announcements[index];
+            if (!description || !readMore || !announcement || card.classList.contains('is-expandable')) return;
+
+            const styles = window.getComputedStyle(description);
+            const lineHeight = parseFloat(styles.lineHeight) || (parseFloat(styles.fontSize) * 1.6);
+            const isClipped = description.scrollHeight > (lineHeight * 2) + 1;
+            if (!isClipped) return;
+
+            card.classList.add('is-expandable');
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', `Read full announcement: ${announcement.title || 'Announcement'}`);
+            readMore.hidden = false;
+
+            const open = () => openAnnouncementModal(announcement);
+            card.addEventListener('click', open);
+            card.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    open();
+                }
+            });
+        });
+    };
+
+    requestAnimationFrame(applyPreviewState);
+    setTimeout(applyPreviewState, 150);
+}
+
+function ensureAnnouncementModal() {
+    let modal = document.getElementById('studentAnnouncementModal');
+    if (modal) return modal;
+
+    modal = document.createElement('div');
+    modal.id = 'studentAnnouncementModal';
+    modal.className = 'announcement-modal-overlay';
+    modal.setAttribute('aria-hidden', 'true');
+    modal.innerHTML = `
+        <div class="announcement-modal" role="dialog" aria-modal="true" aria-labelledby="announcementModalTitle">
+            <button type="button" class="announcement-modal-close" aria-label="Close announcement">&times;</button>
+            <div class="announcement-modal-date" id="announcementModalDate"></div>
+            <h3 class="announcement-modal-title" id="announcementModalTitle"></h3>
+            <p class="announcement-modal-text" id="announcementModalText"></p>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', event => {
+        if (event.target === modal || event.target.closest('.announcement-modal-close')) {
+            closeAnnouncementModal();
+        }
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && modal.classList.contains('active')) {
+            closeAnnouncementModal();
+        }
+    });
+
+    return modal;
+}
+
+function openAnnouncementModal(announcement) {
+    const modal = ensureAnnouncementModal();
+    modal.querySelector('#announcementModalTitle').textContent = announcement.title || 'Announcement';
+    modal.querySelector('#announcementModalDate').textContent = formatDate(announcement.createdAt);
+    modal.querySelector('#announcementModalText').textContent = announcement.description || '';
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.announcement-modal-close').focus();
+}
+
+function closeAnnouncementModal() {
+    const modal = document.getElementById('studentAnnouncementModal');
+    if (!modal) return;
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
 }
 
 
